@@ -50,10 +50,6 @@
 
     
         
-            
-<link rel="stylesheet" href="/assets/css/gitalk.css">
-
-        
     
 </head>
 
@@ -272,7 +268,6 @@
 
     
 </div>
-
     
 </div>
 
@@ -345,16 +340,6 @@
         
         
             
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#gitalk"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
         
         <li class="post-action">
             
@@ -370,8 +355,13 @@
         
         
             
-                <div id="gitalk"></div>
-
+                <script src="https://utteranc.es/client.js"
+        repo="cskime/blog-comments"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
             
         
     </div>
@@ -430,16 +420,6 @@
         </li>
         
         
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#gitalk"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
             
         
         <li class="post-action">
@@ -500,24 +480,6 @@
 <!--SCRIPTS END-->
 
 
-    
-        
-<script src="/assets/js/gitalk.js"></script>
-
-        <script type="text/javascript">
-          (function() {
-            new Gitalk({
-              clientID: '4ea15cf1edb50d0085c4',
-              clientSecret: '387fd3b84df10e394d1f2713208ea86882e4db81',
-              repo: 'cskime.github.io',
-              owner: 'cskime',
-              admin: ['cskime'],
-              id: '2021/02/20/tranquilpeak-theme-customizing/',
-              proxy: '{{ theme.gitalk.proxy }}',
-              ...{"language":"en","perPage":10,"distractionFreeMode":false,"enableHotKey":true,"pagerDirection":"last"}
-            }).render('gitalk')
-          })()
-        </script>
     
 
 
