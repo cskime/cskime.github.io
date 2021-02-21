@@ -51,7 +51,7 @@
     
         
             
-<link rel="stylesheet" href="/assets/css/gitalk.css">
+<link rel="stylesheet" href="/assets/css/gitment.css">
 
         
     
@@ -339,7 +339,7 @@
                 <li class="post-action">
                     <a
                         class="post-action-btn btn btn--default"
-                        href="#gitalk"
+                        href="#gitment"
                         aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
@@ -361,8 +361,7 @@
         
         
             
-                <div id="gitalk"></div>
-
+                <div id="gitment"></div>
             
         
     </div>
@@ -425,7 +424,7 @@
                 <li class="post-action">
                     <a
                         class="post-action-btn btn btn--default"
-                        href="#gitalk"
+                        href="#gitment"
                         aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
@@ -493,19 +492,19 @@
 
     
         
-<script src="/assets/js/gitalk.js"></script>
+<script src="/assets/js/gitment.js"></script>
 
         <script type="text/javascript">
           (function() {
-            new Gitalk({
-              clientID: '4ea15cf1edb50d0085c4',
-              clientSecret: '387fd3b84df10e394d1f2713208ea86882e4db81',
-              repo: 'https://github.com/cskime/cskime.github.io',
+            new Gitment({
+              id: 'https://cskime.github.io/2021/02/21/hexo-posting-sugar/',
               owner: 'cskime',
-              admin: ['cskime'],
-              id: '2021/02/21/hexo-posting-sugar/',
-              ...{"language":"en","perPage":10,"distractionFreeMode":false,"enableHotKey":true,"pagerDirection":"last"}
-            }).render('gitalk')
+              repo: 'https://github.com/cskime/cskime.github.io',
+              oauth: {
+                client_id: '4ea15cf1edb50d0085c4',
+                client_secret: '387fd3b84df10e394d1f2713208ea86882e4db81'
+              }
+            }).render('gitment')
           })()
         </script>
     
