@@ -40,6 +40,27 @@
   </entry>
   
   <entry>
+    <title>Clean Architecture #1. Architecture의 이해, 필요성</title>
+    <link href="https://cskime.github.io/2021/02/07/clean-architecture-1/"/>
+    <id>https://cskime.github.io/2021/02/07/clean-architecture-1/</id>
+    <published>2021-02-06T15:00:00.000Z</published>
+    <updated>2021-02-21T08:01:03.207Z</updated>
+    
+    <content type="html"><![CDATA[<p>로버트 C. 마틴의 Clean Architecture를 읽으면서 내용을 정리한다.</p><a id="more"></a><hr><!-- toc --><hr><h2 id="설계-design-와-구조-architecture"><a href="#설계-design-와-구조-architecture" class="headerlink" title="설계(design)와 구조(architecture)"></a>설계(design)와 구조(architecture)</h2><ul><li>구조(architecture) : 고수준의 무언가</li><li>설계(design) : 저수준의 세부사항, 결정할 것 등</li></ul><p>설계와 구조를 구분하는 것은 의미가 없다. 고수준에서 저수준으로 향하는 의사 결정의 반복이 곧 설계이자 아키텍처.</p><h2 id="아키텍처의-목표"><a href="#아키텍처의-목표" class="headerlink" title="아키텍처의 목표"></a>아키텍처의 목표</h2><blockquote><p>빨리가는 유일한 방법은 제대로 가는 것이다</p></blockquote><p>좋은 소프트웨어 아키텍처의 목표는 <strong>소프트웨어를 만들고 유지보수 하는데 필요한 비용을 최소화</strong>시키는 것.</p><p>소프트웨어를 개발할 때 당장은 아키텍처를 신경쓰지 않은 채로 개발하고, 나중에 아키텍처를 고치겠다는 착각에 빠지지 마라. 새로운 기능과 요구사항은 끊임없이 주어지고, <strong>나중에 수정하겠다는 다짐은 지켜지지 않는다.</strong> 좋은 아키텍처를 설계하는 것도 개발자가 책임져야 하는 일의 한 부분이며, 개발 일정은 이것을 모두 포함한 일정이어야 한다.</p><h2 id="두-가지-가치-행위-behavior-와-구조-architecture"><a href="#두-가지-가치-행위-behavior-와-구조-architecture" class="headerlink" title="두 가지 가치: 행위(behavior)와 구조(architecture)"></a>두 가지 가치: 행위(behavior)와 구조(architecture)</h2><dl><dt><strong>행위(behavior)</strong></dt><dd>프로그램이 요구사항에 맞게 동작하는 것. 의도한 대로 동작하지 않으면 디버깅을 통해 문제를 해결</dd></dl><dl><dt><strong>구조(structure, architecture)</strong></dt><dd>소프트웨어에서 소프트(soft)는 <strong>기계를 원하는대로 동작시키며 쉽게 바꿀 수 있는 것</strong>을 의미한다. 소프트웨어를 변경할 떄의 어려움은 <strong>범위(scope)에 비례해야 하고, 형태(shape)에 독립적</strong>이어야 한다. 즉, 요구사항 명세에 어떠한 변경이 발생하더라도 <strong>쉽게 수정하고 변경할 수 있어야 한다.</strong></dd></dl><blockquote><p>소프트웨어(Software)가 소프트(Soft)하게 유지될 수 있도록 만드는 것이 아키텍처이다</p></blockquote><h3 id="어떤-가치가-더-높은가"><a href="#어떤-가치가-더-높은가" class="headerlink" title="어떤 가치가 더 높은가?"></a>어떤 가치가 더 높은가?</h3><p>행위는 긴급하고 아키텍처는 중요하다. </p><ol><li>긴급하고 중요한 문제</li><li>긴급하지 않지만 중요한 문제</li><li>긴급하지만 중요하지 않은 문제</li><li>긴급하지 않고 중요하지도 않은 문제</li></ol><p>일반적으로 3번 우선순위의 경우가 가장 높은 우선순위가 되는 실수를 저지른다. <strong>긴급하지만 중요하지 않은 것의 우선순위가 높아지면 안된다</strong>. 아키텍처를 고려하지 않은 채 개발을 하면(즉, 중요하지 않지만 긴급한 것을 우선으로 하면) 나중에 나쁜 아키텍처로 인해 수정이 아주 어려워지거나 불가능해지는 경우, 그 책임은 쉽게 변경하지 못하는 소프트웨어를 만든 개발자에게 돌아간다.</p><h3 id="어떤-상황이-더-나을까"><a href="#어떤-상황이-더-나을까" class="headerlink" title="어떤 상황이 더 나을까?"></a>어떤 상황이 더 나을까?</h3><ol><li>완벽하게 동작하지만 현실적으로 수정이 거의 불가능한 소프트웨어</li><li>지금은 동작하지 않지만 쉽게 변경할 수 있는 소프트웨어</li></ol><p>변경이 어려운 소프트웨어는 시간이 갈수록 생산성에 비해 유지보수 비용이 훨씬 높아지고, 결국 <strong>변경하기 어렵고 비용이 많이 드는 소프트웨어는 쓸모없게 된다.</strong></p><p>하지만, 당장 동작하지 않더라도 쉽게 변경하고 추가할 수 있다면, 그 소프트웨어는 곧 잘 작동하도록 만들 수 있고 앞으로도 쉽게 변경하고 유지보수할 수 있다.</p><h2 id="어떻게-개발해야-하는가"><a href="#어떻게-개발해야-하는가" class="headerlink" title="어떻게 개발해야 하는가"></a>어떻게 개발해야 하는가</h2><p><strong>소프트웨어는 개발하기 쉽고, 간편하게 수정할 수 있으며, 확장하기 쉬워야 한다</strong>. 소프트웨어는 이것을 가능하게 하는 아키텍처를 만들어야 한다.</p><p>코드가 좋은 아키텍처를 유지하도록 만드는 것은 개발자의 책임이다. 항상 좋은 아키텍처를 유지할 수 있도록 노력하고 투쟁해야 한다</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;로버트 C. 마틴의 Clean Architecture를 읽으면서 내용을 정리한다.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Computer Science" scheme="https://cskime.github.io/categories/Computer-Science/"/>
+    
+    
+    <category term="Clean Architecture" scheme="https://cskime.github.io/tags/Clean-Architecture/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Frame과 Bounds의 차이</title>
     <link href="https://cskime.github.io/2019/10/07/frarme-bounds/"/>
     <id>https://cskime.github.io/2019/10/07/frarme-bounds/</id>
