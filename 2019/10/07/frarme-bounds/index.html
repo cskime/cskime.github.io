@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="ckim.log">
-    <title>Hexo + Tranquilpeak 설정 - ckim.log</title>
+    <title>Frame과 Bounds의 차이 - ckim.log</title>
     <meta name="author" content="Chamsol Kim">
     
         <meta name="keywords" content="iOS,Swift,">
@@ -17,20 +17,26 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"},"articleBody":"Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.\n\nHexo documentation\nTranquilpeak documentation\n\nWelcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.\nQuick StartCreate a new post1$ hexo new &quot;My New Post&quot;\nMore info: Writing\nRun server1$ hexo server\nMore info: Server\nGenerate static files1$ hexo generate\nMore info: Generating\nDeploy to remote sites1$ hexo deploy\nMore info: Deployment\n","dateCreated":"2021-02-20T21:59:25+09:00","dateModified":"2021-02-21T14:58:21+09:00","datePublished":"2021-02-20T21:59:25+09:00","description":"","headline":"Hexo + Tranquilpeak 설정","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://cskime.github.io/2021/02/20/tranquilpeak-theme-customizing/"},"publisher":{"@type":"Organization","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"}},"url":"https://cskime.github.io/2021/02/20/tranquilpeak-theme-customizing/","keywords":"hexo, tranquilpeak"}</script>
-    <meta name="description" content="Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.  Hexo documentation Tranquilpeak documentation  Welcome to Hexo! This is your very first post. Check documentation for mo">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"},"articleBody":"frame과 bounds 속성의 차이를 정리한다.\n\n\n\n\n\n\nFrame vs Bounds\nFrame : The frame rectangle, which describes the view’s location and size in its superview’s coordinate system.\nBounds : The bounds rectangle, which describes the view’s location and size in its own coordinate system.\n\nframe은 superview 좌표계, bounds는 자기 자신의 좌표계를 기준으로 view의 위치 및 크기를 나타낸다.\nOriginView의 frame의 원점(origin)은 superview의 원점으로부터 x, y축으로 얼마나 떨어져 있는지 나타낸다. 반면, bounds는 자기 자신의 좌표계 안에서 원점을 결정하므로 별도의 값을 할당하기 전 까지는 항상 zero로 초기화된다.\n\n\nSizeView의 frame의 크기(size)는 superview 좌표계 안에서 현재 view가 사각형 영역으로 차지하고 있는 크기를 나타내기 때문에, view를 회전시킨다면 frame의 크기는 달라질 수 있다. 반면, bounds는 자기 자신의 크기를 나타내므로 view가 회전하더라도 크기는 항상 같다.\n\n\n\nView의 이동View의 frame의 위치(origin)가 (x, y)만큼 이동하면 해당 view의 subview들도 (x, y)만큼 이동하는 것 처럼 보인다. 하지만 subview의 frame 원점이 달라지지는 않는데, subview의 frame의 원점은 현재 view(subview 입장에서는 superview)의 원점으로부터의 위치를 나타내기 때문이다. Subview는 superview의 원점을 기준으로 항상 같은 위치에 그려지고 있다.\n\n\n반면에, bounds의 위치를 이동시키면 전혀 다른 결과를 보여준다. Bounds의 위치를 (x, y)만큼 이동시키면, 실제 view의 위치는 변하지 않지만 그 subview들이 (-x, -y)만큼 이동한 것 처럼 보이게 된다. 이동한 것 처럼 보인다는 것은, 화면상에서는 (-x, -y)만큼 움직였지만 실제 좌표는 frame이나 bounds나 바뀌지 않았다는 것을 의미한다.\n\n\n이런 결과는 bounds가 자기 자신의 좌표계를 기준으로 하기 때문에 발생한다. Bounds의 원점 좌표가 (x, y)만큼 이동하면 subview들을 view의 좌표계가 (x, y)만큼 이동했을 때의 위치로 다시 렌더링한다. 결과적으로, subview의 입장에서는 (-x, -y)만큼 이동한 것 처럼 보이게 된다.\n\n\n\n","dateCreated":"2019-10-07T00:00:00+09:00","dateModified":"2021-02-21T16:04:58+09:00","datePublished":"2019-10-07T00:00:00+09:00","description":"frame과 bounds 속성의 차이를 정리한다.","headline":"Frame과 Bounds의 차이","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://cskime.github.io/2019/10/07/frarme-bounds/"},"publisher":{"@type":"Organization","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"}},"url":"https://cskime.github.io/2019/10/07/frarme-bounds/","keywords":"iOS, swift"}</script>
+    <meta name="description" content="frame과 bounds 속성의 차이를 정리한다.">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Hexo + Tranquilpeak 설정">
-<meta property="og:url" content="https://cskime.github.io/2021/02/20/tranquilpeak-theme-customizing/index.html">
+<meta property="og:title" content="Frame과 Bounds의 차이">
+<meta property="og:url" content="https://cskime.github.io/2019/10/07/frarme-bounds/index.html">
 <meta property="og:site_name" content="ckim.log">
-<meta property="og:description" content="Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.  Hexo documentation Tranquilpeak documentation  Welcome to Hexo! This is your very first post. Check documentation for mo">
+<meta property="og:description" content="frame과 bounds 속성의 차이를 정리한다.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-20T12:59:25.000Z">
-<meta property="article:modified_time" content="2021-02-21T05:58:21.692Z">
+<meta property="og:image" content="https://cskime.github.io/2019/10/07/frarme-bounds/frame-bounds-1.png">
+<meta property="og:image" content="https://cskime.github.io/2019/10/07/frarme-bounds/frame-bounds-2.png">
+<meta property="og:image" content="https://cskime.github.io/2019/10/07/frarme-bounds/frame-bounds-3.png">
+<meta property="og:image" content="https://cskime.github.io/2019/10/07/frarme-bounds/frame-bounds-4.png">
+<meta property="og:image" content="https://cskime.github.io/2019/10/07/frarme-bounds/frame-bounds-5.png">
+<meta property="article:published_time" content="2019-10-06T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-21T07:04:58.787Z">
 <meta property="article:author" content="Chamsol Kim">
-<meta property="article:tag" content="hexo">
-<meta property="article:tag" content="tranquilpeak">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="swift">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cskime.github.io/2019/10/07/frarme-bounds/frame-bounds-1.png">
     
     
         
@@ -250,20 +256,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Hexo + Tranquilpeak 설정
+            Frame과 Bounds의 차이
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2021-02-20T21:59:25+09:00">
+    <time datetime="2019-10-07T00:00:00+09:00">
 	
-		    Feb 20, 2021
+		    Oct 07, 2019
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/hexo/">hexo</a>
+    <a class="category-link" href="/categories/iOS/">iOS</a>
 
 
     
@@ -274,20 +280,35 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://hexo.io/docs/">Hexo documentation</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/DOCUMENTATION.md">Tranquilpeak documentation</a></li>
+            <p><code>frame</code>과 <code>bounds</code> 속성의 차이를 정리한다.</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Frame-vs-Bounds"><span class="toc-text">Frame vs Bounds</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Origin"><span class="toc-text">Origin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Size"><span class="toc-text">Size</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#View%EC%9D%98-%EC%9D%B4%EB%8F%99"><span class="toc-text">View의 이동</span></a></li></ol>
+
+<hr>
+<h3 id="Frame-vs-Bounds"><a href="#Frame-vs-Bounds" class="headerlink" title="Frame vs Bounds"></a>Frame vs Bounds</h3><ul>
+<li>Frame : The frame rectangle, which describes the view’s location and size in <strong>its superview’s coordinate system.</strong></li>
+<li>Bounds : The bounds rectangle, which describes the view’s location and size in <strong>its own coordinate system.</strong></li>
 </ul>
-<p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>frame은 superview 좌표계, bounds는 자기 자신의 좌표계를 기준으로 view의 위치 및 크기를 나타낸다.</p>
+<h4 id="Origin"><a href="#Origin" class="headerlink" title="Origin"></a>Origin</h4><p>View의 frame의 원점(origin)은 superview의 원점으로부터 x, y축으로 얼마나 떨어져 있는지 나타낸다. 반면, bounds는 자기 자신의 좌표계 안에서 원점을 결정하므로 별도의 값을 할당하기 전 까지는 항상 zero로 초기화된다.</p>
+<img src="/2019/10/07/frarme-bounds/frame-bounds-1.png" class="">
+
+<h4 id="Size"><a href="#Size" class="headerlink" title="Size"></a>Size</h4><p>View의 frame의 크기(size)는 superview 좌표계 안에서 현재 view가 사각형 영역으로 차지하고 있는 크기를 나타내기 때문에, view를 회전시킨다면 frame의 크기는 달라질 수 있다. 반면, bounds는 자기 자신의 크기를 나타내므로 view가 회전하더라도 크기는 항상 같다.</p>
+<img src="/2019/10/07/frarme-bounds/frame-bounds-2.png" class="">
+
+<hr>
+<h3 id="View의-이동"><a href="#View의-이동" class="headerlink" title="View의 이동"></a>View의 이동</h3><p>View의 frame의 위치(origin)가 <code>(x, y)</code>만큼 이동하면 해당 view의 subview들도 <code>(x, y)</code>만큼 이동하는 것 처럼 보인다. 하지만 subview의 frame 원점이 달라지지는 않는데, subview의 frame의 원점은 현재 view(subview 입장에서는 superview)의 원점으로부터의 위치를 나타내기 때문이다. Subview는 superview의 원점을 기준으로 항상 같은 위치에 그려지고 있다.</p>
+<img src="/2019/10/07/frarme-bounds/frame-bounds-3.png" class="">
+
+<p>반면에, bounds의 위치를 이동시키면 전혀 다른 결과를 보여준다. Bounds의 위치를 <code>(x, y)</code>만큼 이동시키면, 실제 view의 위치는 변하지 않지만 그 subview들이 <code>(-x, -y)</code>만큼 <strong>이동한 것 처럼 보이게 된다</strong>. 이동한 것 처럼 보인다는 것은, 화면상에서는 <code>(-x, -y)</code>만큼 움직였지만 실제 좌표는 frame이나 bounds나 바뀌지 않았다는 것을 의미한다.</p>
+<img src="/2019/10/07/frarme-bounds/frame-bounds-4.png" class="">
+
+<p>이런 결과는 bounds가 자기 자신의 좌표계를 기준으로 하기 때문에 발생한다. Bounds의 원점 좌표가 <code>(x, y)</code>만큼 이동하면 subview들을 view의 좌표계가 <code>(x, y)</code>만큼 이동했을 때의 위치로 다시 렌더링한다. 결과적으로, subview의 입장에서는 <code>(-x, -y)</code>만큼 이동한 것 처럼 보이게 된다.</p>
+<img src="/2019/10/07/frarme-bounds/frame-bounds-5.png" class="">
+
+
 
             
 
@@ -299,7 +320,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/hexo/" rel="tag">hexo</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/tranquilpeak/" rel="tag">tranquilpeak</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/iOS/" rel="tag">iOS</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/swift/" rel="tag">swift</a>
 
             </div>
         
@@ -309,14 +330,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2021/02/21/hexo-posting-sugar/"
-                    data-tooltip="Hexo에서 글쓰기에 유용한 문법"
-                    aria-label="PREVIOUS: Hexo에서 글쓰기에 유용한 문법"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -350,7 +368,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -390,14 +408,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2021/02/21/hexo-posting-sugar/"
-                    data-tooltip="Hexo에서 글쓰기에 유용한 문법"
-                    aria-label="PREVIOUS: Hexo에서 글쓰기에 유용한 문법"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -431,7 +446,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

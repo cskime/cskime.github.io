@@ -6,7 +6,7 @@
   <link href="https://cskime.github.io/atom.xml" rel="self"/>
   
   <link href="https://cskime.github.io/"/>
-  <updated>2021-02-21T05:57:18.721Z</updated>
+  <updated>2021-02-21T07:04:58.787Z</updated>
   <id>https://cskime.github.io/</id>
   
   <author>
@@ -17,58 +17,25 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hexo에서 글쓰기에 유용한 문법</title>
-    <link href="https://cskime.github.io/2021/02/21/hexo-posting-sugar/"/>
-    <id>https://cskime.github.io/2021/02/21/hexo-posting-sugar/</id>
-    <published>2021-02-20T15:20:19.679Z</published>
-    <updated>2021-02-21T05:57:18.721Z</updated>
+    <title>Frame과 Bounds의 차이</title>
+    <link href="https://cskime.github.io/2019/10/07/frarme-bounds/"/>
+    <id>https://cskime.github.io/2019/10/07/frarme-bounds/</id>
+    <published>2019-10-06T15:00:00.000Z</published>
+    <updated>2021-02-21T07:04:58.787Z</updated>
     
-    <content type="html"><![CDATA[<p>Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.</p><ul><li><a href="https://hexo.io/docs/">Hexo documentation</a></li><li><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/DOCUMENTATION.md">Tranquilpeak documentation</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<p><code>frame</code>과 <code>bounds</code> 속성의 차이를 정리한다.</p><a id="more"></a><hr><!-- toc --><hr><h3 id="Frame-vs-Bounds"><a href="#Frame-vs-Bounds" class="headerlink" title="Frame vs Bounds"></a>Frame vs Bounds</h3><ul><li>Frame : The frame rectangle, which describes the view’s location and size in <strong>its superview’s coordinate system.</strong></li><li>Bounds : The bounds rectangle, which describes the view’s location and size in <strong>its own coordinate system.</strong></li></ul><p>frame은 superview 좌표계, bounds는 자기 자신의 좌표계를 기준으로 view의 위치 및 크기를 나타낸다.</p><h4 id="Origin"><a href="#Origin" class="headerlink" title="Origin"></a>Origin</h4><p>View의 frame의 원점(origin)은 superview의 원점으로부터 x, y축으로 얼마나 떨어져 있는지 나타낸다. 반면, bounds는 자기 자신의 좌표계 안에서 원점을 결정하므로 별도의 값을 할당하기 전 까지는 항상 zero로 초기화된다.</p><img src="/2019/10/07/frarme-bounds/frame-bounds-1.png" class=""><h4 id="Size"><a href="#Size" class="headerlink" title="Size"></a>Size</h4><p>View의 frame의 크기(size)는 superview 좌표계 안에서 현재 view가 사각형 영역으로 차지하고 있는 크기를 나타내기 때문에, view를 회전시킨다면 frame의 크기는 달라질 수 있다. 반면, bounds는 자기 자신의 크기를 나타내므로 view가 회전하더라도 크기는 항상 같다.</p><img src="/2019/10/07/frarme-bounds/frame-bounds-2.png" class=""><hr><h3 id="View의-이동"><a href="#View의-이동" class="headerlink" title="View의 이동"></a>View의 이동</h3><p>View의 frame의 위치(origin)가 <code>(x, y)</code>만큼 이동하면 해당 view의 subview들도 <code>(x, y)</code>만큼 이동하는 것 처럼 보인다. 하지만 subview의 frame 원점이 달라지지는 않는데, subview의 frame의 원점은 현재 view(subview 입장에서는 superview)의 원점으로부터의 위치를 나타내기 때문이다. Subview는 superview의 원점을 기준으로 항상 같은 위치에 그려지고 있다.</p><img src="/2019/10/07/frarme-bounds/frame-bounds-3.png" class=""><p>반면에, bounds의 위치를 이동시키면 전혀 다른 결과를 보여준다. Bounds의 위치를 <code>(x, y)</code>만큼 이동시키면, 실제 view의 위치는 변하지 않지만 그 subview들이 <code>(-x, -y)</code>만큼 <strong>이동한 것 처럼 보이게 된다</strong>. 이동한 것 처럼 보인다는 것은, 화면상에서는 <code>(-x, -y)</code>만큼 움직였지만 실제 좌표는 frame이나 bounds나 바뀌지 않았다는 것을 의미한다.</p><img src="/2019/10/07/frarme-bounds/frame-bounds-4.png" class=""><p>이런 결과는 bounds가 자기 자신의 좌표계를 기준으로 하기 때문에 발생한다. Bounds의 원점 좌표가 <code>(x, y)</code>만큼 이동하면 subview들을 view의 좌표계가 <code>(x, y)</code>만큼 이동했을 때의 위치로 다시 렌더링한다. 결과적으로, subview의 입장에서는 <code>(-x, -y)</code>만큼 이동한 것 처럼 보이게 된다.</p><img src="/2019/10/07/frarme-bounds/frame-bounds-5.png" class="">]]></content>
     
     
-      
-      
-    <summary type="html">&lt;p&gt;Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://hexo.io/docs/&quot;&gt;Hexo document</summary>
-      
+    <summary type="html">&lt;p&gt;&lt;code&gt;frame&lt;/code&gt;과 &lt;code&gt;bounds&lt;/code&gt; 속성의 차이를 정리한다.&lt;/p&gt;</summary>
     
     
     
-    <category term="hexo" scheme="https://cskime.github.io/categories/hexo/"/>
+    <category term="iOS" scheme="https://cskime.github.io/categories/iOS/"/>
     
     
-    <category term="hexo" scheme="https://cskime.github.io/tags/hexo/"/>
+    <category term="iOS" scheme="https://cskime.github.io/tags/iOS/"/>
     
-    <category term="tranquilpeak" scheme="https://cskime.github.io/tags/tranquilpeak/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo + Tranquilpeak 설정</title>
-    <link href="https://cskime.github.io/2021/02/20/tranquilpeak-theme-customizing/"/>
-    <id>https://cskime.github.io/2021/02/20/tranquilpeak-theme-customizing/</id>
-    <published>2021-02-20T12:59:25.000Z</published>
-    <updated>2021-02-21T05:58:21.692Z</updated>
-    
-    <content type="html"><![CDATA[<p>Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.</p><ul><li><a href="https://hexo.io/docs/">Hexo documentation</a></li><li><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/DOCUMENTATION.md">Tranquilpeak documentation</a></li></ul><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://hexo.io/docs/&quot;&gt;Hexo document</summary>
-      
-    
-    
-    
-    <category term="hexo" scheme="https://cskime.github.io/categories/hexo/"/>
-    
-    
-    <category term="hexo" scheme="https://cskime.github.io/tags/hexo/"/>
-    
-    <category term="tranquilpeak" scheme="https://cskime.github.io/tags/tranquilpeak/"/>
+    <category term="swift" scheme="https://cskime.github.io/tags/swift/"/>
     
   </entry>
   
