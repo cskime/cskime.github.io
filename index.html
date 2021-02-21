@@ -349,7 +349,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -380,77 +380,17 @@
 </div>
             </div>
             
-                <div class="postShorten-content">
-                    <a id="more"></a>
-
-<hr>
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementation"><span class="toc-text">Implementation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage"><span class="toc-text">Usage</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Passing-touch-event"><span class="toc-text">1. Passing touch event</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Extend-touch-area"><span class="toc-text">2. Extend touch area</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Description"><span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol>
-
-<hr>
-<p><strong>Hit testing</strong>이란 사용자로부터 입력된 touch event가 어떤 view에서 발생했는지 알아내고 그 view에 touch event를 전달하는 과정을 말합니다. App은 view hierarchy에서 touch evnet가 발생한 위치(point)를 포함하고 있는 view들을 탐색하며 root view로부터 가장 멀리 떨어져 있는 view를 반환합니다. View hierarchy에서 rootview는 <code>UIWindow</code>가 보여주고 있는 <code>UIViewController</code>의 rootview가 됩니다. 이 view부터 subview로 등록되어 있는 view들을 탐색하며 touch event가 발생한 view를 찾습니다.</p>
-<blockquote>
-<p>이렇게 root node에서 가장 멀리 떨어진 node부터 탐색해 나가는 방법을 <strong>역방향 깊이우선 탐색(Reverse Pre-Order Depth-First Traversal)</strong> 이라고 합니다. View hierarchy에서 subview들은 항상 superview보다 위에 그려지고 sibling 관계에 있는 subview들 중 나중에 추가된 subview가 다른 view들의 위에 그려지기 때문에, 화면에 가장 앞에 위치한 view를 찾기에 적합한 방법입니다.</p>
-</blockquote>
-<p>참고 : <a target="_blank" rel="noopener" href="https://blog.canapio.com/49">https://blog.canapio.com/49</a></p>
-<p>View hierarchy에서 hit testing이 진행되는 과정은 다음과 같습니다.</p>
-<p align="center">
-    <img src="hit-testing-1.png">
-</p>
-
-<ol>
-<li><code>UIWindow</code>에서 root view인 <code>MainView</code>를 거쳐 다음 깊이에 있는 sibling view들 중 가장 마지막에 추가된 <code>View C</code>부터 검사를 시작합니다.</li>
-<li><code>View C</code>는 touch point를 포함하지 않으므로 다음 sibling view인 <code>View B</code>를 검사합니다.</li>
-<li><code>View B</code>는 touch point를 포함하므로 다음 깊이에 있는 sibling view들 중 가장 마지막에 추가된 <code>View B.2</code>부터 검사를 시작합니다.</li>
-<li><code>View B.2</code>는 touch point를 포함하지 않으므로 다음 sibling view인 <code>View B.1</code>을 검사합니다.</li>
-<li><code>View B.1</code>은 touch point를 포함하면서 <strong>root view로부터 가장 멀리 떨어진 view</strong>이기 때문에 event를 받을 view가 됩니다.</li>
-</ol>
-<h2 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h2><p>Hit testing을 위해 <code>UIView</code>에는 <code>hitTest(_:with:)</code> method가 구현되어 있습니다. Touch event가 발생하면 가장 앞에 나타나 있는 view부터 재귀적으로 <code>hitTest(_:with:)</code> method를 호출하며 view들을 탐색하고, 현재 view가 touch point를 포함하고 있다면 해당 view를 반환합니다. 만약 touch point를 포함하지 않는다면 <code>nil</code>을 반환하여 hierarcy의 다음 view에서 hit testing을 진행합니다. 이 과정을 아래와 같은 코드로 구현해 볼 수 있습니다.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hitTest</span>(<span class="keyword">_</span> <span class="params">point</span>: <span class="type">CGPoint</span>, <span class="params">with</span> <span class="params">event</span>: <span class="type">UIEvent</span>?)</span> -&gt; <span class="type">UIView</span>? &#123;</span><br><span class="line">  <span class="comment">// View가 사용자 입력을 받을 수 있어야 합니다.</span></span><br><span class="line">  <span class="keyword">guard</span> <span class="keyword">self</span>.isUserInteractionEnabled <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">  &#125;</span><br><span class="line">        </span><br><span class="line">  <span class="comment">// View가 화면에 나타나 있어야 합니다. </span></span><br><span class="line">  <span class="comment">// View는 isHidden 속성이 false이거나 투명도가 0.01 이하로 딸어졌을 때 완전히 사라진 것으로 간주됩니다.</span></span><br><span class="line">  <span class="keyword">guard</span> <span class="operator">!</span><span class="keyword">self</span>.isHidden <span class="operator">&amp;&amp;</span> <span class="keyword">self</span>.alpha <span class="operator">&gt;</span> <span class="number">0.01</span> <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">  &#125;</span><br><span class="line">        </span><br><span class="line">  <span class="comment">// View가 touch한 지점(point)을 포함하고 있어야 합니다.</span></span><br><span class="line">  <span class="keyword">guard</span> <span class="keyword">self</span>.point(inside: point, with: event) <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Subview들을 역박향으로 탐색하므로 subviews array의 가장 마지막 element부터 탐색합니다</span></span><br><span class="line">  <span class="keyword">for</span> subview <span class="keyword">in</span> subviews.reversed() &#123;</span><br><span class="line">    <span class="keyword">let</span> newPoint <span class="operator">=</span> subview.convert(point, from: <span class="keyword">self</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> hitView <span class="operator">=</span> subview.hitTest(newPoint, with: event) &#123;</span><br><span class="line">      <span class="keyword">return</span> hitView</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">        </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><p>Custom view에서 <code>hitTest(_:with:)</code> method를 override하면 touch event를 받을 view를 직접 결정하거나 event를 받을 조건을 직접 설정하는 등 조작이 가능합니다. 이것을 이용해서 touch event를 아래 view에 전달하거나 터치 영역을 확장시키는 등 custom이 가능합니다.</p>
-<h3 id="1-Passing-touch-event"><a href="#1-Passing-touch-event" class="headerlink" title="1. Passing touch event"></a>1. Passing touch event</h3><p><code>hitTest(_:with:)</code>를 이용하면 원하는 view가 touch event를 받도록 만들 수 있습니다. 다음과 같이 <code>UISwitch</code> 위에 <code>UIView</code>를 덮으면 switch를 터치할 수 없습니다. <code>UISwitch</code>보다 <code>UIView</code>가 view hierarchy에서 아래에 있기 때문에 덮여있는 view가 touch event를 가져가기 때문입니다.</p>
-<p align="center">
-    <img src="hit-testing-2.png">
-</p>
-
-<p>View의 <code>hitTest(_:with:)</code> method를 override하여 <code>nil</code>을 반환하도록 하면 덮여있는 view는 hit testing 과정을 건너 뛰게 되고, 다음 subview인 switch부터 다시 hit testing을 진행하게 됩니다. 아래 코드는 가운데 switch만 event를 받을 수 있도록 view의 중심 영역에서만 event를 통과시키고 있습니다.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoverView</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">hitTest</span>(<span class="keyword">_</span> <span class="params">point</span>: <span class="type">CGPoint</span>, <span class="params">with</span> <span class="params">event</span>: <span class="type">UIEvent</span>?)</span> -&gt; <span class="type">UIView</span>? &#123;</span><br><span class="line">    <span class="comment">// 원래 hitTest 메서드로 현재 터치된 곳에서 가장 위에 올라와 있는 view를 가져옴</span></span><br><span class="line">    <span class="comment">// 여기서는 cover view</span></span><br><span class="line">    <span class="keyword">var</span> hitView <span class="operator">=</span> <span class="keyword">super</span>.hitTest(point, with: event)</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 특정 영역에서만 이벤트를 받도록 함</span></span><br><span class="line">    <span class="keyword">let</span> inset: (x: <span class="type">CGFloat</span>, y: <span class="type">CGFloat</span>) <span class="operator">=</span> (<span class="keyword">self</span>.bounds.width<span class="operator">/</span><span class="number">3</span>, <span class="keyword">self</span>.bounds.height<span class="operator">/</span><span class="number">3</span>)</span><br><span class="line">    <span class="keyword">let</span> touchRect <span class="operator">=</span> <span class="keyword">self</span>.bounds.insetBy(dx: inset.x, dy: inset.y)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 해당 영역에서 발생한 touch에 대해 통과시킴</span></span><br><span class="line">    <span class="keyword">if</span> touchRect.contains(point) &#123;</span><br><span class="line">      hitView <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hitView</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>CoverView</code>를 위와 같이 만들었을 때 가운데 switch를 터치하면 잘 동작하는 것을 확인할 수 있습니다. 바깥에 있는 네 개의 switch들은 여전히 touch event를 받지 못합니다.</p>
-<p align="center">
-    <img src="hit-testing-3.png">
-</p>
-
-<h3 id="2-Extend-touch-area"><a href="#2-Extend-touch-area" class="headerlink" title="2. Extend touch area"></a>2. Extend touch area</h3><p>App에서 버튼이 너무 작아 터치하기 어렵다면 버튼의 <code>hitTest(_:with:)</code>를 override하여 버튼 주변에서 발생한 touch event도 버튼으로 전달하여 터치 영역을 확장시킬 수 있습니다.</p>
-<p align="center">
-    <img src="hit-testing-4.png">
-</p>
-View가 touch event를 받는 영역은 실제 view size로 결정됩니다. Button의 `hitTest(_:with:)`를 override하여 touch event가 button size보다 넓은 영역에서 발생했을 때에도 button을 반환하도록 하여 button 크기는 그대로 둔 채로 터치 영역만 확장할 수 있습니다.
-
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">hitTest</span>(<span class="keyword">_</span> <span class="params">point</span>: <span class="type">CGPoint</span>, <span class="params">with</span> <span class="params">event</span>: <span class="type">UIEvent</span>?)</span> -&gt; <span class="type">UIView</span>? &#123;</span><br><span class="line">  <span class="comment">// 상하좌우 10pt만큼 떨어진 영역 안에서 발생한 touch event까지 가져옴</span></span><br><span class="line">  <span class="keyword">let</span> isContained <span class="operator">=</span> <span class="keyword">self</span>.bounds.insetBy(dx: <span class="operator">-</span><span class="number">10</span>, dy: <span class="operator">-</span><span class="number">10</span>).contains(point)</span><br><span class="line">  <span class="keyword">return</span> isContained <span class="operator">?</span> <span class="keyword">super</span>.hitTest(point, with: event) : <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>이 때, 확장된 touch 영역은 parent view의 영역(<code>bounds</code>)에 포함되어 있어야 합니다. 확장한 영역이 parent view를 벗어난다면 parent view에서도 확장된 touch 영역을 포함하기 위해 <code>hitTest(_:with:)</code>를 override해서 확장된 영역을 포함하도록 해야 합니다.</p>
-<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><ul>
-<li><code>UIView</code>의 <code>hitTest(_:with:)</code> method를 이용하여 touch event를 전달받을 view를 직접 결정할 수 있다</li>
-<li><code>hitTest(_:with:)</code>에서 <code>nil</code>을 반환하면 해당 view는 touch event를 받지 못하고, view hierarchy의 다음 view에서 hit testing을 진행한다.</li>
-</ul>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://blog.canapio.com/49">https://blog.canapio.com/49</a></li>
-<li><a target="_blank" rel="noopener" href="https://zeddios.tistory.com/536">https://zeddios.tistory.com/536</a></li>
-</ul>
-
+                <div class="postShorten-excerpt">
+                    <p>iOS app이 사용자의 touch 입력을 받았을 때 어떤 view가 event를 처리할지 결정하는 <strong>hit testing</strong>에 대해 정리한다.</p>
                     
+                        <a
+                            href="/2019/10/08/hit-testing/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Hit testing"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/10/08/hit-testing/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
