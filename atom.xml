@@ -6,7 +6,7 @@
   <link href="https://cskime.github.io/atom.xml" rel="self"/>
   
   <link href="https://cskime.github.io/"/>
-  <updated>2021-02-20T15:21:22.541Z</updated>
+  <updated>2021-02-21T05:57:18.721Z</updated>
   <id>https://cskime.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cskime.github.io/2021/02/21/hexo-posting-sugar/"/>
     <id>https://cskime.github.io/2021/02/21/hexo-posting-sugar/</id>
     <published>2021-02-20T15:20:19.679Z</published>
-    <updated>2021-02-20T15:21:22.541Z</updated>
+    <updated>2021-02-21T05:57:18.721Z</updated>
     
     <content type="html"><![CDATA[<p>Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.</p><ul><li><a href="https://hexo.io/docs/">Hexo documentation</a></li><li><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/DOCUMENTATION.md">Tranquilpeak documentation</a></li></ul>]]></content>
     
@@ -37,8 +37,10 @@
     
     <category term="hexo" scheme="https://cskime.github.io/categories/hexo/"/>
     
-    <category term="tranquilpeak" scheme="https://cskime.github.io/categories/hexo/tranquilpeak/"/>
     
+    <category term="hexo" scheme="https://cskime.github.io/tags/hexo/"/>
+    
+    <category term="tranquilpeak" scheme="https://cskime.github.io/tags/tranquilpeak/"/>
     
   </entry>
   
@@ -47,7 +49,7 @@
     <link href="https://cskime.github.io/2021/02/20/tranquilpeak-theme-customizing/"/>
     <id>https://cskime.github.io/2021/02/20/tranquilpeak-theme-customizing/</id>
     <published>2021-02-20T12:59:25.000Z</published>
-    <updated>2021-02-20T15:19:56.919Z</updated>
+    <updated>2021-02-21T05:58:21.692Z</updated>
     
     <content type="html"><![CDATA[<p>Hexo 및 Tranquilpeak 테마를 적용하면서 글을 쓸 때 유용한 내용을 정리한다. 아래 링크에서 더 자세한 내용을 확인할 수 있다.</p><ul><li><a href="https://hexo.io/docs/">Hexo documentation</a></li><li><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/DOCUMENTATION.md">Tranquilpeak documentation</a></li></ul><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
@@ -63,8 +65,10 @@
     
     <category term="hexo" scheme="https://cskime.github.io/categories/hexo/"/>
     
-    <category term="tranquilpeak" scheme="https://cskime.github.io/categories/hexo/tranquilpeak/"/>
     
+    <category term="hexo" scheme="https://cskime.github.io/tags/hexo/"/>
+    
+    <category term="tranquilpeak" scheme="https://cskime.github.io/tags/tranquilpeak/"/>
     
   </entry>
   
