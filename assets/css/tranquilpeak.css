@@ -1931,7 +1931,7 @@ a.fancybox {
     hypens: auto; }
     .post .post-content img {
       display: block;
-      width: auto;
+      /* width: auto; */
       max-width: 100%; }
     .post .post-content :not(blockquote):not(li):not(.alert) > p {
       margin: 1.5em 0 0 0; }

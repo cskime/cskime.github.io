@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://cskime.github.io/2020/07/13/ios-viewcontroller-lifecycle/</loc>
+        <lastmod>2021-02-22T15:15:46.005Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://cskime.github.io/2020/07/15/ios-application-lifecycle/</loc>
         <lastmod>2021-02-22T13:30:16.368Z</lastmod>
         <changefreq>weekly</changefreq>
