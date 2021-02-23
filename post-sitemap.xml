@@ -9,8 +9,8 @@
 
 
     <url>
-        <loc>https://cskime.github.io/2020/07/13/ios-viewcontroller-lifecycle/</loc>
-        <lastmod>2021-02-22T15:00:00.000Z</lastmod>
+        <loc>https://cskime.github.io/2020/07/26/gcd/</loc>
+        <lastmod>2021-02-23T15:23:00.601Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -18,6 +18,14 @@
 
     <url>
         <loc>https://cskime.github.io/2021/02/21/tranquilpeak-customizing/</loc>
+        <lastmod>2021-02-22T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://cskime.github.io/2020/07/13/ios-viewcontroller-lifecycle/</loc>
         <lastmod>2021-02-22T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
