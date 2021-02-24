@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ckim.log">
+    <title>GCD로 이해하는 Serial/Concurrent와 Sync/Async의 차이 - ckim.log</title>
+    <meta name="author" content="Chamsol Kim">
+    
+        <meta name="keywords" content="iOS,Swift,">
+    
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"},"articleBody":"DispatchQueue를 예시로 Serial/Concurrent와 Sync/Async의 차이를 알아본다.\n\n\n\n\n\n\nOverview비동기 프로그래밍에서 Serial/Concurrent와 Sync/Async의 차이를 이해하는 것이 가장 골치아팠다. 이 개념을 처음 접했을 때 Serial이나 Sync나 ‘순서대로’라는 의미로 다가왔기 때문에, 둘이 같은 뜻인데 왜 다르게 사용되는 것인지 이해하기 어려웠다(SerialQueue는 왜 SyncQueue라고 쓰지 않는 것인지 정말 궁금했다).\n이런 오해는 Serial과 Sync의 의미가 어떻게 다른지 이해하지 못한 상태였기 때문이었다. 이 글에서는 두 개념이 어떻게 다른지 사전적 의미에서부터 살펴보고, GCD의 DispatchQueue에서 이 개념들이 어떻게 사용되는지 알아본다.\n\n이전 글 : GCD\n\n왜 이 단어를 사용하게 되었는가?먼저 각 단어의 사전적 의미는 다음과 같다.\nSerial\n\n    \n\n\nConcurrent\n\n    \n\n\nSynchronous\n\n    \n\n\nAsynchronous\n\n    \n\n\nSerial과 Concurrent는 ‘순서대로’와 ‘동시에(순서를 지키지 않는)’의 의미를 갖는다. 이것은 어떤 작업의 실행 또는 발생 순서와 관련이 있다. n개의 작업이 있을 때, serial한 동작은 n번째 작업이 실행되고 모두 끝난 뒤에 n+1번째 작업이 실행되고, concurrent한 동작은 n번째 작업이 실행된 후 곧바로 n+1, n+2, …번째 작업들도 동시에 실행된다.\nSync와 Async는 ‘동시에 존재하는’과 ‘동시에 존재하지 않는’의 의미를 갖는다. 이것은 어떤 작업을 요청했을 때 응답이 돌아오는 시점과 관련이 있다. 즉, 요청과 응답이 동시에 존재하느냐 마느냐를 의미하는 것이다. 어떤 작업 A를 실행시킬 것을 요청하면, 그 작업이 완료되었을 때는 완료되었다는 응답을 반환한다. Sync한 동작은 작업 A에 대한 응답이 돌아오기 전까지 다른 작업 B의 실행을 요청하지 않는다. Async한 동작은 작업 A의 응답을 기다리지 않고 바로 다음 작업의 실행을 요청한다.\nGCD에서 Serial/Concurrent와 Sync/AsyncSerial/Concurrent가 여러 작업들 간의 실행/종료의 순서를, Sync/Async가 하나의 작업을 요청했을 때 응답의 대기 여부를 의미한다는 것을 알고 나면 DispatchQueue의 동작이 한 번에 이해된다.\nSerial and Concurrent QueueDispatchQueue는 여러 개의 작업을 Queue 구조로 가지고 있다가, 적절한 thread에 전달해서 실행되도록 한다. 이 떄, DispatchQueue에 있는 작업들이 thread에 전달되는 순서에 따라 queue의 종류가 구분된다. 현재 queue에서 thread에 전달한 작업이 종료된 후에 다음 작업을 thread로 전달하여 모든 작업들이 순서대로 실행되도록 하는 SerialQueue와, thread에 전달한 작업의 종료 여부와 상관없이 queue에 들어있는 작업을 실행 가능한 thread에 바로바로 전달해서 모든 작업이 동시에 실행될 수 있도록 하는 ConcurrentQueue가 그것이다.\n이것을 그림으로 표현하면 다음과 같다.\n\n    \n\n\nSync or Async ExecuteDispatchQueue는 sync 또는 async 방식으로 작업을 할당받는다. Sync 방식의 작업은 thread에서 실행(요청)되면 작업이 종료(응답)될 때 까지 다른 작업들을 모두 중지하고 대기시킨다. Async 방식의 작업은 thread에서 실행(요청)된 후 종료(응답)되지 않아도 다른 작업들이 실행된다.\n이것을 그림으로 표현하면 다음과 같다.\n\n    \n\n\nSerial/Concurrent 작업을 Sync/Async하게 실행하는 Case 비교Serial/Concurrent queue에서 Sync/Async 방식의 작업을 실행시킬 때 총 4가지 경우가 가능하다.\nSerial - SyncSerialQueue에 할당된 작업(1, 2, 3)은 1 - 2 - 3의 ‘순서대로’ 실행된다. 또, 각 작업은 sync 방식으로 실행되므로 다른 작업(A, B, C)들은 각각의 sync 작업(1, 2, 3)이 종료될 때 까지 실행되지 않는다. 결과적으로, 1 - A - 2 - B - 3 - C의 순서로 실행된다.\n1234567891011let serialQueue = DispatchQueue(label: &quot;cskime.serialQueue&quot;)serialQueue.sync &#123; print(&quot;1&quot;, termimator: &quot; &quot;) &#125;print(&quot;A&quot;, terminator: &quot; &quot;)serialQueue.sync &#123; print(&quot;2&quot;, termimator: &quot; &quot;) &#125;print(&quot;B&quot;, terminator: &quot; &quot;)serialQueue.sync &#123; print(&quot;3&quot;, termimator: &quot; &quot;) &#125;print(&quot;C&quot;, terminator: &quot; &quot;)// Print// 1 A 2 B 3 C\nSerial - AsyncSerialQueue에 할당된 작업(1, 2, 3)은 위와 같은 순서로 동작한다. 이번에는 각 작업을 async 방식으로 실행하기 때문에 작업 1, 2, 3과 A, B, C간의 순서가 지켜지지 않는다(작업 1이 종료되기 전에 작업 A가 먼저 실행/종료될 수 있다). 결과적으로, 1 - 2 - 3의 순서는 지켜지지만 전체 작업들의 순서는 지켜지지 않는다.\n1234567891011let serialQueue = DispatchQueue(labeel: &quot;cskim.serialQueue&quot;)serialQueue.async &#123; print(&quot;1&quot;, terminator: &quot; &quot;) &#125;print(&quot;A&quot;, terminator: &quot; &quot;)serialQueue.async &#123; print(&quot;2&quot;, terminator: &quot; &quot;) &#125;print(&quot;B&quot;, terminator: &quot; &quot;)serialQueue.async &#123; print(&quot;3&quot;, terminator: &quot; &quot;) &#125;print(&quot;C&quot;, terminator: &quot; &quot;)// Print// A B 1 C 2 3\nConcurrent - SyncConcurrentQueue에 할당된 작업(1, 2, 3)들은 SerialQueue와 반대로 동시에 발생할 수 있고, 어떤 작업이 먼저 종료될 지 알 수 없다. 따라서, 1 - 2 - 3의 순서가 지켜지지 않을 수 있다. 하지만, 각 작업이 sync 방식으로 실행된다면 해당 작업이 종료될 때 까지 다른 작업은 실행되지 않으므로, 결과적으로 1 - A - 2 - B - 3 - C의 순서가 지켜질 수 있다.\n12345678910111213let concurrentQueue = DispatchQueue(  label: &quot;cskim.concurrentQueue&quot;, attributes: [.concurrent])concurrentQueue.sync &#123; print(&quot;1&quot;, terminator: &quot; &quot;) &#125;print(&quot;A&quot;, terminator: &quot; &quot;)concurrentQueue.sync &#123; print(&quot;2&quot;, terminator: &quot; &quot;) &#125;print(&quot;B&quot;, terminator: &quot; &quot;)concurrentQueue.sync &#123; print(&quot;3&quot;, terminator: &quot; &quot;) &#125;print(&quot;C&quot;, terminator: &quot; &quot;)// Print// 1 A 2 B 3 C\nConcurrent - AsyncConcurrentQueue에 할당된 작업들(1, 2, 3)을 async 방식으로 실행시킨다면, queue의 작업들의 순서 1 - 2 - 3도 지켜지지 않고, 전체 프로그램의 순서 또한 보장되지 않는다. 따라서, 작업 1, 2, 3과 A, B, C의 전체 순서가 지켜지지 않는다. (단, 예시에서 작업 A, B, C는 main thread에서 동작하기 때문에 A - B - C의 실행 순서는 보장되고 있다. 작업 1, 2, 3과 A, B, C 사이의 실행 순서가 보장되지 않는다.)\n12345678910111213let concurrentQueue = DispatchQueue(  label: &quot;cskim.concurrentQueue&quot;, attributes: [.concurrent])concurrentQueue.async &#123; print(&quot;1&quot;, terminator: &quot; &quot;) &#125;print(&quot;A&quot;, terminator: &quot; &quot;)concurrentQueue.async &#123; print(&quot;2&quot;, terminator: &quot; &quot;) &#125;print(&quot;B&quot;, terminator: &quot; &quot;)concurrentQueue.async &#123; print(&quot;3&quot;, terminator: &quot; &quot;) &#125;print(&quot;C&quot;, terminator: &quot; &quot;)// Print// A B C 1 3 2","dateCreated":"2020-07-26T00:00:00+09:00","dateModified":"2021-02-24T00:00:00+09:00","datePublished":"2020-07-26T00:00:00+09:00","description":"DispatchQueue를 예시로 Serial/Concurrent와 Sync/Async의 차이를 알아본다.","headline":"GCD로 이해하는 Serial/Concurrent와 Sync/Async의 차이","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/"},"publisher":{"@type":"Organization","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"}},"url":"https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/","keywords":"dispatchQueue, serial, concurrent, sync, async"}</script>
+    <meta name="description" content="DispatchQueue를 예시로 Serial&#x2F;Concurrent와 Sync&#x2F;Async의 차이를 알아본다.">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="GCD로 이해하는 Serial&#x2F;Concurrent와 Sync&#x2F;Async의 차이">
+<meta property="og:url" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/index.html">
+<meta property="og:site_name" content="ckim.log">
+<meta property="og:description" content="DispatchQueue를 예시로 Serial&#x2F;Concurrent와 Sync&#x2F;Async의 차이를 알아본다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/serial-concurrent-sync-async-1.png">
+<meta property="og:image" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/serial-concurrent-sync-async-2.png">
+<meta property="og:image" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/serial-concurrent-sync-async-3.png">
+<meta property="og:image" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/serial-concurrent-sync-async-4.png">
+<meta property="og:image" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/serial-concurrent-sync-async-5.png">
+<meta property="og:image" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/serial-concurrent-sync-async-6.png">
+<meta property="article:published_time" content="2020-07-25T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-23T15:00:00.000Z">
+<meta property="article:author" content="Chamsol Kim">
+<meta property="article:tag" content="dispatchQueue">
+<meta property="article:tag" content="serial">
+<meta property="article:tag" content="concurrent">
+<meta property="article:tag" content="sync">
+<meta property="article:tag" content="async">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/serial-concurrent-sync-async-1.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/all.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-150807991-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-150807991-1');
+    </script>
+
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <!-- canonical -->
+    <link rel="canonical" href="https://cskime.github.io/2020/07/26/serial-concurrent-sync-async/"/>
+
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            ckim.log
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/cskime"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chamsolkim/"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:kcsol1005@gmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            GCD로 이해하는 Serial/Concurrent와 Sync/Async의 차이
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-07-26T00:00:00+09:00">
+	
+		    Jul 26, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/iOS/">iOS</a>
+
+
+    
+    <br>
+    
+        <time datetime="2020-07-26T00:00:00+09:00">
+            
+                    Feb 24, 2021
+                
+        </time>
+        <span> updated </span>
+    
+</div>
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>DispatchQueue를 예시로 Serial/Concurrent와 Sync/Async의 차이를 알아본다.</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EC%99%9C-%EC%9D%B4-%EB%8B%A8%EC%96%B4%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B2%8C-%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80"><span class="toc-text">왜 이 단어를 사용하게 되었는가?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD%EC%97%90%EC%84%9C-Serial-Concurrent%EC%99%80-Sync-Async"><span class="toc-text">GCD에서 Serial&#x2F;Concurrent와 Sync&#x2F;Async</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial-and-Concurrent-Queue"><span class="toc-text">Serial and Concurrent Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sync-or-Async-Execute"><span class="toc-text">Sync or Async Execute</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serial-Concurrent-%EC%9E%91%EC%97%85%EC%9D%84-Sync-Async%ED%95%98%EA%B2%8C-%EC%8B%A4%ED%96%89%ED%95%98%EB%8A%94-Case-%EB%B9%84%EA%B5%90"><span class="toc-text">Serial&#x2F;Concurrent 작업을 Sync&#x2F;Async하게 실행하는 Case 비교</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial-Sync"><span class="toc-text">Serial - Sync</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial-Async"><span class="toc-text">Serial - Async</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Concurrent-Sync"><span class="toc-text">Concurrent - Sync</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Concurrent-Async"><span class="toc-text">Concurrent - Async</span></a></li></ol></li></ol>
+
+<hr>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>비동기 프로그래밍에서 Serial/Concurrent와 Sync/Async의 차이를 이해하는 것이 가장 골치아팠다. 이 개념을 처음 접했을 때 Serial이나 Sync나 ‘순서대로’라는 의미로 다가왔기 때문에, 둘이 같은 뜻인데 왜 다르게 사용되는 것인지 이해하기 어려웠다(SerialQueue는 왜 SyncQueue라고 쓰지 않는 것인지 정말 궁금했다).</p>
+<p>이런 오해는 Serial과 Sync의 의미가 <strong>어떻게</strong> 다른지 이해하지 못한 상태였기 때문이었다. 이 글에서는 두 개념이 어떻게 다른지 사전적 의미에서부터 살펴보고, GCD의 DispatchQueue에서 이 개념들이 어떻게 사용되는지 알아본다.</p>
+<blockquote>
+<p>이전 글 : <a href="https://cskime.github.io/2020/07/26/gcd/">GCD</a></p>
+</blockquote>
+<h2 id="왜-이-단어를-사용하게-되었는가"><a href="#왜-이-단어를-사용하게-되었는가" class="headerlink" title="왜 이 단어를 사용하게 되었는가?"></a>왜 이 단어를 사용하게 되었는가?</h2><p>먼저 각 단어의 사전적 의미는 다음과 같다.</p>
+<p><strong>Serial</strong></p>
+<p>
+    <img src="serial-concurrent-sync-async-1.png" width="60%">
+</p>
+
+<p><strong>Concurrent</strong></p>
+<p>
+    <img src="serial-concurrent-sync-async-2.png" width="90%">
+</p>
+
+<p><strong>Synchronous</strong></p>
+<p>
+    <img src="serial-concurrent-sync-async-3.png" width="40%">
+</p>
+
+<p><strong>Asynchronous</strong></p>
+<p>
+    <img src="serial-concurrent-sync-async-4.png" width="40%">
+</p>
+
+<p>Serial과 Concurrent는 ‘순서대로’와 ‘동시에(순서를 지키지 않는)’의 의미를 갖는다. 이것은 <strong>어떤 작업의 실행 또는 발생 순서</strong>와 관련이 있다. n개의 작업이 있을 때, serial한 동작은 n번째 작업이 실행되고 모두 끝난 뒤에 n+1번째 작업이 실행되고, concurrent한 동작은 n번째 작업이 실행된 후 곧바로 n+1, n+2, …번째 작업들도 동시에 실행된다.</p>
+<p>Sync와 Async는 ‘동시에 존재하는’과 ‘동시에 존재하지 않는’의 의미를 갖는다. 이것은 <strong>어떤 작업을 요청했을 때 응답이 돌아오는 시점</strong>과 관련이 있다. 즉, 요청과 응답이 동시에 존재하느냐 마느냐를 의미하는 것이다. 어떤 작업 A를 실행시킬 것을 요청하면, 그 작업이 완료되었을 때는 완료되었다는 응답을 반환한다. Sync한 동작은 작업 A에 대한 응답이 돌아오기 전까지 다른 작업 B의 실행을 요청하지 않는다. Async한 동작은 작업 A의 응답을 기다리지 않고 바로 다음 작업의 실행을 요청한다.</p>
+<h2 id="GCD에서-Serial-Concurrent와-Sync-Async"><a href="#GCD에서-Serial-Concurrent와-Sync-Async" class="headerlink" title="GCD에서 Serial/Concurrent와 Sync/Async"></a>GCD에서 Serial/Concurrent와 Sync/Async</h2><p>Serial/Concurrent가 <strong>여러 작업들 간의 실행/종료의 순서</strong>를, Sync/Async가 <strong>하나의 작업을 요청했을 때 응답의 대기 여부</strong>를 의미한다는 것을 알고 나면 DispatchQueue의 동작이 한 번에 이해된다.</p>
+<h3 id="Serial-and-Concurrent-Queue"><a href="#Serial-and-Concurrent-Queue" class="headerlink" title="Serial and Concurrent Queue"></a>Serial and Concurrent Queue</h3><p>DispatchQueue는 여러 개의 작업을 Queue 구조로 가지고 있다가, 적절한 thread에 전달해서 실행되도록 한다. 이 떄, DispatchQueue에 있는 작업들이 thread에 전달되는 <strong>순서</strong>에 따라 queue의 종류가 구분된다. 현재 queue에서 thread에 전달한 작업이 종료된 후에 다음 작업을 thread로 전달하여 모든 작업들이 <strong>순서대로 실행</strong>되도록 하는 <strong>SerialQueue</strong>와, thread에 전달한 작업의 종료 여부와 상관없이 queue에 들어있는 작업을 실행 가능한 thread에 바로바로 전달해서 모든 작업이 <strong>동시에</strong> 실행될 수 있도록 하는 <strong>ConcurrentQueue</strong>가 그것이다.</p>
+<p>이것을 그림으로 표현하면 다음과 같다.</p>
+<p align="center">
+    <img src="serial-concurrent-sync-async-5.png">
+</p>
+
+<h3 id="Sync-or-Async-Execute"><a href="#Sync-or-Async-Execute" class="headerlink" title="Sync or Async Execute"></a>Sync or Async Execute</h3><p>DispatchQueue는 sync 또는 async 방식으로 작업을 할당받는다. Sync 방식의 작업은 thread에서 실행(요청)되면 작업이 종료(응답)될 때 까지 다른 작업들을 모두 중지하고 대기시킨다. Async 방식의 작업은 thread에서 실행(요청)된 후 종료(응답)되지 않아도 다른 작업들이 실행된다.</p>
+<p>이것을 그림으로 표현하면 다음과 같다.</p>
+<p align="center">
+    <img src="serial-concurrent-sync-async-6.png">
+</p>
+
+<h2 id="Serial-Concurrent-작업을-Sync-Async하게-실행하는-Case-비교"><a href="#Serial-Concurrent-작업을-Sync-Async하게-실행하는-Case-비교" class="headerlink" title="Serial/Concurrent 작업을 Sync/Async하게 실행하는 Case 비교"></a>Serial/Concurrent 작업을 Sync/Async하게 실행하는 Case 비교</h2><p>Serial/Concurrent queue에서 Sync/Async 방식의 작업을 실행시킬 때 총 4가지 경우가 가능하다.</p>
+<h3 id="Serial-Sync"><a href="#Serial-Sync" class="headerlink" title="Serial - Sync"></a>Serial - Sync</h3><p>SerialQueue에 할당된 작업(1, 2, 3)은 <code>1 - 2 - 3</code>의 ‘순서대로’ 실행된다. 또, 각 작업은 sync 방식으로 실행되므로 다른 작업(A, B, C)들은 각각의 sync 작업(1, 2, 3)이 종료될 때 까지 실행되지 않는다. 결과적으로, <code>1 - A - 2 - B - 3 - C</code>의 순서로 실행된다.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serialQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(label: <span class="string">&quot;cskime.serialQueue&quot;</span>)</span><br><span class="line"></span><br><span class="line">serialQueue.sync &#123; <span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>, termimator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">serialQueue.sync &#123; <span class="built_in">print</span>(<span class="string">&quot;2&quot;</span>, termimator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">serialQueue.sync &#123; <span class="built_in">print</span>(<span class="string">&quot;3&quot;</span>, termimator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print</span></span><br><span class="line"><span class="comment">// 1 A 2 B 3 C</span></span><br></pre></td></tr></table></figure>
+<h3 id="Serial-Async"><a href="#Serial-Async" class="headerlink" title="Serial - Async"></a>Serial - Async</h3><p>SerialQueue에 할당된 작업(1, 2, 3)은 위와 같은 순서로 동작한다. 이번에는 각 작업을 async 방식으로 실행하기 때문에 작업 1, 2, 3과 A, B, C간의 순서가 지켜지지 않는다(작업 1이 종료되기 전에 작업 A가 먼저 실행/종료될 수 있다). 결과적으로, <code>1 - 2 - 3</code>의 순서는 지켜지지만 전체 작업들의 순서는 지켜지지 않는다.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serialQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(labeel: <span class="string">&quot;cskim.serialQueue&quot;</span>)</span><br><span class="line"></span><br><span class="line">serialQueue.async &#123; <span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">serialQueue.async &#123; <span class="built_in">print</span>(<span class="string">&quot;2&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">serialQueue.async &#123; <span class="built_in">print</span>(<span class="string">&quot;3&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print</span></span><br><span class="line"><span class="comment">// A B 1 C 2 3</span></span><br></pre></td></tr></table></figure>
+<h3 id="Concurrent-Sync"><a href="#Concurrent-Sync" class="headerlink" title="Concurrent - Sync"></a>Concurrent - Sync</h3><p>ConcurrentQueue에 할당된 작업(1, 2, 3)들은 SerialQueue와 반대로 동시에 발생할 수 있고, 어떤 작업이 먼저 종료될 지 알 수 없다. 따라서, <code>1 - 2 - 3</code>의 순서가 지켜지지 않을 수 있다. 하지만, 각 작업이 sync 방식으로 실행된다면 해당 작업이 종료될 때 까지 다른 작업은 실행되지 않으므로, 결과적으로 <code>1 - A - 2 - B - 3 - C</code>의 순서가 지켜질 수 있다.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> concurrentQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(</span><br><span class="line">  label: <span class="string">&quot;cskim.concurrentQueue&quot;</span>, attributes: [.concurrent]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">concurrentQueue.sync &#123; <span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">concurrentQueue.sync &#123; <span class="built_in">print</span>(<span class="string">&quot;2&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">concurrentQueue.sync &#123; <span class="built_in">print</span>(<span class="string">&quot;3&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print</span></span><br><span class="line"><span class="comment">// 1 A 2 B 3 C</span></span><br></pre></td></tr></table></figure>
+<h3 id="Concurrent-Async"><a href="#Concurrent-Async" class="headerlink" title="Concurrent - Async"></a>Concurrent - Async</h3><p>ConcurrentQueue에 할당된 작업들(1, 2, 3)을 async 방식으로 실행시킨다면, queue의 작업들의 순서 <code>1 - 2 - 3</code>도 지켜지지 않고, 전체 프로그램의 순서 또한 보장되지 않는다. 따라서, 작업 1, 2, 3과 A, B, C의 전체 순서가 지켜지지 않는다. (단, 예시에서 작업 A, B, C는 main thread에서 동작하기 때문에 <code>A - B - C</code>의 실행 순서는 보장되고 있다. 작업 1, 2, 3과 A, B, C 사이의 실행 순서가 보장되지 않는다.)</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> concurrentQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(</span><br><span class="line">  label: <span class="string">&quot;cskim.concurrentQueue&quot;</span>, attributes: [.concurrent]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">concurrentQueue.async &#123; <span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">concurrentQueue.async &#123; <span class="built_in">print</span>(<span class="string">&quot;2&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line">concurrentQueue.async &#123; <span class="built_in">print</span>(<span class="string">&quot;3&quot;</span>, terminator: <span class="string">&quot; &quot;</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>, terminator: <span class="string">&quot; &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print</span></span><br><span class="line"><span class="comment">// A B C 1 3 2</span></span><br></pre></td></tr></table></figure>
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/async/" rel="tag">async</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/concurrent/" rel="tag">concurrent</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/dispatchQueue/" rel="tag">dispatchQueue</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/serial/" rel="tag">serial</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/sync/" rel="tag">sync</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/07/26/gcd/"
+                    data-tooltip="GCD(Grand Central Dispatch)"
+                    aria-label="PREVIOUS: GCD(Grand Central Dispatch)"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/07/15/ios-application-lifecycle/"
+                    data-tooltip="Application Lifecycle"
+                    aria-label="NEXT: Application Lifecycle"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <script src="https://utteranc.es/client.js"
+        repo="cskime/blog-comments"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Chamsol Kim. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/07/26/gcd/"
+                    data-tooltip="GCD(Grand Central Dispatch)"
+                    aria-label="PREVIOUS: GCD(Grand Central Dispatch)"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/07/15/ios-application-lifecycle/"
+                    data-tooltip="Application Lifecycle"
+                    aria-label="NEXT: Application Lifecycle"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">Chamsol Kim</h4>
+        
+            <div id="about-card-bio"><p>iPortfolio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>iOS Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Seoul, Korea
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-v1.2.0.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
