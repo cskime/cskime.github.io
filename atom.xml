@@ -61,6 +61,31 @@
   </entry>
   
   <entry>
+    <title>Asset catalog에서 audio file 관리하기</title>
+    <link href="https://cskime.github.io/2020/09/03/asset-catalog-audio/"/>
+    <id>https://cskime.github.io/2020/09/03/asset-catalog-audio/</id>
+    <published>2020-09-02T15:00:00.000Z</published>
+    <updated>2021-03-02T14:04:42.176Z</updated>
+    
+    <content type="html"><![CDATA[<p>Asset catalog에서 audio file을 추가해서 사용하는 방법을 정리한다.</p><a id="more"></a><hr><!-- toc --><hr><p>일반적으로 asset catalog에는 App Icon, Color, Image 등을 추가해서 <code>UIImage(named:)</code>, <code>UIColor(named:)</code> 등의 형태로 사용할 수 있었다.</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> image <span class="operator">=</span> <span class="type">UIImage</span>(named: <span class="string">&quot;image&quot;</span>)</span><br><span class="line"><span class="keyword">let</span> color <span class="operator">=</span> <span class="type">UIColor</span>(named: <span class="string">&quot;color&quot;</span>)</span><br></pre></td></tr></table></figure><p>Asset catalog에는 image, color 외에 media(audio, video) 등의 파일을 추가하여 <code>Data</code> 타입으로 사용할 수 있다. Asset catalog에서 <strong>data asset</strong>을 생성하고 media file을 끌어다 놓으면 된다.</p><p>    <img src="asset-catalog-audio-1.png"></p><p>이렇게 추가한 media는 <code>NSDataAsset</code>으로 가져올 수 있다. <code>NSDataAsset</code>은 asset catalog에 있는 data entries의 content를 나타내는 객체로, <code>data</code> property를 통해 실제 content를 <code>Data</code> 타입으로 가져온다.</p><p>    <img src="asset-catalog-audio-2.png"></p><p>다음과 같이 사용할 수 있다.</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> player: <span class="type">AVAudioPlayer</span>?</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> soundAsset <span class="operator">=</span> <span class="type">NSDataAsset</span>(name: <span class="string">&quot;Sound&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        player <span class="operator">=</span> <span class="keyword">try</span> <span class="type">AVAudioPlayer</span>(data: soundAsset.data, fileTypeHint: <span class="string">&quot;caf&quot;</span>)</span><br><span class="line">        player<span class="operator">?</span>.play()</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(error.localizedDescription)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>참고 : <a href="https://developer.apple.com/library/archive/qa/qa1913/_index.html">Accessing Audio Files in Asset Catalog</a> </p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Asset catalog에서 audio file을 추가해서 사용하는 방법을 정리한다.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="iOS" scheme="https://cskime.github.io/categories/iOS/"/>
+    
+    
+    <category term="iOS" scheme="https://cskime.github.io/tags/iOS/"/>
+    
+    <category term="asset catalog" scheme="https://cskime.github.io/tags/asset-catalog/"/>
+    
+    <category term="audio" scheme="https://cskime.github.io/tags/audio/"/>
+    
+  </entry>
+  
+  <entry>
     <title>RxSwift #0. Overview</title>
     <link href="https://cskime.github.io/2020/08/11/rxswift-0/"/>
     <id>https://cskime.github.io/2020/08/11/rxswift-0/</id>
