@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="ckim.log">
+    <title>Cocoapods으로 라이브러리 배포하기 - ckim.log</title>
+    <meta name="author" content="Chamsol Kim">
+    
+        <meta name="keywords" content="iOS,Swift,">
+    
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"},"articleBody":"Swift, Objective-C 라이브러리의 배포, 설치, 업데이트 등을 관리하는 도구이다. Cocoapods을 사용해서 오픈소스 라이브러리처럼 불특정 다수의 사용자에게 내가 만든 라이브러리를 배포하는 방법을 정리한다.\n\n\n\n\n\n\nCocoapods 동작 방식먼저 cocoapods이 라이브러리의 소스코드를 다운받아 사용하는 방법을 생각해보자. 오픈소스 라이브러리를 사용할 때를 생각해 보면, cocoapods에 등록된 라이브러리들은 모두 remote repository가 함께 등록되어 있다. 대부분 github repository인데, pod install 명령어를 실행하면 해당 라이브러리의 repository로부터 source를 다운받는다.\n이게 가능하려면 cocoapods이 어떤 라이브러리의 source repository 경로를 알고 있어야 할 것이다. Podfile에 버전을 명시하여 특정 버전의 source 파일을 다운받을 수도 있는걸 보면, repository 경로 외에도 버전 등 다양한 정보가 cocoapods에 저장되어 있을 것이다. Cocoapods이 라이브러리 source를 찾을 수 있는 정보를 제공하는 것이 .podspec 파일이다. \n.podspec 파일에 라이브러리의 repository 경로, 버전, author 등의 정보를 담아서 cocoapods 서버에 upload 한다. pod install 명령을 실행하면 Podfile에서 정의한 라이브러리의 이름으로 .podspec을 찾고, 그 안에 정보를 바탕으로 라이브러리의 repository를 찾아 source file을 다운로드한다. \n\n    \n    Cocoapods으로 라이브러리를 사용하는 과정\n\n\n이 과정을 역으로 생각하면, 우리가 만든 라이브러리를 배포할 때는 다음 작업들이 필요할 것이다.\n\n라이브러리 만들기\n.podspec에 라이브러리 정보 입력\nCocoapods 서버(trunk)에 .podspec upload하기\n.podspec에 정의한 repository 경로에 소스 파일 upload\n\n라이브러리 만들기여기서는 cocoapods에서 제공하는 템플릿을 사용해 보기로 한다. 아래 명령어를 실행해서 템플릿 프로젝트를 생성한다.\n1$ pod lib create &#123;pod_name&#125;\n명령어를 실행하면 다음과 같이 몇 가지 설정을 진행한다. 해당하는 항목을 입력하고 enter를 입력한다. (아무것도 입력하지 않으면 밑줄 친 항이 선택된다.)\n\n    \n\n\n설정을 마치면 _Pods 프로젝트가 생성된다. 세 번째 항목에서 Yes를 선택했다면 라이브러리를 테스트하거나 사용법을 안내할 수 있는 Example 프로젝트가 함께 생성된다. _Pods 프로젝트를 열어서 Development Pods 폴더 하위에 파일을 추가하여 개발을 진행하면 된다.\n\n    \n\n\n평소 개발할 때는 접근제한(access control)을 private이나 fileprivate까지만 사용해 왔다. 라이브러리를 만들 때는 다른 모듈에서 사용할 수 있어야 하므로 public 접근 제한자가 사용된다. 라이브러리에서 만든 클래스를 상속하거나, override하려고 한다면 해당 클래스 및 멤버의 접근 제한자를 open으로 지정한다.\n\n\nExample 프로젝트를 열어서 라이브러리가 잘 사용되는지 확인해보자.\n\n    \n\n\n.podspec 정의하기.podspec 파일에는 라이브러리의 이름, 버전, subspec 등의 정보를 정의한다. Cocoapods은 .podspec 파일에 정의된 내용을 바탕으로 source를 찾아서 다운로드할 것이다. 사용 가능한 옵션들은 여기서 확인할 수 있다.\n라이브러리를 pod 템플릿으로 생성했다면 Development Pods/Pod 경로에 .podspec 파일이 자동으로 생성되었을 것이다. 필요한 내용을 적절하게 수정해 준다.\n\n    \n\n\n배포하기.podspec을 만들었다면 cocoapods이 내 라이브러리를 찾을 수 있도록 .podspec과 source file을 repository에 upload 해야 한다. 배포를 위해 두 개의 저장소가 필요하다.\n\nLibrary repository : 라이브러리의 source file들을 upload한다.\nSpec repository : .podspec을 upload한다.\n\nPublic 배포Public 배포는 모든 사람들이 cocoapods을 사용해서\nPrivate 배포","dateCreated":"2020-10-31T00:00:00+09:00","dateModified":"2020-03-09T00:00:00+09:00","datePublished":"2020-10-31T00:00:00+09:00","description":"Swift, Objective-C 라이브러리의 배포, 설치, 업데이트 등을 관리하는 도구이다. Cocoapods을 사용해서 오픈소스 라이브러리처럼 불특정 다수의 사용자에게 내가 만든 라이브러리를 배포하는 방법을 정리한다.","headline":"Cocoapods으로 라이브러리 배포하기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://cskime.github.io/2020/10/31/cocoapods/"},"publisher":{"@type":"Organization","name":"Chamsol Kim","sameAs":["https://github.com/cskime","https://www.linkedin.com/in/chamsolkim/","mailto:kcsol1005@gmail.com"],"image":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/71e8b5fbfb1ae0f6cb6be5f18b08e023"}},"url":"https://cskime.github.io/2020/10/31/cocoapods/","keywords":"iOS, cocoapods"}</script>
+    <meta name="description" content="Swift, Objective-C 라이브러리의 배포, 설치, 업데이트 등을 관리하는 도구이다. Cocoapods을 사용해서 오픈소스 라이브러리처럼 불특정 다수의 사용자에게 내가 만든 라이브러리를 배포하는 방법을 정리한다.">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Cocoapods으로 라이브러리 배포하기">
+<meta property="og:url" content="https://cskime.github.io/2020/10/31/cocoapods/index.html">
+<meta property="og:site_name" content="ckim.log">
+<meta property="og:description" content="Swift, Objective-C 라이브러리의 배포, 설치, 업데이트 등을 관리하는 도구이다. Cocoapods을 사용해서 오픈소스 라이브러리처럼 불특정 다수의 사용자에게 내가 만든 라이브러리를 배포하는 방법을 정리한다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cskime.github.io/2020/10/31/cocoapods/cocoapods-1.png">
+<meta property="og:image" content="https://cskime.github.io/2020/10/31/cocoapods/cocoapods-2.png">
+<meta property="og:image" content="https://cskime.github.io/2020/10/31/cocoapods/cocoapods-3.png">
+<meta property="og:image" content="https://cskime.github.io/2020/10/31/cocoapods/cocoapods-4.png">
+<meta property="og:image" content="https://cskime.github.io/2020/10/31/cocoapods/cocoapods-5.png">
+<meta property="article:published_time" content="2020-10-30T15:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-08T15:00:00.000Z">
+<meta property="article:author" content="Chamsol Kim">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="cocoapods">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cskime.github.io/2020/10/31/cocoapods/cocoapods-1.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/all.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-150807991-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-150807991-1');
+    </script>
+
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <!-- canonical -->
+    <link rel="canonical" href="https://cskime.github.io/2020/10/31/cocoapods/"/>
+
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            ckim.log
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/cskime"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chamsolkim/"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:kcsol1005@gmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Cocoapods으로 라이브러리 배포하기
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-10-31T00:00:00+09:00">
+	
+		    Oct 31, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/iOS/">iOS</a>
+
+
+    
+    <br>
+    
+        <time datetime="2020-10-31T00:00:00+09:00">
+            
+                    Mar 09, 2020
+                
+        </time>
+        <span> updated </span>
+    
+</div>
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>Swift, Objective-C 라이브러리의 배포, 설치, 업데이트 등을 관리하는 도구이다. Cocoapods을 사용해서 오픈소스 라이브러리처럼 불특정 다수의 사용자에게 내가 만든 라이브러리를 배포하는 방법을 정리한다.</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cocoapods-%EB%8F%99%EC%9E%91-%EB%B0%A9%EC%8B%9D"><span class="toc-text">Cocoapods 동작 방식</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EB%A7%8C%EB%93%A4%EA%B8%B0"><span class="toc-text">라이브러리 만들기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#podspec-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0"><span class="toc-text">.podspec 정의하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0"><span class="toc-text">배포하기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Public-%EB%B0%B0%ED%8F%AC"><span class="toc-text">Public 배포</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Private-%EB%B0%B0%ED%8F%AC"><span class="toc-text">Private 배포</span></a></li></ol></li></ol>
+
+<hr>
+<h2 id="Cocoapods-동작-방식"><a href="#Cocoapods-동작-방식" class="headerlink" title="Cocoapods 동작 방식"></a>Cocoapods 동작 방식</h2><p>먼저 cocoapods이 라이브러리의 소스코드를 다운받아 사용하는 방법을 생각해보자. 오픈소스 라이브러리를 사용할 때를 생각해 보면, cocoapods에 등록된 라이브러리들은 모두 remote repository가 함께 등록되어 있다. 대부분 github repository인데, <code>pod install</code> 명령어를 실행하면 해당 라이브러리의 repository로부터 source를 다운받는다.</p>
+<p>이게 가능하려면 cocoapods이 어떤 라이브러리의 source repository 경로를 알고 있어야 할 것이다. <code>Podfile</code>에 버전을 명시하여 특정 버전의 source 파일을 다운받을 수도 있는걸 보면, repository 경로 외에도 버전 등 다양한 정보가 cocoapods에 저장되어 있을 것이다. Cocoapods이 라이브러리 source를 찾을 수 있는 정보를 제공하는 것이 <code>.podspec</code> 파일이다. </p>
+<p><code>.podspec</code> 파일에 라이브러리의 repository 경로, 버전, author 등의 정보를 담아서 cocoapods 서버에 upload 한다. <code>pod install</code> 명령을 실행하면 <code>Podfile</code>에서 정의한 라이브러리의 이름으로 <code>.podspec</code>을 찾고, 그 안에 정보를 바탕으로 라이브러리의 repository를 찾아 source file을 다운로드한다. </p>
+<p align="center" style="color:gray;font-size:14px;">
+    <img src="cocoapods-1.png">
+    <i>Cocoapods으로 라이브러리를 사용하는 과정</i>
+</p>
+
+<p>이 과정을 역으로 생각하면, 우리가 만든 라이브러리를 배포할 때는 다음 작업들이 필요할 것이다.<br><br></p>
+<ol>
+<li>라이브러리 만들기</li>
+<li><code>.podspec</code>에 라이브러리 정보 입력</li>
+<li>Cocoapods 서버(trunk)에 <code>.podspec</code> upload하기</li>
+<li><code>.podspec</code>에 정의한 repository 경로에 소스 파일 upload</li>
+</ol>
+<h2 id="라이브러리-만들기"><a href="#라이브러리-만들기" class="headerlink" title="라이브러리 만들기"></a>라이브러리 만들기</h2><p>여기서는 cocoapods에서 제공하는 템플릿을 사용해 보기로 한다. 아래 명령어를 실행해서 템플릿 프로젝트를 생성한다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pod lib create &#123;pod_name&#125;</span></span><br></pre></td></tr></table></figure>
+<p>명령어를 실행하면 다음과 같이 몇 가지 설정을 진행한다. 해당하는 항목을 입력하고 enter를 입력한다. (아무것도 입력하지 않으면 밑줄 친 항이 선택된다.)</p>
+<p align="center">
+    <img src="cocoapods-2.png" width="90%">
+</p>
+
+<p>설정을 마치면 <code>_Pods</code> 프로젝트가 생성된다. 세 번째 항목에서 Yes를 선택했다면 라이브러리를 테스트하거나 사용법을 안내할 수 있는 Example 프로젝트가 함께 생성된다. <code>_Pods</code> 프로젝트를 열어서 <code>Development Pods</code> 폴더 하위에 파일을 추가하여 개발을 진행하면 된다.</p>
+<p align="center">
+    <img src="cocoapods-3.png" width="90%">
+</p>
+
+<div class="alert warning"><p>평소 개발할 때는 접근제한(access control)을 <code>private</code>이나 <code>fileprivate</code>까지만 사용해 왔다. 라이브러리를 만들 때는 다른 모듈에서 사용할 수 있어야 하므로 <code>public</code> 접근 제한자가 사용된다. 라이브러리에서 만든 클래스를 상속하거나, override하려고 한다면 해당 클래스 및 멤버의 접근 제한자를 <code>open</code>으로 지정한다.</p>
+</div>
+
+<p>Example 프로젝트를 열어서 라이브러리가 잘 사용되는지 확인해보자.</p>
+<p align="center">
+    <img src="cocoapods-4.png" width="90%">
+</p>
+
+<h2 id="podspec-정의하기"><a href="#podspec-정의하기" class="headerlink" title=".podspec 정의하기"></a>.podspec 정의하기</h2><p><code>.podspec</code> 파일에는 라이브러리의 이름, 버전, subspec 등의 정보를 정의한다. Cocoapods은 <code>.podspec</code> 파일에 정의된 내용을 바탕으로 source를 찾아서 다운로드할 것이다. 사용 가능한 옵션들은 <a target="_blank" rel="noopener" href="https://guides.cocoapods.org/syntax/podspec.html">여기</a>서 확인할 수 있다.</p>
+<p>라이브러리를 pod 템플릿으로 생성했다면 <code>Development Pods/Pod</code> 경로에 <code>.podspec</code> 파일이 자동으로 생성되었을 것이다. 필요한 내용을 적절하게 수정해 준다.</p>
+<p align="center">
+    <img src="cocoapods-5.png">
+</p>
+
+<h2 id="배포하기"><a href="#배포하기" class="headerlink" title="배포하기"></a>배포하기</h2><p><code>.podspec</code>을 만들었다면 cocoapods이 내 라이브러리를 찾을 수 있도록 <code>.podspec</code>과 source file을 repository에 upload 해야 한다. 배포를 위해 두 개의 저장소가 필요하다.<br><br></p>
+<ol>
+<li>Library repository : 라이브러리의 source file들을 upload한다.</li>
+<li>Spec repository : <code>.podspec</code>을 upload한다.</li>
+</ol>
+<h3 id="Public-배포"><a href="#Public-배포" class="headerlink" title="Public 배포"></a>Public 배포</h3><p>Public 배포는 모든 사람들이 cocoapods을 사용해서</p>
+<h3 id="Private-배포"><a href="#Private-배포" class="headerlink" title="Private 배포"></a>Private 배포</h3>
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/cocoapods/" rel="tag">cocoapods</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/iOS/" rel="tag">iOS</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/02/07/clean-architecture-1/"
+                    data-tooltip="Clean Architecture #1. Architecture의 이해, 필요성"
+                    aria-label="PREVIOUS: Clean Architecture #1. Architecture의 이해, 필요성"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/09/03/asset-catalog-audio/"
+                    data-tooltip="Asset catalog에서 audio file 관리하기"
+                    aria-label="NEXT: Asset catalog에서 audio file 관리하기"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <script src="https://utteranc.es/client.js"
+        repo="cskime/blog-comments"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 Chamsol Kim. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/02/07/clean-architecture-1/"
+                    data-tooltip="Clean Architecture #1. Architecture의 이해, 필요성"
+                    aria-label="PREVIOUS: Clean Architecture #1. Architecture의 이해, 필요성"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/09/03/asset-catalog-audio/"
+                    data-tooltip="Asset catalog에서 audio file 관리하기"
+                    aria-label="NEXT: Asset catalog에서 audio file 관리하기"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">Chamsol Kim</h4>
+        
+            <div id="about-card-bio"><p>iPortfolio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>iOS Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Seoul, Korea
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-v1.2.0.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>

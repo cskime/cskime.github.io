@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://cskime.github.io/2020/07/26/gcd/</loc>
+        <lastmod>2021-03-09T14:38:38.765Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://cskime.github.io/2020/08/11/rxswift-overview/</loc>
         <lastmod>2021-03-03T13:27:14.356Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -35,14 +43,6 @@
     <url>
         <loc>https://cskime.github.io/2019/10/07/frarme-bounds/</loc>
         <lastmod>2021-02-24T12:50:46.840Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://cskime.github.io/2020/07/26/gcd/</loc>
-        <lastmod>2021-02-24T12:50:38.168Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -83,6 +83,14 @@
     <url>
         <loc>https://cskime.github.io/2021/02/21/tranquilpeak-customizing/</loc>
         <lastmod>2021-02-22T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://cskime.github.io/2020/10/31/cocoapods/</loc>
+        <lastmod>2020-03-08T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
