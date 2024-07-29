@@ -4,23 +4,39 @@
   <url>
     <loc>https://cskime.github.io/tags/blog/</loc>
     <lastmod>2024-07-29T17:11:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/</loc>
     <lastmod>2024-07-29T17:11:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/posts/github-pages-hugo-papermod-blog/</loc>
     <lastmod>2024-07-29T17:11:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/posts/</loc>
     <lastmod>2024-07-29T17:11:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/tags/</loc>
     <lastmod>2024-07-29T17:11:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/archive/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/categories/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/search/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>
