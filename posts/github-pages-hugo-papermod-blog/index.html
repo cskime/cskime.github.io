@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기 | Dev Log</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="blog">
 <meta name="description" content="GitHub Pages 블로그를 Hugo PaperMod 테마를 사용해서 블로그를 만든 방법을 기록해 둔다. [PaperMod WiKi - Installation] 문서와 블로그를 참고했다.
 Installation Hugo 설치 및 site 생성 (작성일 기준 최신 버전 테마는 Hugo 버전 v0.112.4 이상 필요)
 $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (권장 방식인 git submodule 사용)
@@ -107,10 +107,10 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
   "name": "GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기",
   "description": "GitHub Pages 블로그를 Hugo PaperMod 테마를 사용해서 블로그를 만든 방법을 기록해 둔다. [PaperMod WiKi - Installation] 문서와 블로그를 참고했다.\nInstallation Hugo 설치 및 site 생성 (작성일 기준 최신 버전 테마는 Hugo 버전 v0.112.4 이상 필요)\n$ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (권장 방식인 git submodule 사용)\n# Initialize git repository $ git init \u0026amp;\u0026amp; git commit -am \u0026#34;initial commit\u0026#34; # Install theme $ git submodule add --depth=1 https://github.",
   "keywords": [
-    
+    "blog"
   ],
-  "articleBody": "GitHub Pages 블로그를 Hugo PaperMod 테마를 사용해서 블로그를 만든 방법을 기록해 둔다. [PaperMod WiKi - Installation] 문서와 블로그를 참고했다.\nInstallation Hugo 설치 및 site 생성 (작성일 기준 최신 버전 테마는 Hugo 버전 v0.112.4 이상 필요)\n$ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (권장 방식인 git submodule 사용)\n# Initialize git repository $ git init \u0026\u0026 git commit -am \"initial commit\" # Install theme $ git submodule add --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod # needed when you reclone your repo (submodules may not get cloned automatically) $ git submodule update --init --recursive Theme update $ git submodule update --remote --merge hugo.yaml에 theme 명시 (구 config.yaml)\ntheme: [\"PageMod\"] Deploy to GitHub Repository 두 개 생성 (실제로 website로 보여지는 파일들은 /public에 있으므로 저장소 분리)\nblog source : blog source를 upload할 repository {username}.github.io : public directory를 upload할 repository Remote repo로 추가\n# blog source repository $ git remote add origin https://github.com/username/blog-source.git # public directory만 submodule로 따로 관리 $ git submodule add -b main https://github.com/username/username.github.io.git public # Submodule 등록 확인 $ ll .git/modules submodule에 theme과 public directory 두 개가 등록되어 있다면 정상적으로 등록된 것 만약, fatal: 'public' already exists and is not a valid git repo 과 같은 error가 발생하면 public 폴더를 삭제한 뒤 재시도 Root와 /public에서 각각 git remote -v를 실행하면 서로 다른 repository가 등록되어 있는 것을 확인 배포 script\n블로그를 배포할 때 blog-source와 {username}.github.io 두 repository에 각각 push해야 함 배포 과정을 script로 작성해서 사용 (참고) ",
-  "wordCount" : "236",
+  "articleBody": "GitHub Pages 블로그를 Hugo PaperMod 테마를 사용해서 블로그를 만든 방법을 기록해 둔다. [PaperMod WiKi - Installation] 문서와 블로그를 참고했다.\nInstallation Hugo 설치 및 site 생성 (작성일 기준 최신 버전 테마는 Hugo 버전 v0.112.4 이상 필요)\n$ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (권장 방식인 git submodule 사용)\n# Initialize git repository $ git init \u0026\u0026 git commit -am \"initial commit\" # Install theme $ git submodule add --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod # needed when you reclone your repo (submodules may not get cloned automatically) $ git submodule update --init --recursive Theme update $ git submodule update --remote --merge hugo.yaml에 theme 명시 (구 config.yaml)\ntheme: [\"PageMod\"] Customizing Menu /content 경로에 menu page를 markdown file로 생성 Archive page 설정 Search page 설정 hugo.yaml에 menu 설정 추가 (참고) Deploy to GitHub Repository 두 개 생성 (실제로 website로 보여지는 파일들은 /public에 있으므로 저장소 분리)\nblog source : blog source를 upload할 repository {username}.github.io : public directory를 upload할 repository Remote repo로 추가\n# blog source repository $ git remote add origin https://github.com/username/blog-source.git # public directory만 submodule로 따로 관리 $ git submodule add -b main https://github.com/username/username.github.io.git public # Submodule 등록 확인 $ ll .git/modules submodule에 theme과 public directory 두 개가 등록되어 있다면 정상적으로 등록된 것 만약, fatal: 'public' already exists and is not a valid git repo 과 같은 error가 발생하면 public 폴더를 삭제한 뒤 재시도 Root와 /public에서 각각 git remote -v를 실행하면 서로 다른 repository가 등록되어 있는 것을 확인 배포 script\n블로그를 배포할 때 blog-source와 {username}.github.io 두 repository에 각각 push해야 함 배포 과정을 script로 작성해서 사용 (참고) Reference Hugo Documentation PaperMod’s Demo hugo-PaperMod WiKi PaperMod 테마를 Hugo 사이트에 적용하는 방법 Hugo 블로그 생성 과정 (theme PaperMod) ",
+  "wordCount" : "275",
   "inLanguage": "en",
   "datePublished": "2024-07-29T17:11:44+09:00",
   "dateModified": "2024-07-29T17:11:44+09:00",
@@ -170,6 +170,21 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
             </div>
         </div>
         <ul id="menu">
+            <li>
+                <a href="https://cskime.github.io/archive" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/tags" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -194,7 +209,15 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
                 <li>
                     <a href="#installation" aria-label="Installation">Installation</a></li>
                 <li>
-                    <a href="#deploy-to-github" aria-label="Deploy to GitHub">Deploy to GitHub</a>
+                    <a href="#customizing" aria-label="Customizing">Customizing</a><ul>
+                        
+                <li>
+                    <a href="#menu" aria-label="Menu">Menu</a></li></ul>
+                </li>
+                <li>
+                    <a href="#deploy-to-github" aria-label="Deploy to GitHub">Deploy to GitHub</a></li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
                 </li>
             </ul>
         </div>
@@ -232,6 +255,17 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">theme</span>: [<span style="color:#e6db74">&#34;PageMod&#34;</span>]
 </span></span></code></pre></div></li>
 </ol>
+<h2 id="customizing">Customizing<a hidden class="anchor" aria-hidden="true" href="#customizing">#</a></h2>
+<h3 id="menu">Menu<a hidden class="anchor" aria-hidden="true" href="#menu">#</a></h3>
+<ol>
+<li><code>/content</code> 경로에 menu page를 markdown file로 생성
+<ul>
+<li><a href="https://github.com/adityatelange/hugo-PaperMod/wiki/Features#archives-layout">Archive page 설정</a></li>
+<li><a href="https://github.com/adityatelange/hugo-PaperMod/wiki/Features#search-page">Search page 설정</a></li>
+</ul>
+</li>
+<li><code>hugo.yaml</code>에 menu 설정 추가 (<a href="https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-faq/#add-menu-to-site">참고</a>)</li>
+</ol>
 <h2 id="deploy-to-github">Deploy to GitHub<a hidden class="anchor" aria-hidden="true" href="#deploy-to-github">#</a></h2>
 <ol>
 <li>
@@ -265,12 +299,21 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
 </ul>
 </li>
 </ol>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<ul>
+<li><a href="https://gohugo.io/documentation/">Hugo Documentation</a></li>
+<li><a href="https://adityatelange.github.io/hugo-PaperMod/">PaperMod&rsquo;s Demo</a></li>
+<li><a href="https://github.com/adityatelange/hugo-PaperMod/wiki">hugo-PaperMod WiKi</a></li>
+<li><a href="https://hyuk.dev/posts/papermod-%ED%85%8C%EB%A7%88%EB%A5%BC-hugo-%EC%82%AC%EC%9D%B4%ED%8A%B8%EC%97%90-%EC%A0%81%EC%9A%A9%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95/">PaperMod 테마를 Hugo 사이트에 적용하는 방법</a></li>
+<li><a href="https://parker1609.github.io/post/blog/creating-my-blog-with-hugo/">Hugo 블로그 생성 과정 (theme PaperMod)</a></li>
+</ul>
 
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="https://cskime.github.io/tags/blog/">Blog</a></li>
     </ul>
   </footer>
 </article>
