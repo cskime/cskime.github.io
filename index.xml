@@ -5,8 +5,18 @@
     <link>https://cskime.github.io/</link>
     <description>Recent content on Dev Log</description>
     <generator>Hugo -- 0.129.0</generator>
-    <language>en-us</language>
-    <lastBuildDate></lastBuildDate>
+    <language>en</language>
+    <lastBuildDate>Mon, 29 Jul 2024 17:11:44 +0900</lastBuildDate>
     <atom:link href="https://cskime.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기</title>
+      <link>https://cskime.github.io/posts/github-pages-hugo-papermod-blog/</link>
+      <pubDate>Mon, 29 Jul 2024 17:11:44 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/github-pages-hugo-papermod-blog/</guid>
+      <description>GitHub Pages 블로그를 Hugo PaperMod 테마를 사용해서 블로그를 만든 방법을 기록해 둔다. [PaperMod WiKi - Installation] 문서와 블로그를 참고했다.
+Installation Hugo 설치 및 site 생성 (작성일 기준 최신 버전 테마는 Hugo 버전 v0.112.4 이상 필요)
+$ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (권장 방식인 git submodule 사용)
+# Initialize git repository $ git init &amp;amp;&amp;amp; git commit -am &amp;#34;initial commit&amp;#34; # Install theme $ git submodule add --depth=1 https://github.</description>
+    </item>
   </channel>
 </rss>
