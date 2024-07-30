@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Dev Log</title>
+    <title>cskime.io</title>
     <link>https://cskime.github.io/</link>
-    <description>Recent content on Dev Log</description>
+    <description>Recent content on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 29 Jul 2024 17:11:44 +0900</lastBuildDate>
