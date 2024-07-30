@@ -18,5 +18,16 @@ Installation Hugo 설치 및 site 생성 (작성일 기준 최신 버전 테마�
 $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (권장 방식인 git submodule 사용)
 # Initialize git repository $ git init &amp;amp;&amp;amp; git commit -am &amp;#34;initial commit&amp;#34; # Install theme $ git submodule add --depth=1 https://github.</description>
     </item>
+    <item>
+      <title>Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제</title>
+      <link>https://cskime.github.io/posts/inherited-widget-unaccessible/</link>
+      <pubDate>Sat, 25 May 2024 17:11:44 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/inherited-widget-unaccessible/</guid>
+      <description>문제 상황 상위 위젯에서 추가한 InheritedWidget을 하위 widget에서 접근하지 못하는 문제 BuildContext.dependOnInheritedWidgetOfExactType이 null을 반환해서 property 및 method를 호출할 수 없음 예제 코드 문제를 재현하는 간단한 counter app
+HomeScreen 및 DetailScreen은 버튼을 눌러서 count 증가
+HomeScreen과 DetailScreen은 count 값(state) 공유
+Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
+class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&amp;gt; true; static CounterProvider?</description>
+    </item>
   </channel>
 </rss>
