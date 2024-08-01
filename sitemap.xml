@@ -7,7 +7,22 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://cskime.github.io/posts/nomadcoders-flutter-study-review/</loc>
+    <lastmod>2024-07-31T14:20:25+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://cskime.github.io/posts/</loc>
+    <lastmod>2024-07-31T14:20:25+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/review/</loc>
+    <lastmod>2024-07-31T14:20:25+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/</loc>
     <lastmod>2024-07-31T14:20:25+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -18,11 +33,6 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/posts/github-pages-hugo-papermod-blog/</loc>
-    <lastmod>2024-07-29T17:11:44+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://cskime.github.io/tags/</loc>
     <lastmod>2024-07-29T17:11:44+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
