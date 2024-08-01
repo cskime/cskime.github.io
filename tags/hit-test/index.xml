@@ -6,15 +6,16 @@
     <description>Recent content in Hit Test on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 31 Jul 2024 14:20:25 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 06 Feb 2022 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cskime.github.io/tags/hit-test/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Nomadcoders Flutter 10주 스터디 후기</title>
-      <link>https://cskime.github.io/posts/nomadcoders-flutter-study-review/</link>
-      <pubDate>Wed, 31 Jul 2024 14:20:25 +0900</pubDate>
-      <guid>https://cskime.github.io/posts/nomadcoders-flutter-study-review/</guid>
-      <description>나는 iOS 개발자로 일하다가 지난 해 퇴사 후 안식년을 갖고 있다. 쉬는 동안 개발자라는 직업에 대한 고민을 많이 하고 있다. 나는 어떤 개발자가 되고 싶은지 방향성을 잃어가고 있다는 생각이 들었기 때문이다. 개발하는 것 자체는 즐거운 일이지만 개발자라는 직업이 정말 나와 맞는지, 개발자를 오래 할 수 있을지 확신이 들지 않았다. 그래서, 쉬는 동안 다양한 개발 분야를 넓게 경험해보면서 생각을 정리해보기로 했다.
-iOS 모바일 개발을 주로 했던 나는 아예 다른 분야를 경험해보고 싶어서 웹 개발을 배워보기로 했다.</description>
+      <title>iOS Hit Testing</title>
+      <link>https://cskime.github.io/posts/ios-hit-testing/</link>
+      <pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://cskime.github.io/posts/ios-hit-testing/</guid>
+      <description>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
+&amp;lsquo;역방향&amp;rsquo;으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
+z-order index(depth)가 가장 크다.</description>
     </item>
   </channel>
 </rss>
