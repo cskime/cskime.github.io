@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>iOS Hit Testing | cskime.io</title>
+<meta name="keywords" content="review">
+<meta name="description" content="Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
+&lsquo;역방향&rsquo;으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
+z-order index(depth)가 가장 크다.">
+<meta name="author" content="">
+<link rel="canonical" href="https://cskime.github.io/posts/ios-hit-testing/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://cskime.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cskime.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cskime.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/ios-hit-testing/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="iOS Hit Testing" />
+<meta property="og:description" content="Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
+&lsquo;역방향&rsquo;으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
+z-order index(depth)가 가장 크다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cskime.github.io/posts/ios-hit-testing/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-02-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-02-06T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="iOS Hit Testing"/>
+<meta name="twitter:description" content="Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
+&lsquo;역방향&rsquo;으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
+z-order index(depth)가 가장 크다."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cskime.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "iOS Hit Testing",
+      "item": "https://cskime.github.io/posts/ios-hit-testing/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "iOS Hit Testing",
+  "name": "iOS Hit Testing",
+  "description": "Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.\n\u0026lsquo;역방향\u0026rsquo;으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.\nz-order index(depth)가 가장 크다.",
+  "keywords": [
+    "review"
+  ],
+  "articleBody": "Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.\n‘역방향’으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.\nz-order index(depth)가 가장 크다. 형제 view(sibling view)들 중에서 subview index가 가장 크다. Tree 구조에서 이와 같은 탐색 방법을 **역방향 깊이 우선 탐색(Reverse Pre-Order Depth-First Traversal)**이라고 한다.\n아래 그림은 touch event가 발생했을 때 event를 처리할 view를 결정하는 과정을 보여준다.\nView 계층의 root view(UIWindow)부터 시작하여 touch point를 포함하는 subview들 중 가장 멀리 떨어진 view를 탐색한다. MainView의 subview들 중 index가 가장 큰 View C부터 탐색을 시작한다. View C는 touch point를 포함하지 않으므로 건너뛰고, View B를 탐색한다. View B는 touch point를 포함하고 있으므로, 그 subview들 중 index가 가장 큰 View B.2를 탐색한다. View B.2는 touch point를 포함하지 않으므로 건너뛰고, view B.1을 탐색한다. View B.1은 touch point를 포함하고 root로부터 가장 멀리 떨어진 view이므로, View B.2에 event를 전달한다. Hit Test 구현 Hit testing에서 event를 전달받을 후보 view가 되기 위해서는 다음 조건을 만족해야 한다.\nView가 화면에 보여야 한다. View가 user interaction이 가능해야 한다. View 영역이 event 발생 위치(point)를 포함해야 한다. View 계층에서 세 가지 조건을 만족하는 view를 찾기 위해 hitTest(_:with:) 함수를 다음과 같이 구현할 수 있다. 함수가 nil을 반환하는 것은 event를 받을 수 없는 view이므로 다음 view를 탐색하라는 의미이다.\nfunc hitTest(_ point: CGPoint, with event: UIEvent?) -\u003e UIView? { // 1번 조건 검사 guard !isHidden, alpha \u003e 0.01 else { return nil } // 2번 조건 검사 guard isUserInteractionEnabled else { return nil } // 역방향 탐색을 위해 subviews array를 뒤집어서(reversed) 탐색 for subview in subviews.reversed() { let point = subview.convert(point, from: self) guard let hitView = subview.hitTest(point, with: event) else { continue } // 재귀적으로 반환되는 hitView는 곧 subview를 의미한다. // 즉, subview에서 hit testing이 성공하면 subview가 자기 자신을 반환할 것이다. return hitView } // 3번 조건 검사 guard bounds.contains(point) else { return nil } return self } UIView에는 이런 방식으로 구현된 hitTest(_:with:) method가 이미 구현되어 있다. 만약, 어떤 view가 특정 조건에서 event를 수신하지 못하게 하려면 다음과 같이 override해서 사용할 수 있다.\nclass SomeView: UIView { override func hitTest(_ point: CGPoint, with event: UIEvent?) -\u003e UIView? { // somCondition이 true일 때만 이 view에서 hit testing을 계속한다. guard someCondition else { return nil } return super.hitTest(point, with: event) } } 활용 Hit testing에서 반환되는 view를 조작하여 특정 상황에서만 event를 받을 수 있도록 구현할 수 있다.\n1. Passing through touch event 아래와 같이 5개의 UISwitch가 파란색 view로 덮여 있다. 스위치를 터치하더라도, 덮고 있는 view가 event를 가져가므로 스위치를 on/off할 수 없다.\n이 상황에서 스위치를 터치해서 on/off할 수 있게 만들려면, cover view에 event가 전달되지 않아야 하므로 event를 받기 위한 3가지 조건 중 한 가지를 만족하지 않도록 바꾸면 된다.\nUser interaction 비활성화 coverView.isUserInteractionEnabled = false View 숨김(Cover view가 반드시 보여야한다면, 이 방법은 사용하지 못할 것이다.) coverView.isHidden = true // or coverView.alpha = 0 hitTest(_:with:) 함수에서 nil 반환 class CoverView: UIView { override func hitTest(_ point: CGPoint, with event: UIEvent?) -\u003e UIView? { return nil } } 만약 특정 스위치만 on/off할 수 있게 만들려면 hitTest(_:with:) method를 override해서 nil을 반환하는 조건을 추가로 구현해야 한다.\nclass CoverView: UIView { override func hitTest(_ point: CGPoint, with event: UIEvent?) -\u003e UIView? { var hitView = super.hitTest(point, with: event) // 가운데 스위치가 있는 영역 let rect = bounds.insetBy(dx: bounds.width / 3, dy: bounds.height / 3) // Point가 가운데 영역(rect)에 포함될 때는 nil을 반환한다. guard rect.contains(point) else { return hitView } return nil } } 2. Throw touch event Hit testing을 통해 event를 받는 view는 hitTest(_:with:) method에서 반환되는 view이다. 즉, 실제로는 event를 받기 위한 3가지 조건을 만족하지 못하는 어떤 view를 임의로 hitTest(_:with:)에서 반환시키면 그 view도 event를 받아 처리할 수 있게 된다.\n다음은 이 방법을 사용하여 크기가 작은 버튼의 터치 영역을 확장시키는 예시이다.\nclass CustomButton: UIButton { override func hitTest(_ point: CGPoint, with event: UIEvent?) -\u003e UIView? { // Button 영역에서 상하좌우 10pt만큼 더 넓은 영역까지 touch point를 검사한다. let contains = bounds.insetBy(dx: -10, dy: -10).contains(point) return contains ? super.hitTest(point, with: event) : nil } } Reference http://smnh.me/hit-testing-in-ios/ https://developer.apple.com/documentation/uikit/uiview/1622469-hittest ",
+  "wordCount" : "678",
+  "inLanguage": "en",
+  "datePublished": "2022-02-06T00:00:00Z",
+  "dateModified": "2022-02-06T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cskime.github.io/posts/ios-hit-testing/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "cskime.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cskime.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cskime.github.io/" accesskey="h" title="cskime.io (Alt + H)">cskime.io</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://cskime.github.io/archive" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/tags" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      iOS Hit Testing
+    </h1>
+    <div class="post-meta"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#hit-testing" aria-label="Hit Testing">Hit Testing</a></li>
+                <li>
+                    <a href="#hit-test-%ea%b5%ac%ed%98%84" aria-label="Hit Test 구현">Hit Test 구현</a></li>
+                <li>
+                    <a href="#%ed%99%9c%ec%9a%a9" aria-label="활용">활용</a><ul>
+                        
+                <li>
+                    <a href="#1-passing-through-touch-event" aria-label="1. Passing through touch event">1. Passing through touch event</a></li>
+                <li>
+                    <a href="#2-throw-touch-event" aria-label="2. Throw touch event">2. Throw touch event</a></li></ul>
+                </li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="hit-testing">Hit Testing<a hidden class="anchor" aria-hidden="true" href="#hit-testing">#</a></h2>
+<p>Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다.
+Root view부터 시작하여 subview들을 <strong>역방향</strong>으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.</p>
+<p>&lsquo;역방향&rsquo;으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.</p>
+<ol>
+<li>z-order index(depth)가 가장 크다.</li>
+<li>형제 view(sibling view)들 중에서 subview index가 가장 크다.</li>
+</ol>
+<blockquote>
+<p>Tree 구조에서 이와 같은 탐색 방법을 **역방향 깊이 우선 탐색(Reverse Pre-Order Depth-First Traversal)**이라고 한다.</p>
+</blockquote>
+<p>아래 그림은 touch event가 발생했을 때 event를 처리할 view를 결정하는 과정을 보여준다.</p>
+<div align="center">
+    <img src="./image1.png" />
+</div>
+<ol>
+<li>View 계층의 root view(<code>UIWindow</code>)부터 시작하여 touch point를 포함하는 subview들 중 가장 멀리 떨어진 view를 탐색한다.</li>
+<li>MainView의 subview들 중 index가 가장 큰 View C부터 탐색을 시작한다.</li>
+<li>View C는 touch point를 포함하지 않으므로 건너뛰고, View B를 탐색한다.</li>
+<li>View B는 touch point를 포함하고 있으므로, 그 subview들 중 index가 가장 큰 View B.2를 탐색한다.</li>
+<li>View B.2는 touch point를 포함하지 않으므로 건너뛰고, view B.1을 탐색한다.</li>
+<li>View B.1은 touch point를 포함하고 root로부터 가장 멀리 떨어진 view이므로, View B.2에 event를 전달한다.</li>
+</ol>
+<h2 id="hit-test-구현">Hit Test 구현<a hidden class="anchor" aria-hidden="true" href="#hit-test-구현">#</a></h2>
+<p>Hit testing에서 event를 전달받을 후보 view가 되기 위해서는 다음 조건을 만족해야 한다.</p>
+<ol>
+<li>View가 화면에 보여야 한다.</li>
+<li>View가 user interaction이 가능해야 한다.</li>
+<li>View 영역이 event 발생 위치(point)를 포함해야 한다.</li>
+</ol>
+<p>View 계층에서 세 가지 조건을 만족하는 view를 찾기 위해 <code>hitTest(_:with:)</code> 함수를 다음과 같이 구현할 수 있다.
+함수가 <code>nil</code>을 반환하는 것은 event를 받을 수 없는 view이므로 다음 view를 탐색하라는 의미이다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hitTest</span>(<span style="color:#66d9ef">_</span> point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1번 조건 검사</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">guard</span> <span style="color:#f92672">!</span>isHidden, alpha <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.01</span> <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2번 조건 검사</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">guard</span> isUserInteractionEnabled <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 역방향 탐색을 위해 subviews array를 뒤집어서(reversed) 탐색</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> subview <span style="color:#66d9ef">in</span> subviews.reversed() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> point = subview.convert(point, from: <span style="color:#66d9ef">self</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> hitView = subview.hitTest(point, with: event) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 재귀적으로 반환되는 hitView는 곧 subview를 의미한다.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 즉, subview에서 hit testing이 성공하면 subview가 자기 자신을 반환할 것이다.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> hitView
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3번 조건 검사</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">guard</span> bounds.contains(point) <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>UIView</code>에는 이런 방식으로 구현된 <code>hitTest(_:with:)</code> method가 이미 구현되어 있다. 만약, 어떤 view가 특정 조건에서 event를 수신하지 못하게 하려면 다음과 같이 override해서 사용할 수 있다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SomeView</span>: UIView {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hitTest</span>(<span style="color:#66d9ef">_</span> point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+</span></span><span style="display:flex;"><span>    	<span style="color:#75715e">// somCondition이 true일 때만 이 view에서 hit testing을 계속한다.</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">guard</span> someCondition <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span> }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span>.hitTest(point, with: event)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="활용">활용<a hidden class="anchor" aria-hidden="true" href="#활용">#</a></h2>
+<p>Hit testing에서 반환되는 view를 조작하여 특정 상황에서만 event를 받을 수 있도록 구현할 수 있다.</p>
+<h3 id="1-passing-through-touch-event">1. Passing through touch event<a hidden class="anchor" aria-hidden="true" href="#1-passing-through-touch-event">#</a></h3>
+<p>아래와 같이 5개의 <code>UISwitch</code>가 파란색 view로 덮여 있다. 스위치를 터치하더라도, 덮고 있는 view가 event를 가져가므로 스위치를 on/off할 수 없다.</p>
+<div align="center">
+<img src="./image2.png" width="400" />
+</div>
+<p>이 상황에서 스위치를 터치해서 on/off할 수 있게 만들려면, cover view에 event가 전달되지 않아야 하므로 event를 받기 위한 3가지 조건 중 한 가지를 만족하지 않도록 바꾸면 된다.</p>
+<ol>
+<li>User interaction 비활성화
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>coverView.isUserInteractionEnabled = <span style="color:#66d9ef">false</span>
+</span></span></code></pre></div></li>
+<li>View 숨김(Cover view가 반드시 보여야한다면, 이 방법은 사용하지 못할 것이다.)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>coverView.isHidden = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// or</span>
+</span></span><span style="display:flex;"><span>coverView.alpha = <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div></li>
+<li><code>hitTest(_:with:)</code> 함수에서 <code>nil</code> 반환
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoverView</span>: UIView {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hitTest</span>(<span style="color:#66d9ef">_</span> point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+</span></span><span style="display:flex;"><span>    	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ol>
+<p>만약 특정 스위치만 on/off할 수 있게 만들려면 <code>hitTest(_:with:)</code> method를 override해서 <code>nil</code>을 반환하는 조건을 추가로 구현해야 한다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoverView</span>: UIView {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hitTest</span>(<span style="color:#66d9ef">_</span> point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> hitView = <span style="color:#66d9ef">super</span>.hitTest(point, with: event)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 가운데 스위치가 있는 영역</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> rect = bounds.insetBy(dx: bounds.width <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>, dy: bounds.height <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Point가 가운데 영역(rect)에 포함될 때는 nil을 반환한다.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> rect.contains(point) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> hitView
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2-throw-touch-event">2. Throw touch event<a hidden class="anchor" aria-hidden="true" href="#2-throw-touch-event">#</a></h3>
+<p>Hit testing을 통해 event를 받는 view는 <code>hitTest(_:with:)</code> method에서 반환되는 view이다. 즉, 실제로는 event를 받기 위한 3가지 조건을 만족하지 못하는 어떤 view를 임의로 <code>hitTest(_:with:)</code>에서 반환시키면 그 view도 event를 받아 처리할 수 있게 된다.</p>
+<p>다음은 이 방법을 사용하여 크기가 작은 버튼의 터치 영역을 확장시키는 예시이다.</p>
+<div align="center">
+    <img src="./image3.png" />
+</div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomButton</span>: UIButton {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hitTest</span>(<span style="color:#66d9ef">_</span> point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Button 영역에서 상하좌우 10pt만큼 더 넓은 영역까지 touch point를 검사한다.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> contains = bounds.insetBy(dx: <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, dy: <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>).contains(point)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> contains ? <span style="color:#66d9ef">super</span>.hitTest(point, with: event) : <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<ul>
+<li><a href="http://smnh.me/hit-testing-in-ios/">http://smnh.me/hit-testing-in-ios/</a></li>
+<li><a href="https://developer.apple.com/documentation/uikit/uiview/1622469-hittest">https://developer.apple.com/documentation/uikit/uiview/1622469-hittest</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://cskime.github.io/tags/review/">Review</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://cskime.github.io/">cskime.io</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

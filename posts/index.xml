@@ -37,5 +37,14 @@ HomeScreen과 DetailScreen은 count 값(state) 공유
 Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
 class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&amp;gt; true; static CounterProvider?</description>
     </item>
+    <item>
+      <title>iOS Hit Testing</title>
+      <link>https://cskime.github.io/posts/ios-hit-testing/</link>
+      <pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://cskime.github.io/posts/ios-hit-testing/</guid>
+      <description>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
+&amp;lsquo;역방향&amp;rsquo;으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
+z-order index(depth)가 가장 크다.</description>
+    </item>
   </channel>
 </rss>
