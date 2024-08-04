@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>List.from, List.of, toList() 비교 | cskime.io</title>
+<meta name="keywords" content="dart">
+<meta name="description" content="Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List.">
+<meta name="author" content="">
+<link rel="canonical" href="https://cskime.github.io/posts/list-of-vs-list-from/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://cskime.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cskime.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cskime.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/list-of-vs-list-from/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="List.from, List.of, toList() 비교" />
+<meta property="og:description" content="Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cskime.github.io/posts/list-of-vs-list-from/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-08-04T10:59:20+09:00" />
+<meta property="article:modified_time" content="2024-08-04T10:59:20+09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="List.from, List.of, toList() 비교"/>
+<meta name="twitter:description" content="Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cskime.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "List.from, List.of, toList() 비교",
+      "item": "https://cskime.github.io/posts/list-of-vs-list-from/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "List.from, List.of, toList() 비교",
+  "name": "List.from, List.of, toList() 비교",
+  "description": "Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List.",
+  "keywords": [
+    "dart"
+  ],
+  "articleBody": "Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List.of를 사용하고, type을 변경할 때만 List.from을 사용하자. List.from(elements) elements에 Iterable type을 전달하여 새로운 List 생성 Definition external factory List.from(Iterable elements, {bool growable = true}); elements의 item type을 고려하지 않기 때문에 새로 생성하는 list의 item type을 지정하지 않으면 List으로 생성됨 final nums = [1, 2, 3]; // List final dynamicList = List.from(nums); print(dynamicList.runtimeType); // List 새로 생성하는 list의 item type을 지정하면 elements의 item type이 type casting됨 final nums = [1, 2, 3]; // List final numList = List\u003cnum\u003e.from(nums); print(numList.runtimeType); // List 새로 생성하는 list의 item type이 runtime에 결정된다. 즉, compile-time에 type check를 하지 않는다. String type인 \"3\"을 int로 직접 type casting 할 수 없으므로 type error가 발생한다. final nums = [1, 2, \"3\"]; // List // TypeError: \"3\": type 'String' is not a subtype of type 'int' final intList = List\u003cint\u003e.from(nums); double type인 3.0은 int로 casting 가능하므로 runtime error가 발생하지 않지만, 여전히 compile time에는 알 수 없다. final nums = [1, 2, 3.0]; // List final intList = List\u003cint\u003e.from(nums); print(intList.runtimeType); // List List.of(elements) elements에 Iterable type을 전달하여 새로운 List 생성 =\u003e 역할은 List.from과 같음 Definition external factory List.of(Iterable\u003cE\u003e elements, {bool growable = true}); elements의 item type과 새로 생성하는 list의 item type이 같으므로, 생성하는 list의 item type을 지정하지 않으면 elements의 item type을 따라간다. final nums = [1, 2, 3]; // List final = List.of(nums); print(intList.runtimeType); // List 새로 생성하는 list의 item type을 지정하면 elements의 item type도 같은 type이어야 한다. elements에 다른 item type을 가진 list를 전달하면 compile error가 발생한다. final nums = \u003cnum\u003e[1, 2, 3]; // List // Error: The argument type 'List' can't be assigned to the parameter type 'Iterable'. final intList = List\u003cint\u003e.of(nums); 단, 새로 생성하는 list의 item type이 elements item type의 상위 type이라면 up casting 될 수 있다. final nums = [1, 2, 3]; // List final = List\u003cnum\u003e.of(nums); print(intList.runtimeType); // List .toList() List\u003cE\u003e toList({bool growable = true}) =\u003e List\u003cE\u003e.of(this, growable: growable); List.of의 shortcut method List.of로 감싸는 대신 toList()를 사용하는게 더 간단하다. Don’t use List.from unless you intent to change the type of the result Effective Dart 문서에서는 result type을 의도적으로 바꾸고 싶을 때만 List.from을 사용하도록 제한한다. 이외에 original Iterable과 result List의 element type이 같은 경우에는 List.of 또는 toList()를 사용한다. List.of도 공통된 상위 type으로 up casting이 가능하지만, original type을 유지하지 않는 경우에는 모두 List.from을 사용하는게 일관성을 지킬 수 있을 것 같다. ",
+  "wordCount" : "448",
+  "inLanguage": "en",
+  "datePublished": "2024-08-04T10:59:20+09:00",
+  "dateModified": "2024-08-04T10:59:20+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cskime.github.io/posts/list-of-vs-list-from/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "cskime.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cskime.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cskime.github.io/" accesskey="h" title="cskime.io (Alt + H)">cskime.io</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://cskime.github.io/archive" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/tags" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      List.from, List.of, toList() 비교
+    </h1>
+    <div class="post-meta"><span title='2024-08-04 10:59:20 +0900 KST'>August 4, 2024</span>&nbsp;·&nbsp;3 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#summary" aria-label="Summary">Summary</a></li>
+                <li>
+                    <a href="#listfromelementshttpsapidartdevstable344dart-corelistlistfromhtml" aria-label="List.from(elements)">List.from(elements)</a></li>
+                <li>
+                    <a href="#listofelementshttpsapiflutterdevflutterdart-corelistlistofhtml" aria-label="List.of(elements)">List.of(elements)</a></li>
+                <li>
+                    <a href="#tolisthttpsapiflutterdevflutterdart-coreiterabletolisthtml" aria-label=".toList()">.toList()</a></li>
+                <li>
+                    <a href="#dont-use-listfrom-unless-you-intent-to-change-the-type-of-the-result" aria-label="Don&rsquo;t use List.from unless you intent to change the type of the result">Don&rsquo;t use List.from unless you intent to change the type of the result</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="summary">Summary<a hidden class="anchor" aria-hidden="true" href="#summary">#</a></h2>
+<ul>
+<li>셋 모두 <code>Iterable</code> object를 동일한 element를 가진 새 <code>List</code>로 copy할 때 사용할 수 있다.</li>
+<li><code>toList()</code>는 <code>List.of</code>의 short-hand method로 서로 같다.</li>
+<li><code>List.from</code>은 original <code>Iterable</code>의 element들을 <strong>runtime</strong>에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다.</li>
+<li><code>List.of</code>는 original <code>Iterable</code>의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다.</li>
+<li><code>List.from</code>은 original <code>Iterable</code>을 down casting할 때 사용할 수 있고, <code>List.of</code>는 up casting할 때 사용할 수 있다.</li>
+<li><strong>Copy 할 때 original type을 지켜야 한다면 <code>toList()</code> 또는 <code>List.of</code>를 사용하고, type을 변경할 때만 <code>List.from</code>을 사용하자.</strong></li>
+</ul>
+<h2 id="listfromelementshttpsapidartdevstable344dart-corelistlistfromhtml"><a href="https://api.dart.dev/stable/3.4.4/dart-core/List/List.from.html"><code>List.from(elements)</code></a><a hidden class="anchor" aria-hidden="true" href="#listfromelementshttpsapidartdevstable344dart-corelistlistfromhtml">#</a></h2>
+<ul>
+<li><code>elements</code>에 <code>Iterable</code> type을 전달하여 새로운 <code>List</code> 생성</li>
+<li>Definition
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>external <span style="color:#66d9ef">factory</span> List.from(Iterable elements, {<span style="color:#66d9ef">bool</span> growable <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>});
+</span></span></code></pre></div></li>
+<li><code>elements</code>의 item type을 고려하지 않기 때문에 새로 생성하는 list의 item type을 지정하지 않으면 <code>List&lt;dynamic&gt;</code>으로 생성됨
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> nums <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]; <span style="color:#75715e">// List&lt;int&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> dynamicList <span style="color:#f92672">=</span> List.from(nums);
+</span></span><span style="display:flex;"><span>print(dynamicList.runtimeType); <span style="color:#75715e">// List&lt;dynamic&gt;
+</span></span></span></code></pre></div></li>
+<li>새로 생성하는 list의 item type을 지정하면 <code>elements</code>의 item type이 type casting됨
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> nums <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]; <span style="color:#75715e">// List&lt;int&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> numList <span style="color:#f92672">=</span> List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">num</span><span style="color:#f92672">&gt;</span>.from(nums);
+</span></span><span style="display:flex;"><span>print(numList.runtimeType); <span style="color:#75715e">// List&lt;num&gt;
+</span></span></span></code></pre></div></li>
+<li>새로 생성하는 list의 item type이 <strong>runtime에 결정</strong>된다. 즉, <strong>compile-time에 type check를 하지 않는다</strong>.
+<ul>
+<li><code>String</code> type인 <code>&quot;3&quot;</code>을 <code>int</code>로 직접 type casting 할 수 없으므로 type error가 발생한다.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> nums <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;3&#34;</span>]; <span style="color:#75715e">// List&lt;Object&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// TypeError: &#34;3&#34;: type &#39;String&#39; is not a subtype of type &#39;int&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> intList <span style="color:#f92672">=</span> List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>.from(nums);
+</span></span></code></pre></div></li>
+<li><code>double</code> type인 <code>3.0</code>은 <code>int</code>로 casting 가능하므로 runtime error가 발생하지 않지만, 여전히 compile time에는 알 수 없다.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> nums <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3.0</span>]; <span style="color:#75715e">// List&lt;num&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> intList <span style="color:#f92672">=</span> List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>.from(nums);
+</span></span><span style="display:flex;"><span>print(intList.runtimeType); <span style="color:#75715e">// List&lt;int&gt;
+</span></span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h2 id="listofelementshttpsapiflutterdevflutterdart-corelistlistofhtml"><a href="https://api.flutter.dev/flutter/dart-core/List/List.of.html"><code>List.of(elements)</code></a><a hidden class="anchor" aria-hidden="true" href="#listofelementshttpsapiflutterdevflutterdart-corelistlistofhtml">#</a></h2>
+<ul>
+<li><code>elements</code>에 <code>Iterable</code> type을 전달하여 새로운 <code>List</code> 생성 =&gt; 역할은 <code>List.from</code>과 같음</li>
+<li>Definition
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>external <span style="color:#66d9ef">factory</span> List.of(Iterable<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> elements, {<span style="color:#66d9ef">bool</span> growable <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>});
+</span></span></code></pre></div></li>
+<li><code>elements</code>의 item type과 새로 생성하는 list의 item type이 같으므로, 생성하는 list의 item type을 지정하지 않으면 <code>elements</code>의 item type을 따라간다.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> nums <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]; <span style="color:#75715e">// List&lt;int&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span>  <span style="color:#f92672">=</span> List.of(nums);
+</span></span><span style="display:flex;"><span>print(intList.runtimeType); <span style="color:#75715e">// List&lt;int&gt;
+</span></span></span></code></pre></div></li>
+<li>새로 생성하는 list의 item type을 지정하면 <code>elements</code>의 item type도 같은 type이어야 한다. <code>elements</code>에 다른 item type을 가진 list를 전달하면 compile error가 발생한다.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> nums <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">num</span><span style="color:#f92672">&gt;</span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]; <span style="color:#75715e">// List&lt;int&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Error: The argument type &#39;List&lt;num&gt;&#39; can&#39;t be assigned to the parameter type &#39;Iterable&lt;int&gt;&#39;.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> intList <span style="color:#f92672">=</span> List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>.of(nums);
+</span></span></code></pre></div></li>
+<li>단, 새로 생성하는 list의 item type이 <code>elements</code> item type의 상위 type이라면 <strong>up casting</strong> 될 수 있다.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> nums <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]; <span style="color:#75715e">// List&lt;int&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span>  <span style="color:#f92672">=</span> List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">num</span><span style="color:#f92672">&gt;</span>.of(nums);
+</span></span><span style="display:flex;"><span>print(intList.runtimeType); <span style="color:#75715e">// List&lt;num&gt;
+</span></span></span></code></pre></div></li>
+</ul>
+<h2 id="tolisthttpsapiflutterdevflutterdart-coreiterabletolisthtml"><a href="https://api.flutter.dev/flutter/dart-core/Iterable/toList.html"><code>.toList()</code></a><a hidden class="anchor" aria-hidden="true" href="#tolisthttpsapiflutterdevflutterdart-coreiterabletolisthtml">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> toList({<span style="color:#66d9ef">bool</span> growable <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>}) <span style="color:#f92672">=&gt;</span> List<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span>.of(<span style="color:#66d9ef">this</span>, growable: growable);
+</span></span></code></pre></div><ul>
+<li><code>List.of</code>의 shortcut method</li>
+<li><code>List.of</code>로 감싸는 대신 <code>toList()</code>를 사용하는게 더 간단하다.</li>
+</ul>
+<h2 id="dont-use-listfrom-unless-you-intent-to-change-the-type-of-the-result">Don&rsquo;t use <code>List.from</code> unless you intent to change the type of the result<a hidden class="anchor" aria-hidden="true" href="#dont-use-listfrom-unless-you-intent-to-change-the-type-of-the-result">#</a></h2>
+<ul>
+<li><a href="https://dart.dev/effective-dart/usage#dont-use-list-from-unless-you-intend-to-change-the-type-of-the-result">Effective Dart 문서</a>에서는 result type을 의도적으로 바꾸고 싶을 때만 <code>List.from</code>을 사용하도록 제한한다.</li>
+<li>이외에 original <code>Iterable</code>과 result <code>List</code>의 element type이 같은 경우에는 <code>List.of</code> 또는 <code>toList()</code>를 사용한다.</li>
+<li><code>List.of</code>도 공통된 상위 type으로 up casting이 가능하지만, original type을 유지하지 않는 경우에는 모두 <code>List.from</code>을 사용하는게 일관성을 지킬 수 있을 것 같다.</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://cskime.github.io/tags/dart/">Dart</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://cskime.github.io/">cskime.io</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -6,8 +6,15 @@
     <description>Recent content in Dart on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 20 Jul 2024 09:10:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 04 Aug 2024 10:59:20 +0900</lastBuildDate>
     <atom:link href="https://cskime.github.io/tags/dart/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>List.from, List.of, toList() 비교</title>
+      <link>https://cskime.github.io/posts/list-of-vs-list-from/</link>
+      <pubDate>Sun, 04 Aug 2024 10:59:20 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/list-of-vs-list-from/</guid>
+      <description>Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List.</description>
+    </item>
     <item>
       <title>Dart에서 type casting을 안전하게 하는 방법</title>
       <link>https://cskime.github.io/posts/dart-safe-type-cast/</link>
