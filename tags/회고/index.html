@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | cskime.io</title>
+<title>회고 | cskime.io</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - cskime.io">
+<meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://cskime.github.io/posts/">
+<link rel="canonical" href="https://cskime.github.io/tags/%ED%9A%8C%EA%B3%A0/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://cskime.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://cskime.github.io/posts/index.xml">
-<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/">
+<link rel="alternate" type="application/rss+xml" href="https://cskime.github.io/tags/%ED%9A%8C%EA%B3%A0/index.xml">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/tags/%ED%9A%8C%EA%B3%A0/">
 <noscript>
     <style>
         #theme-toggle,
@@ -59,30 +59,15 @@
 </noscript>
   
 
-<meta property="og:title" content="Posts" />
+<meta property="og:title" content="회고" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://cskime.github.io/posts/" />
+<meta property="og:url" content="https://cskime.github.io/tags/%ED%9A%8C%EA%B3%A0/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:title" content="회고"/>
 <meta name="twitter:description" content=""/>
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://cskime.github.io/posts/"
-    }
-  ]
-}
-</script>
 </head>
 
 <body class="list" id="top">
@@ -146,23 +131,11 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    Posts
+    회고
   </h1>
 </header>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">List.from, List.of, toList() 비교
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-08-04 10:59:20 +0900 KST'>August 4, 2024</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to List.from, List.of, toList() 비교" href="https://cskime.github.io/posts/list-of-vs-list-from/"></a>
-</article>
-
-<article class="post-entry"> 
+<article class="post-entry tag-entry"> 
   <header class="entry-header">
     <h2 class="entry-hint-parent">Nomadcoders Flutter 10주 스터디 후기
     </h2>
@@ -173,80 +146,6 @@ Flutter 10주 스터디 전에도 노마드코더에서 웹 기초 10주 스터�
   </div>
   <footer class="entry-footer"><span title='2024-07-31 14:20:25 +0900 KST'>July 31, 2024</span>&nbsp;·&nbsp;3 min</footer>
   <a class="entry-link" aria-label="post link to Nomadcoders Flutter 10주 스터디 후기" href="https://cskime.github.io/posts/nomadcoders-flutter-study-review/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>GitHub Pages 블로그를 Hugo PaperMod 테마를 사용해서 블로그를 만든 방법을 기록해 둔다. [PaperMod WiKi - Installation] 문서와 블로그를 참고했다.
-Installation Hugo 설치 및 site 생성 (작성일 기준 최신 버전 테마는 Hugo 버전 v0.112.4 이상 필요)
-$ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (권장 방식인 git submodule 사용)
-# Initialize git repository $ git init &amp;&amp; git commit -am &#34;initial commit&#34; # Install theme $ git submodule add --depth=1 https://github....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-07-29 17:11:44 +0900 KST'>July 29, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기" href="https://cskime.github.io/posts/github-pages-hugo-papermod-blog/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Dart에서 type casting을 안전하게 하는 방법
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
-class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
-class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-07-20 09:10:00 +0900 KST'>July 20, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Dart에서 type casting을 안전하게 하는 방법" href="https://cskime.github.io/posts/dart-safe-type-cast/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Flutter Package 개발 기록 - customizable_text
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>개발 동기 노마드코더 챌린지 과제 중 아래와 같은 text UI를 구현하는 부분이 있었다. 회원가입 중 이용 약관이나 개인 정보 처리 방침 등을 사용자에게 안내하고 관련 외부 문서로 이동하여 확인할 수 있게 만드는 보편적인 UI 이다.
-Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich를 사용하므로, 이 UI를 구현하기 위해 아래와 같이 코드를 작성했다.
-이렇게 코드를 작성하면 몇 가지 문제가 있다.
-다른 style을 사용할 text를 직접 분류해서 나누어 작성해야 하므로 실수할 가능성이 있다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-06-26 15:11:00 +0900 KST'>June 26, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Flutter Package 개발 기록 - customizable_text" href="https://cskime.github.io/posts/customizable_text_package_review/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>문제 상황 상위 위젯에서 추가한 InheritedWidget을 하위 widget에서 접근하지 못하는 문제 BuildContext.dependOnInheritedWidgetOfExactType이 null을 반환해서 property 및 method를 호출할 수 없음 예제 코드 문제를 재현하는 간단한 counter app
-HomeScreen 및 DetailScreen은 버튼을 눌러서 count 증가
-HomeScreen과 DetailScreen은 count 값(state) 공유
-Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
-class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&gt; true; static CounterProvider?...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">iOS Hit Testing
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
-‘역방향’으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
-z-order index(depth)가 가장 크다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to iOS Hit Testing" href="https://cskime.github.io/posts/ios-hit-testing/"></a>
 </article>
     </main>
     

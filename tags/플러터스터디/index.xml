@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Review on cskime.io</title>
-    <link>https://cskime.github.io/tags/review/</link>
-    <description>Recent content in Review on cskime.io</description>
+    <title>플러터스터디 on cskime.io</title>
+    <link>https://cskime.github.io/tags/%ED%94%8C%EB%9F%AC%ED%84%B0%EC%8A%A4%ED%84%B0%EB%94%94/</link>
+    <description>Recent content in 플러터스터디 on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
     <lastBuildDate>Wed, 31 Jul 2024 14:20:25 +0900</lastBuildDate>
-    <atom:link href="https://cskime.github.io/tags/review/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://cskime.github.io/tags/%ED%94%8C%EB%9F%AC%ED%84%B0%EC%8A%A4%ED%84%B0%EB%94%94/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Nomadcoders Flutter 10주 스터디 후기</title>
       <link>https://cskime.github.io/posts/nomadcoders-flutter-study-review/</link>
@@ -15,16 +15,6 @@
       <guid>https://cskime.github.io/posts/nomadcoders-flutter-study-review/</guid>
       <description>나는 iOS 개발자로 일하다가 지난 해 퇴사 후 안식년을 갖고 있다. 쉬는 동안 개발자라는 직업에 대한 고민을 많이 하고 있는데, 나는 어떤 개발자가 되고 싶은지 방향성을 잃어가고 있다는 생각이 들었기 때문이다. 개발하는 것 자체는 즐거운 일이지만 개발자라는 직업이 정말 나와 맞는지, 개발자를 오래 할 수 있을지 확신이 들지 않았다. 그래서, 쉬는 동안 다양한 개발 분야를 넓게 경험해보면서 생각을 정리해보고 있다.
 Flutter 10주 스터디 전에도 노마드코더에서 웹 기초 10주 스터디에 참여했던 적이 있다.</description>
-    </item>
-    <item>
-      <title>Flutter Package 개발 기록 - customizable_text</title>
-      <link>https://cskime.github.io/posts/customizable_text_package_review/</link>
-      <pubDate>Wed, 26 Jun 2024 15:11:00 +0900</pubDate>
-      <guid>https://cskime.github.io/posts/customizable_text_package_review/</guid>
-      <description>개발 동기 노마드코더 챌린지 과제 중 아래와 같은 text UI를 구현하는 부분이 있었다. 회원가입 중 이용 약관이나 개인 정보 처리 방침 등을 사용자에게 안내하고 관련 외부 문서로 이동하여 확인할 수 있게 만드는 보편적인 UI 이다.
-Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich를 사용하므로, 이 UI를 구현하기 위해 아래와 같이 코드를 작성했다.
-이렇게 코드를 작성하면 몇 가지 문제가 있다.
-다른 style을 사용할 text를 직접 분류해서 나누어 작성해야 하므로 실수할 가능성이 있다.</description>
     </item>
   </channel>
 </rss>
