@@ -6,8 +6,18 @@
     <description>Recent content in Flutter on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 25 May 2024 17:11:44 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 26 Jun 2024 15:11:00 +0900</lastBuildDate>
     <atom:link href="https://cskime.github.io/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter Package 개발 기록 - customizable_text</title>
+      <link>https://cskime.github.io/posts/customizable_text_package_review/</link>
+      <pubDate>Wed, 26 Jun 2024 15:11:00 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/customizable_text_package_review/</guid>
+      <description>개발 동기 노마드코더 챌린지 과제 중 아래와 같은 text UI를 구현하는 부분이 있었다. 회원가입 중 이용 약관이나 개인 정보 처리 방침 등을 사용자에게 안내하고 관련 외부 문서로 이동하여 확인할 수 있게 만드는 보편적인 UI 이다.
+Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich를 사용하므로, 이 UI를 구현하기 위해 아래와 같이 코드를 작성했다.
+이렇게 코드를 작성하면 몇 가지 문제가 있다.
+다른 style을 사용할 text를 직접 분류해서 나누어 작성해야 하므로 실수할 가능성이 있다.</description>
+    </item>
     <item>
       <title>Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제</title>
       <link>https://cskime.github.io/posts/inherited-widget-unaccessible/</link>

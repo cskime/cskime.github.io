@@ -38,7 +38,12 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/tags/flutter/</loc>
-    <lastmod>2024-05-25T17:11:44+09:00</lastmod>
+    <lastmod>2024-06-26T15:11:00+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/posts/customizable_text_package_review/</loc>
+    <lastmod>2024-06-26T15:11:00+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
