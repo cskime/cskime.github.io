@@ -180,6 +180,20 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Dart에서 type casting을 안전하게 하는 방법
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
+class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
+class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-07-20 09:10:00 +0900 KST'>July 20, 2024</span>&nbsp;·&nbsp;1 min</footer>
+  <a class="entry-link" aria-label="post link to Dart에서 type casting을 안전하게 하는 방법" href="https://cskime.github.io/posts/dart-safe-type-cast/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Flutter Package 개발 기록 - customizable_text
     </h2>
   </header>
@@ -208,20 +222,12 @@ class CounterProvider extends InheritedWidget { const CounterProvider({ super.ke
   <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
   <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">iOS Hit Testing
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
-‘역방향’으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
-z-order index(depth)가 가장 크다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to iOS Hit Testing" href="https://cskime.github.io/posts/ios-hit-testing/"></a>
-</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://cskime.github.io/posts/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

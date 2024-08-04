@@ -27,6 +27,15 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
 # Initialize git repository $ git init &amp;amp;&amp;amp; git commit -am &amp;#34;initial commit&amp;#34; # Install theme $ git submodule add --depth=1 https://github.</description>
     </item>
     <item>
+      <title>Dart에서 type casting을 안전하게 하는 방법</title>
+      <link>https://cskime.github.io/posts/dart-safe-type-cast/</link>
+      <pubDate>Sat, 20 Jul 2024 09:10:00 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/dart-safe-type-cast/</guid>
+      <description>Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
+class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
+class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다.</description>
+    </item>
+    <item>
       <title>Flutter Package 개발 기록 - customizable_text</title>
       <link>https://cskime.github.io/posts/customizable_text_package_review/</link>
       <pubDate>Wed, 26 Jun 2024 15:11:00 +0900</pubDate>
