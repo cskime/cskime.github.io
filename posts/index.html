@@ -218,12 +218,36 @@ Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich
   <footer class="entry-footer"><span title='2024-06-26 15:11:00 +0900 KST'>June 26, 2024</span>&nbsp;·&nbsp;4 min</footer>
   <a class="entry-link" aria-label="post link to Flutter Package 개발 기록 - customizable_text" href="https://cskime.github.io/posts/customizable_text_package_review/"></a>
 </article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="https://cskime.github.io/posts/page/2/">Next&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>문제 상황 상위 위젯에서 추가한 InheritedWidget을 하위 widget에서 접근하지 못하는 문제 BuildContext.dependOnInheritedWidgetOfExactType이 null을 반환해서 property 및 method를 호출할 수 없음 예제 코드 문제를 재현하는 간단한 counter app
+HomeScreen 및 DetailScreen은 버튼을 눌러서 count 증가
+HomeScreen과 DetailScreen은 count 값(state) 공유
+Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
+class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&gt; true; static CounterProvider?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
+  <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">iOS Hit Testing
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
+‘역방향’으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
+z-order index(depth)가 가장 크다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min</footer>
+  <a class="entry-link" aria-label="post link to iOS Hit Testing" href="https://cskime.github.io/posts/ios-hit-testing/"></a>
+</article>
     </main>
     
 <footer class="footer">
