@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Archive | cskime.io</title>
+<title>Constraints | cskime.io</title>
 <meta name="keywords" content="">
-<meta name="description" content="archive">
+<meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://cskime.github.io/archive/">
+<link rel="canonical" href="https://cskime.github.io/tags/constraints/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://cskime.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
@@ -18,7 +18,8 @@
 <link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://cskime.github.io/archive/">
+<link rel="alternate" type="application/rss+xml" href="https://cskime.github.io/tags/constraints/index.xml">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/tags/constraints/">
 <noscript>
     <style>
         #theme-toggle,
@@ -58,61 +59,15 @@
 </noscript>
   
 
-<meta property="og:title" content="Archive" />
-<meta property="og:description" content="archive" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://cskime.github.io/archive/" /><meta property="article:section" content="" />
-
-
+<meta property="og:title" content="Constraints" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://cskime.github.io/tags/constraints/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Archive"/>
-<meta name="twitter:description" content="archive"/>
+<meta name="twitter:title" content="Constraints"/>
+<meta name="twitter:description" content=""/>
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Archive",
-      "item": "https://cskime.github.io/archive/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Archive",
-  "name": "Archive",
-  "description": "archive",
-  "keywords": [
-    
-  ],
-  "articleBody": "",
-  "wordCount" : "0",
-  "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://cskime.github.io/archive/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "cskime.io",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://cskime.github.io/favicon.ico"
-    }
-  }
-}
-</script>
 </head>
 
 <body class="list" id="top">
@@ -157,7 +112,7 @@
         <ul id="menu">
             <li>
                 <a href="https://cskime.github.io/archive" title="Archive">
-                    <span class="active">Archive</span>
+                    <span>Archive</span>
                 </a>
             </li>
             <li>
@@ -173,113 +128,26 @@
         </ul>
     </nav>
 </header>
-<main class="main">
-
+<main class="main"> 
 <header class="page-header">
   <h1>
-    Archive
+    Constraints
   </h1>
 </header>
-<div class="archive-year">
-  <h2 class="archive-year-header" id="2024">
-    <a class="archive-header-link" href="#2024">2024</a>
-    <sup class="archive-count">&nbsp;7</sup>
-  </h2>
-  <div class="archive-month">
-    <h3 class="archive-month-header" id="2024-August">
-      <a class="archive-header-link" href="#2024-August">August</a>
-      <sup class="archive-count">&nbsp;1</sup>
-    </h3>
-    <div class="archive-posts">
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">List.from, List.of, toList() 비교
-        </h3>
-        <div class="archive-meta"><span title='2024-08-04 10:59:20 +0900 KST'>August 4, 2024</span>&nbsp;·&nbsp;3 min</div>
-        <a class="entry-link" aria-label="post link to List.from, List.of, toList() 비교" href="https://cskime.github.io/posts/list-of-vs-list-from/"></a>
-      </div>
-    </div>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Flutter Constraint 이해하기
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
+Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 “constraint“란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
+const BoxConstraints({ this.minWidth = 0....</p>
   </div>
-  <div class="archive-month">
-    <h3 class="archive-month-header" id="2024-July">
-      <a class="archive-header-link" href="#2024-July">July</a>
-      <sup class="archive-count">&nbsp;3</sup>
-    </h3>
-    <div class="archive-posts">
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">Nomadcoders Flutter 10주 스터디 후기
-        </h3>
-        <div class="archive-meta"><span title='2024-07-31 14:20:25 +0900 KST'>July 31, 2024</span>&nbsp;·&nbsp;3 min</div>
-        <a class="entry-link" aria-label="post link to Nomadcoders Flutter 10주 스터디 후기" href="https://cskime.github.io/posts/nomadcoders-flutter-study-review/"></a>
-      </div>
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기
-        </h3>
-        <div class="archive-meta"><span title='2024-07-29 17:11:44 +0900 KST'>July 29, 2024</span>&nbsp;·&nbsp;2 min</div>
-        <a class="entry-link" aria-label="post link to GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기" href="https://cskime.github.io/posts/github-pages-hugo-papermod-blog/"></a>
-      </div>
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">Dart에서 type casting을 안전하게 하는 방법
-        </h3>
-        <div class="archive-meta"><span title='2024-07-20 09:10:00 +0900 KST'>July 20, 2024</span>&nbsp;·&nbsp;1 min</div>
-        <a class="entry-link" aria-label="post link to Dart에서 type casting을 안전하게 하는 방법" href="https://cskime.github.io/posts/dart-safe-type-cast/"></a>
-      </div>
-    </div>
-  </div>
-  <div class="archive-month">
-    <h3 class="archive-month-header" id="2024-June">
-      <a class="archive-header-link" href="#2024-June">June</a>
-      <sup class="archive-count">&nbsp;2</sup>
-    </h3>
-    <div class="archive-posts">
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">Flutter Package 개발 기록 - customizable_text
-        </h3>
-        <div class="archive-meta"><span title='2024-06-26 15:11:00 +0900 KST'>June 26, 2024</span>&nbsp;·&nbsp;4 min</div>
-        <a class="entry-link" aria-label="post link to Flutter Package 개발 기록 - customizable_text" href="https://cskime.github.io/posts/customizable_text_package_review/"></a>
-      </div>
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">Flutter Constraint 이해하기
-        </h3>
-        <div class="archive-meta"><span title='2024-06-25 16:09:00 +0900 KST'>June 25, 2024</span>&nbsp;·&nbsp;2 min</div>
-        <a class="entry-link" aria-label="post link to Flutter Constraint 이해하기" href="https://cskime.github.io/posts/flutter-constraints/"></a>
-      </div>
-    </div>
-  </div>
-  <div class="archive-month">
-    <h3 class="archive-month-header" id="2024-May">
-      <a class="archive-header-link" href="#2024-May">May</a>
-      <sup class="archive-count">&nbsp;1</sup>
-    </h3>
-    <div class="archive-posts">
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제
-        </h3>
-        <div class="archive-meta"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</div>
-        <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="archive-year">
-  <h2 class="archive-year-header" id="2022">
-    <a class="archive-header-link" href="#2022">2022</a>
-    <sup class="archive-count">&nbsp;1</sup>
-  </h2>
-  <div class="archive-month">
-    <h3 class="archive-month-header" id="2022-February">
-      <a class="archive-header-link" href="#2022-February">February</a>
-      <sup class="archive-count">&nbsp;1</sup>
-    </h3>
-    <div class="archive-posts">
-      <div class="archive-entry">
-        <h3 class="archive-entry-title entry-hint-parent">iOS Hit Testing
-        </h3>
-        <div class="archive-meta"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min</div>
-        <a class="entry-link" aria-label="post link to iOS Hit Testing" href="https://cskime.github.io/posts/ios-hit-testing/"></a>
-      </div>
-    </div>
-  </div>
-</div>
+  <footer class="entry-footer"><span title='2024-06-25 16:09:00 +0900 KST'>June 25, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to Flutter Constraint 이해하기" href="https://cskime.github.io/posts/flutter-constraints/"></a>
+</article>
     </main>
     
 <footer class="footer">

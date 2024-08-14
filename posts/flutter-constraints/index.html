@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Flutter Constraint 이해하기 | cskime.io</title>
+<meta name="keywords" content="flutter, constraints, layout">
+<meta name="description" content="Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
+Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 &ldquo;constraint&ldquo;란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
+const BoxConstraints({ this.minWidth = 0.">
+<meta name="author" content="">
+<link rel="canonical" href="https://cskime.github.io/posts/flutter-constraints/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://cskime.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cskime.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cskime.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/flutter-constraints/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Flutter Constraint 이해하기" />
+<meta property="og:description" content="Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
+Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 &ldquo;constraint&ldquo;란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
+const BoxConstraints({ this.minWidth = 0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cskime.github.io/posts/flutter-constraints/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-25T16:09:00+09:00" />
+<meta property="article:modified_time" content="2024-06-25T16:09:00+09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flutter Constraint 이해하기"/>
+<meta name="twitter:description" content="Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
+Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 &ldquo;constraint&ldquo;란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
+const BoxConstraints({ this.minWidth = 0."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cskime.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Flutter Constraint 이해하기",
+      "item": "https://cskime.github.io/posts/flutter-constraints/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Flutter Constraint 이해하기",
+  "name": "Flutter Constraint 이해하기",
+  "description": "Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.\nConstraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 \u0026ldquo;constraint\u0026ldquo;란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.\nconst BoxConstraints({ this.minWidth = 0.",
+  "keywords": [
+    "flutter", "constraints", "layout"
+  ],
+  "articleBody": "Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.\nConstraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 “constraint“란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.\nconst BoxConstraints({ this.minWidth = 0.0, this.maxWidth = double.infinity, this.minHeight = 0.0, this.maxHeight = double.infinity, }); 여기서 주의할 점은, constraint는 size의 범위를 제한하는 것이므로 child widget의 size 또한 이 constraint 범위 안에 있어야 한다는 것이다. Child widget size가 parent가 제안한 constraint 범위를 벗어나면 “A RenderFlex overflowed…” error가 발생한다.\nTight vs loose constraints Tight constraint min == max인 경우로, exact size를 갖게 만든다. BoxConstraints.tight(Size size) : minWidth = size.width, maxWidth = size.width, minHeight = size.height, maxHeight = size.height; App widget은 child widget을 전체 screen에 딱 맞게 만드는데, screen size에 대한 tight constraint가 적용된 것임 Loose constraint min == 0 \u003c max인 경우로, child widget이 범위 내에서 own size를 가질 수 있게 한다. Center widget은 parent로부터 받은 tight constraint를 loose constraint로 바꿔서 child에 전달하는 목적이기도 함 Bounded vs Unbounded Bounded constraint max \u003c infinity인 경우 Widget 크기가 min ~ max 범위 안에서 결정됨 Unbounded constraint max == infinity인 경우 Size 제약이 없는 상태이므로 box는 가능한 최대 size로 커지려고 한다. Column, Row 같은 Flex box 또는 ListView, ScrollView subclass들 같은 scrollable region이 unbounded constraint를 갖는다. 발생할 수 있는 문제 ListView의 scroll 영역은 main axis 방향으로 무한대 크기를 허용함 children중 main axis와 같은 방향으로 크기가 무한대로 확장하는 widget이 있다면 unbound layout error가 발생한다. e.g. 크기가 고정되지 않은 ListView 안에서 Column, Row 등 flexible widget 사용 둘 중 하나는 SizedBox로 크기를 고정하거나 BoxConstraint로 제약을 추가해야 한다. Flutter Widgets들의 Size 규칙 Flutter widget들이 size를 결정하는 규칙은 아래와 같다.\n가능한 영역을 꽉 채우는 size를 사용하는 widget (e.g. Center, Align, ListView) Child widget과 동일한 size를 사용하는 widget (e.g. Transform, Opacity) Content size를 사용하는 widget (e.g. Image, Text) 특히, Container widget은 어떤 속성을 사용하는지에 따라 동작하는 방식이 달라진다.\n기본적으로 가능한 영역을 꽉 채우는 size를 사용한다. (1번) width, height 등 size가 지정되면 해당 size를 사용한다. (3번) child widget을 갖는 경우, child widget size를 사용한다. (2번) Reference Understanding constraints | Flutter Dev Flutter의 제약(constraint) 이해하기 | Tistory ",
+  "wordCount" : "372",
+  "inLanguage": "en",
+  "datePublished": "2024-06-25T16:09:00+09:00",
+  "dateModified": "2024-06-25T16:09:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cskime.github.io/posts/flutter-constraints/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "cskime.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cskime.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cskime.github.io/" accesskey="h" title="cskime.io (Alt + H)">cskime.io</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://cskime.github.io/archive" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/tags" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Flutter Constraint 이해하기
+    </h1>
+    <div class="post-meta"><span title='2024-06-25 16:09:00 +0900 KST'>June 25, 2024</span>&nbsp;·&nbsp;2 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#flutter-constraint%ec%99%80-layout" aria-label="Flutter Constraint와 Layout">Flutter Constraint와 Layout</a></li>
+                <li>
+                    <a href="#tight-vs-loose-constraints" aria-label="Tight vs loose constraints">Tight vs loose constraints</a><ul>
+                        
+                <li>
+                    <a href="#tight-constraint" aria-label="Tight constraint">Tight constraint</a></li>
+                <li>
+                    <a href="#loose-constraint" aria-label="Loose constraint">Loose constraint</a></li></ul>
+                </li>
+                <li>
+                    <a href="#bounded-vs-unbounded" aria-label="Bounded vs Unbounded">Bounded vs Unbounded</a><ul>
+                        
+                <li>
+                    <a href="#bounded-constraint" aria-label="Bounded constraint">Bounded constraint</a></li>
+                <li>
+                    <a href="#unbounded-constraint" aria-label="Unbounded constraint">Unbounded constraint</a></li></ul>
+                </li>
+                <li>
+                    <a href="#flutter-widgets%eb%93%a4%ec%9d%98-size-%ea%b7%9c%ec%b9%99" aria-label="Flutter Widgets들의 Size 규칙">Flutter Widgets들의 Size 규칙</a></li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="flutter-constraint와-layout">Flutter Constraint와 Layout<a hidden class="anchor" aria-hidden="true" href="#flutter-constraint와-layout">#</a></h2>
+<p>Flutter는 3단계를 거쳐 widget의 layout을 결정한다.</p>
+<ol>
+<li><strong>Constraints go down</strong> : Parent widget이 child widget에 constraint를 제안한다.</li>
+<li><strong>Sizes go up</strong> : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다.</li>
+<li><strong>Parent sets position</strong> : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다.</li>
+</ol>
+<p>여기서 &ldquo;<strong>constraint</strong>&ldquo;란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 <code>BoxConstraints</code> class를 주로 사용하여 <code>minWidth</code>, <code>minHeight</code>, <code>maxWidth</code>, <code>maxHeight</code>을 정의한다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> BoxConstraints({
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.minWidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.maxWidth <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>.infinity,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.minHeight <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.maxHeight <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>.infinity,
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>여기서 주의할 점은, constraint는 size의 범위를 제한하는 것이므로 child widget의 size 또한 이 constraint 범위 안에 있어야 한다는 것이다. Child widget size가 parent가 제안한 constraint 범위를 벗어나면 &ldquo;<a href="https://docs.flutter.dev/testing/common-errors#a-renderflex-overflowed"><strong>A RenderFlex overflowed&hellip;</strong></a>&rdquo; error가 발생한다.</p>
+<h2 id="tight-vs-loose-constraints">Tight vs loose constraints<a hidden class="anchor" aria-hidden="true" href="#tight-vs-loose-constraints">#</a></h2>
+<h3 id="tight-constraint">Tight constraint<a hidden class="anchor" aria-hidden="true" href="#tight-constraint">#</a></h3>
+<ul>
+<li><code>min == max</code>인 경우로, exact size를 갖게 만든다.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>BoxConstraints.tight(Size size)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">:</span> minWidth <span style="color:#f92672">=</span> size.width,
+</span></span><span style="display:flex;"><span>        maxWidth <span style="color:#f92672">=</span> size.width,
+</span></span><span style="display:flex;"><span>        minHeight <span style="color:#f92672">=</span> size.height,
+</span></span><span style="display:flex;"><span>        maxHeight <span style="color:#f92672">=</span> size.height;
+</span></span></code></pre></div></li>
+<li><code>App</code> widget은 child widget을 전체 screen에 딱 맞게 만드는데, screen size에 대한 tight constraint가 적용된 것임</li>
+</ul>
+<h3 id="loose-constraint">Loose constraint<a hidden class="anchor" aria-hidden="true" href="#loose-constraint">#</a></h3>
+<ul>
+<li><code>min == 0 &lt; max</code>인 경우로, child widget이 범위 내에서 own size를 가질 수 있게 한다.</li>
+<li><code>Center</code> widget은 parent로부터 받은 tight constraint를 loose constraint로 바꿔서 child에 전달하는 목적이기도 함</li>
+</ul>
+<h2 id="bounded-vs-unbounded">Bounded vs Unbounded<a hidden class="anchor" aria-hidden="true" href="#bounded-vs-unbounded">#</a></h2>
+<h3 id="bounded-constraint">Bounded constraint<a hidden class="anchor" aria-hidden="true" href="#bounded-constraint">#</a></h3>
+<ul>
+<li><code>max &lt; infinity</code>인 경우</li>
+<li>Widget 크기가 min ~ max 범위 안에서 결정됨</li>
+</ul>
+<h3 id="unbounded-constraint">Unbounded constraint<a hidden class="anchor" aria-hidden="true" href="#unbounded-constraint">#</a></h3>
+<ul>
+<li><code>max == infinity</code>인 경우</li>
+<li><strong>Size 제약이 없는 상태</strong>이므로 box는 가능한 최대 size로 커지려고 한다.</li>
+<li><code>Column</code>, <code>Row</code> 같은 <code>Flex</code> box 또는 <code>ListView</code>, <code>ScrollView</code> subclass들 같은 scrollable region이 unbounded constraint를 갖는다.</li>
+<li>발생할 수 있는 문제
+<ul>
+<li><code>ListView</code>의 scroll 영역은 main axis 방향으로 무한대 크기를 허용함</li>
+<li><code>children</code>중 main axis와 같은 방향으로 크기가 무한대로 확장하는 widget이 있다면 unbound layout error가 발생한다.
+<ul>
+<li>e.g. 크기가 고정되지 않은 <code>ListView</code> 안에서 <code>Column</code>, <code>Row</code> 등 flexible widget 사용</li>
+</ul>
+</li>
+<li>둘 중 하나는 <code>SizedBox</code>로 크기를 고정하거나 <code>BoxConstraint</code>로 제약을 추가해야 한다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="flutter-widgets들의-size-규칙">Flutter Widgets들의 Size 규칙<a hidden class="anchor" aria-hidden="true" href="#flutter-widgets들의-size-규칙">#</a></h2>
+<p>Flutter widget들이 size를 결정하는 규칙은 아래와 같다.</p>
+<ol>
+<li>가능한 영역을 꽉 채우는 size를 사용하는 widget (e.g. <code>Center</code>, <code>Align</code>, <code>ListView</code>)</li>
+<li>Child widget과 동일한 size를 사용하는 widget (e.g. <code>Transform</code>, <code>Opacity</code>)</li>
+<li>Content size를 사용하는 widget (e.g. <code>Image</code>, <code>Text</code>)</li>
+</ol>
+<p>특히, <code>Container</code> widget은 어떤 속성을 사용하는지에 따라 동작하는 방식이 달라진다.</p>
+<ol>
+<li>기본적으로 가능한 영역을 꽉 채우는 size를 사용한다. (1번)</li>
+<li><code>width</code>, <code>height</code> 등 size가 지정되면 해당 size를 사용한다. (3번)</li>
+<li><code>child</code> widget을 갖는 경우, child widget size를 사용한다. (2번)</li>
+</ol>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/layout/constraints">Understanding constraints | Flutter Dev</a></li>
+<li><a href="https://theoryof0.tistory.com/105">Flutter의 제약(constraint) 이해하기 | Tistory</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://cskime.github.io/tags/flutter/">Flutter</a></li>
+      <li><a href="https://cskime.github.io/tags/constraints/">Constraints</a></li>
+      <li><a href="https://cskime.github.io/tags/layout/">Layout</a></li>
+    </ul>
+  </footer>
+<div id="disqus_thread"></div>
+<script>
+  window.disqus_config = function () {
+  
+  
+  
+  };
+  (function() {
+      if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+          document.getElementById('disqus_thread').innerHTML = 'Disqu s comments not available by default when the website is previewed locally.';
+          return;
+      }
+      var d = document, s = d.createElement('script'); s.async = true;
+      s.src = '//' + "cskime-github-io" + '.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript
+>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a
+>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://cskime.github.io/">cskime.io</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -19,6 +19,15 @@ Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich
 다른 style을 사용할 text를 직접 분류해서 나누어 작성해야 하므로 실수할 가능성이 있다.</description>
     </item>
     <item>
+      <title>Flutter Constraint 이해하기</title>
+      <link>https://cskime.github.io/posts/flutter-constraints/</link>
+      <pubDate>Tue, 25 Jun 2024 16:09:00 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/flutter-constraints/</guid>
+      <description>Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
+Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 &amp;ldquo;constraint&amp;ldquo;란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
+const BoxConstraints({ this.minWidth = 0.</description>
+    </item>
+    <item>
       <title>Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제</title>
       <link>https://cskime.github.io/posts/inherited-widget-unaccessible/</link>
       <pubDate>Sat, 25 May 2024 17:11:44 +0900</pubDate>

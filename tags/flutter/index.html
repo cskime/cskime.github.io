@@ -152,6 +152,20 @@ Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Flutter Constraint 이해하기
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
+Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 “constraint“란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
+const BoxConstraints({ this.minWidth = 0....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-06-25 16:09:00 +0900 KST'>June 25, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to Flutter Constraint 이해하기" href="https://cskime.github.io/posts/flutter-constraints/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제
     </h2>
   </header>

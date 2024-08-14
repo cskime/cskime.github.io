@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Layout on cskime.io</title>
+    <link>https://cskime.github.io/tags/layout/</link>
+    <description>Recent content in Layout on cskime.io</description>
+    <generator>Hugo -- 0.129.0</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 25 Jun 2024 16:09:00 +0900</lastBuildDate>
+    <atom:link href="https://cskime.github.io/tags/layout/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter Constraint 이해하기</title>
+      <link>https://cskime.github.io/posts/flutter-constraints/</link>
+      <pubDate>Tue, 25 Jun 2024 16:09:00 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/flutter-constraints/</guid>
+      <description>Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
+Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 &amp;ldquo;constraint&amp;ldquo;란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
+const BoxConstraints({ this.minWidth = 0.</description>
+    </item>
+  </channel>
+</rss>
