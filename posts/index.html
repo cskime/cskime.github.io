@@ -152,6 +152,21 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Bottom fixed footer를 갖는 scrollable widget 만들기
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>이 글에서는 vertical direction scroll을 가정한다.
+Overview Scrollable widget은 전체 content 높이가 화면 높이보다 작다면 scroll이 활성화되지 않고 content들이 상단 정렬된다. 아래는 SingleChildScrollView에 Column을 사용해서 content widget과 footer widget을 배치하는 예시이다.
+Code Demo Footer widget을 화면 하단에 배치하기 위해 content와 footer widget 사이에 Spacer, Expanded와 같은 flexible widget을 사용하면 unbounded height error가 발생한다. Scrollable widget은 child widget에게 unbounded height constraint를 제안하는데, Spacer나 Expanded도 unbounded size를 갖기 때문이다.
+Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필요하다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-08-16 21:10:26 +0900 KST'>August 16, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to Bottom fixed footer를 갖는 scrollable widget 만들기" href="https://cskime.github.io/posts/fixed-footer-scrollview/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">List.from, List.of, toList() 비교
     </h2>
   </header>
@@ -272,20 +287,12 @@ class CounterProvider extends InheritedWidget { const CounterProvider({ super.ke
   <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
   <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">iOS Hit Testing
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
-‘역방향’으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
-z-order index(depth)가 가장 크다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to iOS Hit Testing" href="https://cskime.github.io/posts/ios-hit-testing/"></a>
-</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://cskime.github.io/posts/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">
