@@ -107,6 +107,16 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://cskime.github.io/posts/tabbar-remove-left-padding/</loc>
+    <lastmod>2024-06-23T07:28:19+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/tabbar/</loc>
+    <lastmod>2024-06-23T07:28:19+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://cskime.github.io/tags/clip/</loc>
     <lastmod>2024-06-22T07:27:19+09:00</lastmod>
     <changefreq>daily</changefreq>
