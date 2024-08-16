@@ -6,18 +6,8 @@
     <description>Recent content in Review on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Aug 2024 21:10:26 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 31 Jul 2024 14:20:25 +0900</lastBuildDate>
     <atom:link href="https://cskime.github.io/tags/review/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Bottom fixed footer를 갖는 scrollable widget 만들기</title>
-      <link>https://cskime.github.io/posts/fixed-footer-scrollview/</link>
-      <pubDate>Fri, 16 Aug 2024 21:10:26 +0900</pubDate>
-      <guid>https://cskime.github.io/posts/fixed-footer-scrollview/</guid>
-      <description>이 글에서는 vertical direction scroll을 가정한다.
-Overview Scrollable widget은 전체 content 높이가 화면 높이보다 작다면 scroll이 활성화되지 않고 content들이 상단 정렬된다. 아래는 SingleChildScrollView에 Column을 사용해서 content widget과 footer widget을 배치하는 예시이다.
-Code Demo Footer widget을 화면 하단에 배치하기 위해 content와 footer widget 사이에 Spacer, Expanded와 같은 flexible widget을 사용하면 unbounded height error가 발생한다. Scrollable widget은 child widget에게 unbounded height constraint를 제안하는데, Spacer나 Expanded도 unbounded size를 갖기 때문이다.
-Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필요하다.</description>
-    </item>
     <item>
       <title>Nomadcoders Flutter 10주 스터디 후기</title>
       <link>https://cskime.github.io/posts/nomadcoders-flutter-study-review/</link>
