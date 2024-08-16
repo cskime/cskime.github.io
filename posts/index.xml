@@ -62,6 +62,13 @@ Constraints go down : Parent widget이 child widget에 constraint를 제안한�
 const BoxConstraints({ this.minWidth = 0.</description>
     </item>
     <item>
+      <title>ListView에 Clip.none 설정 시 item이 사라지는 문제</title>
+      <link>https://cskime.github.io/posts/listview-clip-item-disappear/</link>
+      <pubDate>Sat, 22 Jun 2024 07:27:19 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/listview-clip-item-disappear/</guid>
+      <description>문제 상황 ListView를 Clip.none으로 설정하면 item들이 scroll될 때 ListView의 실제 영역을 벗어나서 화면 밖으로 사라질 때 까지 화면에 유지될 것이라고 예상 하지만 실제로는 item이 화면 밖으로 나가기 전에 먼저 화면에서 사라짐 이 ListView는 Padding 및 다른 widget들의 하위 widget 원인 분석 Flutter GitHub에 이미 같은 문제로 issue가 올라왔었다. 이 repo의 contributor에 따르면, 이것은 의도된 동작이라고 한다. it looks like this is working as intended.. The Padding around the ListView is what is causing this effect.</description>
+    </item>
+    <item>
       <title>Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제</title>
       <link>https://cskime.github.io/posts/inherited-widget-unaccessible/</link>
       <pubDate>Sat, 25 May 2024 17:11:44 +0900</pubDate>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Listview on cskime.io</title>
+    <link>https://cskime.github.io/tags/listview/</link>
+    <description>Recent content in Listview on cskime.io</description>
+    <generator>Hugo -- 0.129.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Jun 2024 07:27:19 +0900</lastBuildDate>
+    <atom:link href="https://cskime.github.io/tags/listview/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ListView에 Clip.none 설정 시 item이 사라지는 문제</title>
+      <link>https://cskime.github.io/posts/listview-clip-item-disappear/</link>
+      <pubDate>Sat, 22 Jun 2024 07:27:19 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/listview-clip-item-disappear/</guid>
+      <description>문제 상황 ListView를 Clip.none으로 설정하면 item들이 scroll될 때 ListView의 실제 영역을 벗어나서 화면 밖으로 사라질 때 까지 화면에 유지될 것이라고 예상 하지만 실제로는 item이 화면 밖으로 나가기 전에 먼저 화면에서 사라짐 이 ListView는 Padding 및 다른 widget들의 하위 widget 원인 분석 Flutter GitHub에 이미 같은 문제로 issue가 올라왔었다. 이 repo의 contributor에 따르면, 이것은 의도된 동작이라고 한다. it looks like this is working as intended.. The Padding around the ListView is what is causing this effect.</description>
+    </item>
+  </channel>
+</rss>

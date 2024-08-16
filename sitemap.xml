@@ -107,6 +107,26 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://cskime.github.io/tags/clip/</loc>
+    <lastmod>2024-06-22T07:27:19+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/listview/</loc>
+    <lastmod>2024-06-22T07:27:19+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/posts/listview-clip-item-disappear/</loc>
+    <lastmod>2024-06-22T07:27:19+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/problem-solving/</loc>
+    <lastmod>2024-06-22T07:27:19+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://cskime.github.io/posts/inherited-widget-unaccessible/</loc>
     <lastmod>2024-05-25T17:11:44+09:00</lastmod>
     <changefreq>daily</changefreq>
