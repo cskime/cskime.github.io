@@ -186,6 +186,24 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Iterable collections
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Iterable collections Dart 문서 읽기
+Collection과 Iterable Collection : element의 집합을 표현하는 객체 (e.g. List, Set, Map)
+Iterable : element에 순차적으로 접근할 수 있는 collection의 한 종류
+Iterable abstract class를 상속받은 List, Set 등을 통해 Iterable 객체 생성
+Map은 key를 사용해서 value를 얻는 방식으로 Iterable이 아님. 단, entries나 values 속성을 통해 key 또는 value group을 Iterable 객체로 읽을 수 있음
+Iterable과 List는 element에 접근하는 방법에 차이가 있음
+List는 [index] operator를 사용하지만, Iterable은 elementAt(index) method를 사용해서 특정 index의 element에 접근...</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-08-17 13:37:39 +0900 KST'>August 17, 2024</span>&nbsp;·&nbsp;4 min</footer>
+  <a class="entry-link" aria-label="post link to Iterable collections" href="https://cskime.github.io/posts/iterable-collections/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Bottom fixed footer를 갖는 scrollable widget 만들기
     </h2>
   </header>
@@ -304,22 +322,6 @@ const BoxConstraints({ this.minWidth = 0....</p>
   </div>
   <footer class="entry-footer"><span title='2024-06-22 07:27:19 +0900 KST'>June 22, 2024</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to ListView에 Clip.none 설정 시 item이 사라지는 문제" href="https://cskime.github.io/posts/listview-clip-item-disappear/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>문제 상황 상위 위젯에서 추가한 InheritedWidget을 하위 widget에서 접근하지 못하는 문제 BuildContext.dependOnInheritedWidgetOfExactType이 null을 반환해서 property 및 method를 호출할 수 없음 예제 코드 문제를 재현하는 간단한 counter app
-HomeScreen 및 DetailScreen은 버튼을 눌러서 count 증가
-HomeScreen과 DetailScreen은 count 값(state) 공유
-Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
-class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&gt; true; static CounterProvider?...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
