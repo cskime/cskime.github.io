@@ -57,6 +57,41 @@
 
     </style>
 </noscript>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+  integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"
+  crossorigin="anonymous"
+/>
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"
+  integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY"
+  crossorigin="anonymous"
+></script>
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ],
+    });
+  });
+</script>
+
+
   
 
 <meta property="og:title" content="Posts" />
@@ -185,6 +220,21 @@ Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필�
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">🇰🇷 광복절 기념 태극기 그리기 🇰🇷
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Overview 광복절을 기념해서 Flutter로 태극기를 그려봤다. (Repository)
+태극기 도면을 참고했고, CustomPaint를 사용했다.
+깃면 그리기 태극기 깃면의 가로:세로 비율은 3:2이므로, AspectRatio로 3:2 비율의 widget을 만든다. DecoratedBox를 사용해서 border를 그려준다. AspectRatio의 child에 LayoutBuilder를 사용해서 CustomPaint의 size를 깃면 size로 설정한다. CustomPaint는 이 수치를 기반으로 태극 문양과 괘의 layout을 계산한다. 태극 문양 그리기 태극 문양은 아래 두 단계에 걸쳐 그릴 수 있다.
+빨간색과 파란색 반으로 나뉜 원을 그린다. 반지름을 지름으로 하는 빨간색, 파란색 원을 왼쪽, 오른쪽에 덮어서 그린다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-08-15 18:15:39 +0900 KST'>August 15, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to 🇰🇷 광복절 기념 태극기 그리기 🇰🇷" href="https://cskime.github.io/posts/flutter-taegeukgi/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">List.from, List.of, toList() 비교
     </h2>
   </header>
@@ -276,18 +326,6 @@ const BoxConstraints({ this.minWidth = 0....</p>
   </div>
   <footer class="entry-footer"><span title='2024-06-23 07:28:19 +0900 KST'>June 23, 2024</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to Scrollable TabBar의 왼쪽 여백 제거하기" href="https://cskime.github.io/posts/tabbar-remove-left-padding/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">ListView에 Clip.none 설정 시 item이 사라지는 문제
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>문제 상황 ListView를 Clip.none으로 설정하면 item들이 scroll될 때 ListView의 실제 영역을 벗어나서 화면 밖으로 사라질 때 까지 화면에 유지될 것이라고 예상 하지만 실제로는 item이 화면 밖으로 나가기 전에 먼저 화면에서 사라짐 이 ListView는 Padding 및 다른 widget들의 하위 widget 원인 분석 Flutter GitHub에 이미 같은 문제로 issue가 올라왔었다. 이 repo의 contributor에 따르면, 이것은 의도된 동작이라고 한다. it looks like this is working as intended.. The Padding around the ListView is what is causing this effect....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-06-22 07:27:19 +0900 KST'>June 22, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to ListView에 Clip.none 설정 시 item이 사라지는 문제" href="https://cskime.github.io/posts/listview-clip-item-disappear/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

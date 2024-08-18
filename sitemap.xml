@@ -67,6 +67,16 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://cskime.github.io/posts/flutter-taegeukgi/</loc>
+    <lastmod>2024-08-15T18:15:39+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/custompaint/</loc>
+    <lastmod>2024-08-15T18:15:39+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://cskime.github.io/posts/list-of-vs-list-from/</loc>
     <lastmod>2024-08-04T10:59:20+09:00</lastmod>
     <changefreq>daily</changefreq>

@@ -19,6 +19,16 @@ Code Demo Footer widget을 화면 하단에 배치하기 위해 content와 foote
 Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필요하다.</description>
     </item>
     <item>
+      <title>🇰🇷 광복절 기념 태극기 그리기 🇰🇷</title>
+      <link>https://cskime.github.io/posts/flutter-taegeukgi/</link>
+      <pubDate>Thu, 15 Aug 2024 18:15:39 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/flutter-taegeukgi/</guid>
+      <description>Overview 광복절을 기념해서 Flutter로 태극기를 그려봤다. (Repository)
+태극기 도면을 참고했고, CustomPaint를 사용했다.
+깃면 그리기 태극기 깃면의 가로:세로 비율은 3:2이므로, AspectRatio로 3:2 비율의 widget을 만든다. DecoratedBox를 사용해서 border를 그려준다. AspectRatio의 child에 LayoutBuilder를 사용해서 CustomPaint의 size를 깃면 size로 설정한다. CustomPaint는 이 수치를 기반으로 태극 문양과 괘의 layout을 계산한다. 태극 문양 그리기 태극 문양은 아래 두 단계에 걸쳐 그릴 수 있다.
+빨간색과 파란색 반으로 나뉜 원을 그린다. 반지름을 지름으로 하는 빨간색, 파란색 원을 왼쪽, 오른쪽에 덮어서 그린다.</description>
+    </item>
+    <item>
       <title>Flutter Package 개발 기록 - customizable_text</title>
       <link>https://cskime.github.io/posts/customizable_text_package_review/</link>
       <pubDate>Wed, 26 Jun 2024 15:11:00 +0900</pubDate>
