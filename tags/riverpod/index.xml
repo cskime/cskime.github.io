@@ -13,7 +13,8 @@
       <link>http://localhost:1313/posts/riverpod-docs/</link>
       <pubDate>Fri, 16 Aug 2024 13:37:39 +0900</pubDate>
       <guid>http://localhost:1313/posts/riverpod-docs/</guid>
-      <description>Riverpod 문서 읽고 정리하기</description>
+      <description> Riverpod 문서 읽고 정리하기
+Provider Provider : Business logic을 실행하고 반환되는 data를 UI에 제공(provide)하는 객체 일반 함수와 다른점 Caching provider가 최초 접근 시 반환하는 data를 caching provider에 두 번째 접근할 때 부터는 caching data를 재사용 Error 및 loading handling 지원 상태 변화 구독 가능 상태 변화 시 business logic 재실행 및 자동 widget rebuild 지원 </description>
     </item>
   </channel>
 </rss>
