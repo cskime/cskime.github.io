@@ -182,6 +182,18 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Scrollable TabBar의 왼쪽 여백 제거하기
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>TabBar의 isScrollable을 true로 설정하면 왼쪽에 default padding이 잡힘 Flutter 3.16.0 버전부터 Material 3 디자인이 적용되면서, isScrollable이 true일 때 tabAlignment 속성의 기본값이 TabAlignment.startOffset이 됨 Material3 에서 TabBar의 기본 alignment Material2 에서 TabBar의 기본 alignment TabAlignment.startOffset은 왼쪽에 52px offset을 추가하기 때문에 왼쪽에 여백이 생기는 것 따라서, 아래 세 가지 방법으로 left offset을 제거할 수 있다. Material 3를 사용하지 않도록 설정 TabBar.tabAlignment를 TabAlignment.start로 설정 TabBar.padding에 EdgeInsets.only(left: 10)처럼 원하는 offset으로 override Reference Scrollable Tabs have a gap on the left | GitHub Issue Customizing tabs alignment using the new TabBar....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-06-23 07:28:19 +0900 KST'>June 23, 2024</span>&nbsp;·&nbsp;1 min</footer>
+  <a class="entry-link" aria-label="post link to Scrollable TabBar의 왼쪽 여백 제거하기" href="https://cskime.github.io/posts/tabbar-remove-left-padding/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">ListView에 Clip.none 설정 시 item이 사라지는 문제
     </h2>
   </header>

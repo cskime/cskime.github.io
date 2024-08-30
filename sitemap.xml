@@ -2,12 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://cskime.github.io/tags/collections/</loc>
-    <lastmod>2024-08-17T13:37:39+09:00</lastmod>
+    <loc>https://cskime.github.io/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://cskime.github.io/</loc>
+    <loc>https://cskime.github.io/tags/flutter/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/focusmanager/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/focusnode/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/posts/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/unfocus/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/posts/flutter-unfocus/</loc>
+    <lastmod>2024-08-29T21:00:33+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/collections/</loc>
     <lastmod>2024-08-17T13:37:39+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -32,27 +67,12 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://cskime.github.io/posts/</loc>
-    <lastmod>2024-08-17T13:37:39+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://cskime.github.io/tags/</loc>
-    <lastmod>2024-08-17T13:37:39+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://cskime.github.io/posts/fixed-footer-scrollview/</loc>
     <lastmod>2024-08-16T21:10:26+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/tags/constraints/</loc>
-    <lastmod>2024-08-16T21:10:26+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://cskime.github.io/tags/flutter/</loc>
     <lastmod>2024-08-16T21:10:26+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
