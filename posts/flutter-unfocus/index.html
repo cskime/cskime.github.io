@@ -135,8 +135,8 @@
   "keywords": [
     "flutter", "FocusNode", "FocusManager", "unfocus"
   ],
-  "articleBody": " Flutter app에서 TextField 등의 widget을 탭하면 해당 widget의 FocusNode가 활성화되면서 가상 키보드가 나타남 가상 키보드를 닫으려면 해당 widget의 FocusNode를 비활성화(unfocus) 시켜야 한다. FocusScope 사용 FocusScope는 FocusNode를 하나의 group으로 묶어서 관리할 때 사용하는 widget으로, Route가 push될 때 자동으로 생성되어 widget tree에 추가됨 FocusScope.of(context) method가 반환하는 FocusScopeNode는 FocusNode의 subclass로, FocusScope group 안에서 focus를 제어하는 객체 FocusScopeNode의 unfocus()를 호출해서 현재 focusing된 widget(e.g. TextField)을 unfocus 시킨다. FocusScope.of(context).unfocus(); 또는, requestFocus()에 새로운 FocusNode를 전달하여 이전 focus를 해제시킨다. FocusScope.of(context).requestFocus(FocusNode()); FocusManager 사용 FocusManager는 app의 전체 focus tree를 관리하는 전역 객체로 모든 FocusNode 및 FocusScope를 관리함 FocusManager.instance.primaryFocus로 현재 focus가 활성화된 FocusNode를 반환함 이 FocusNode의 unfocus()를 호출해서 unfocus 시킨다. FocusManager.instance.currentFocus?.unfocus(); FocusScope와 FocusManager 중 어떤 것을 사용할까? FocusScope와 FocusManager는 각자 수행하는 역할이 다르다. FocusScope는 FocusNode를 group으로 묶어서 관리할 때 사용한다. FocusManager는 app 전역에서 focus를 제어하거나 focus 흐름을 추적할 때 사용한다. App에서 화면 빈 곳 등을 터치해서 가상 키보드를 닫으려고 할 때는 어떤 것을 사용해도 크게 문제되지 않는다. 단, FocusScope.of(context) code에 의해 현재 widget에서 focus가 변경될 때 마다 widget을 rebuild 하여 성능 문제가 발생할 여지가 있다. FocusManager는 전역 객체이므로, 일반적인 상황에서는 현재 widget으로부터 가장 가까운 local 객체인 FocusScope를 사용하고 불필요한 widget rebuild에 의한 성능 문제가 발생한다면 FocusManager를 사용하는게 좋을 것 같다. ",
-  "wordCount" : "189",
+  "articleBody": " Flutter app에서 TextField 등의 widget을 탭하면 해당 widget의 FocusNode가 활성화되면서 가상 키보드가 나타남 가상 키보드를 닫으려면 해당 widget의 FocusNode를 비활성화(unfocus) 시켜야 한다. FocusScope 사용 FocusScope는 FocusNode를 하나의 group으로 묶어서 관리할 때 사용하는 widget으로, Route가 push될 때 자동으로 생성되어 widget tree에 추가됨 FocusScope.of(context) method가 반환하는 FocusScopeNode는 FocusNode의 subclass로, FocusScope group 안에서 focus를 제어하는 객체 FocusScopeNode의 unfocus()를 호출해서 현재 focusing된 widget(e.g. TextField)을 unfocus 시킨다. FocusScope.of(context).unfocus(); 또는, requestFocus()에 새로운 FocusNode를 전달하여 이전 focus를 해제시킨다. FocusScope.of(context).requestFocus(FocusNode()); FocusManager 사용 FocusManager는 app의 전체 focus tree를 관리하는 전역 객체로 모든 FocusNode 및 FocusScope를 관리함 FocusManager.instance.primaryFocus로 현재 focus가 활성화된 FocusNode를 반환함 이 FocusNode의 unfocus()를 호출해서 unfocus 시킨다. FocusManager.instance.currentFocus?.unfocus(); FocusScope와 FocusManager 중 어떤 것을 사용할까? FocusScope와 FocusManager는 각자 수행하는 역할이 다르다. FocusScope는 FocusNode를 group으로 묶어서 관리할 때 사용한다. FocusManager는 app 전역에서 focus를 제어하거나 focus 흐름을 추적할 때 사용한다. App에서 화면 빈 곳 등을 터치해서 가상 키보드를 닫으려고 할 때는 어떤 것을 사용해도 크게 문제되지 않는다. 단, FocusScope.of(context) code에 의해 현재 widget에서 focus가 변경될 때 마다 widget을 rebuild 하여 성능 문제가 발생할 여지가 있다. FocusManager는 전역 객체이므로, 일반적인 상황에서는 현재 widget으로부터 가장 가까운 local 객체인 FocusScope를 사용하고 불필요한 widget rebuild에 의한 성능 문제가 발생한다면 FocusManager를 사용하는게 좋을 것 같다. Reference What is the difference between FocusScope.of(context).unfocus() and FocusManager.instance.primaryFocus?.unfocus() in the flutter? | Stack Overflow How to unfocus TextField that has custom FocusNode? | Stack Overflow ",
+  "wordCount" : "215",
   "inLanguage": "en",
   "datePublished": "2024-08-29T21:00:33+09:00",
   "dateModified": "2024-08-29T21:00:33+09:00",
@@ -222,7 +222,7 @@
     <h1 class="post-title entry-hint-parent">
       화면 빈 곳을 tap해서 가상 키보드 닫기
     </h1>
-    <div class="post-meta"><span title='2024-08-29 21:00:33 +0900 KST'>August 29, 2024</span>&nbsp;·&nbsp;1 min
+    <div class="post-meta"><span title='2024-08-29 21:00:33 +0900 KST'>August 29, 2024</span>&nbsp;·&nbsp;2 min
 
 </div>
   </header> 
@@ -260,6 +260,11 @@
 <li>App에서 화면 빈 곳 등을 터치해서 가상 키보드를 닫으려고 할 때는 어떤 것을 사용해도 크게 문제되지 않는다.</li>
 <li>단, <code>FocusScope.of(context)</code> code에 의해 현재 widget에서 focus가 변경될 때 마다 widget을 rebuild 하여 성능 문제가 발생할 여지가 있다.</li>
 <li><strong><code>FocusManager</code>는 전역 객체이므로, 일반적인 상황에서는 현재 widget으로부터 가장 가까운 local 객체인 <code>FocusScope</code>를 사용하고 불필요한 widget rebuild에 의한 성능 문제가 발생한다면 <code>FocusManager</code>를 사용하는게 좋을 것 같다.</strong></li>
+</ul>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/73215495/what-is-the-difference-between-focusscope-ofcontext-unfocus-and-focusmana">What is the difference between <code>FocusScope.of(context).unfocus()</code> and <code>FocusManager.instance.primaryFocus?.unfocus()</code> in the flutter? | Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/53481261/how-to-unfocus-textfield-that-has-custom-focusnode">How to unfocus TextField that has custom FocusNode? | Stack Overflow</a></li>
 </ul>
 
 
