@@ -187,6 +187,18 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Modal bottom sheet 상단에 border radius 주기
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Scaffold를 사용하는 경우 Modal bottom sheet 안에서 Scaffold의 AppBar를 활용하는 경우 ModalBottomSheetRoute의 border radius와 Clip.hardEdge를 설정한다. showModalBottomSheet()를 사용하는 경우: showModalBottomSheet( context: context, shape: const RoundedRectangleBorder( borderRadius: BorderRadius.vertical( top: Radius.circular(24), ), ), clipBehavior: Clip.hardEdge, builder: (context) =&gt; Scaffold( appBar: AppBar(...), body: Container(...), ), ) Navigator.push에 ModalBottomSheetRoute를 직접 사용하는 경우: final route = MaterialPageRoute( shape: const RoundedRectangleBorder( borderRadius: BorderRadius.vertical( top: Radius.circular(24), ), ), clipBehavior: Clip.hardEdge, builder: (context) =&gt; Scaffold( appBar: AppBar(...), body: Container(....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-09-01 15:32:44 +0900 KST'>September 1, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to Modal bottom sheet 상단에 border radius 주기" href="https://cskime.github.io/posts/modalbottomsheet-border-radius/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">화면 빈 곳을 tap해서 가상 키보드 닫기
     </h2>
   </header>
@@ -312,20 +324,6 @@ Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich
   </div>
   <footer class="entry-footer"><span title='2024-06-26 15:11:00 +0900 KST'>June 26, 2024</span>&nbsp;·&nbsp;4 min</footer>
   <a class="entry-link" aria-label="post link to Flutter Package 개발 기록 - customizable_text" href="https://cskime.github.io/posts/customizable_text_package_review/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Flutter Constraint 이해하기
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
-Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 “constraint“란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
-const BoxConstraints({ this.minWidth = 0....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-06-25 16:09:00 +0900 KST'>June 25, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to Flutter Constraint 이해하기" href="https://cskime.github.io/posts/flutter-constraints/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
