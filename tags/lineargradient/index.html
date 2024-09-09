@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | cskime.io</title>
+<title>LinearGradient | cskime.io</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - cskime.io">
+<meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://cskime.github.io/posts/">
+<link rel="canonical" href="https://cskime.github.io/tags/lineargradient/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://cskime.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://cskime.github.io/posts/index.xml">
-<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/">
+<link rel="alternate" type="application/rss+xml" href="https://cskime.github.io/tags/lineargradient/index.xml">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/tags/lineargradient/">
 <noscript>
     <style>
         #theme-toggle,
@@ -94,30 +94,15 @@
 
   
 
-<meta property="og:title" content="Posts" />
+<meta property="og:title" content="LinearGradient" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://cskime.github.io/posts/" />
+<meta property="og:url" content="https://cskime.github.io/tags/lineargradient/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:title" content="LinearGradient"/>
 <meta name="twitter:description" content=""/>
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://cskime.github.io/posts/"
-    }
-  ]
-}
-</script>
 </head>
 
 <body class="list" id="top">
@@ -181,99 +166,24 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    Posts
+    LinearGradient
   </h1>
 </header>
 
-<article class="post-entry"> 
+<article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Flutter Package 개발 기록 - customizable_text
+    <h2 class="entry-hint-parent">Flutter Gradient 적용하는 두 가지 방법
     </h2>
   </header>
   <div class="entry-content">
-    <p>개발 동기 노마드코더 챌린지 과제 중 아래와 같은 text UI를 구현하는 부분이 있었다. 회원가입 중 이용 약관이나 개인 정보 처리 방침 등을 사용자에게 안내하고 관련 외부 문서로 이동하여 확인할 수 있게 만드는 보편적인 UI 이다.
-Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich를 사용하므로, 이 UI를 구현하기 위해 아래와 같이 코드를 작성했다.
-이렇게 코드를 작성하면 몇 가지 문제가 있다.
-다른 style을 사용할 text를 직접 분류해서 나누어 작성해야 하므로 실수할 가능성이 있다....</p>
+    <p>Flutter는 두 가지 방법으로 gradient를 적용할 수 있다.
+BoxDecoration 사용 ShaderMask 사용 BoxDecoration BoxDecoration의 gradient 속성에 gradient를 적용한다. Box widget을 gradient로 채울 때 사용한다. Example Container( width: 100, height: 100, decoration: const BoxDecoration( gradient: LinearGradient( colors: [Colors.red, Colors.blue], ), ), ), ShaderMask ShaderMask를 사용해서 특정 widget에 shader를 입힐 수 있다.
+ShaderMask의 shaderCallback에서 shader 객체를 반환하면 child에 전달한 widget에서 white color인 element에 shader를 입힐 수 있다.
+shaderCallback 함수는 LinearGradient 등 gradient 객체의 createShader(rect) method를 사용해서 shader를 반환할 수 있다....</p>
   </div>
-  <footer class="entry-footer"><span title='2024-06-26 15:11:00 +0900 KST'>June 26, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Flutter Package 개발 기록 - customizable_text" href="https://cskime.github.io/posts/customizable_text_package_review/"></a>
+  <footer class="entry-footer"><span title='2024-09-09 16:09:13 +0900 KST'>September 9, 2024</span>&nbsp;·&nbsp;1 min</footer>
+  <a class="entry-link" aria-label="post link to Flutter Gradient 적용하는 두 가지 방법" href="https://cskime.github.io/posts/flutter-gradient/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Flutter Constraint 이해하기
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Flutter Constraint와 Layout Flutter는 3단계를 거쳐 widget의 layout을 결정한다.
-Constraints go down : Parent widget이 child widget에 constraint를 제안한다. Sizes go up : Child widget은 constraint 범위 내의 size를 parent widget에 알려준다. Parent sets position : Parent widget은 자신의 alignment 정보와 child widget size를 사용해서 child widget의 position을 결정한다. 여기서 “constraint“란 size의 최대 ~ 최소값의 범위를 말한다. Flutter에서는 BoxConstraints class를 주로 사용하여 minWidth, minHeight, maxWidth, maxHeight을 정의한다.
-const BoxConstraints({ this.minWidth = 0....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-06-25 16:09:00 +0900 KST'>June 25, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to Flutter Constraint 이해하기" href="https://cskime.github.io/posts/flutter-constraints/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Scrollable TabBar의 왼쪽 여백 제거하기
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>TabBar의 isScrollable을 true로 설정하면 왼쪽에 default padding이 잡힘 Flutter 3.16.0 버전부터 Material 3 디자인이 적용되면서, isScrollable이 true일 때 tabAlignment 속성의 기본값이 TabAlignment.startOffset이 됨 Material3 에서 TabBar의 기본 alignment Material2 에서 TabBar의 기본 alignment TabAlignment.startOffset은 왼쪽에 52px offset을 추가하기 때문에 왼쪽에 여백이 생기는 것 따라서, 아래 세 가지 방법으로 left offset을 제거할 수 있다. Material 3를 사용하지 않도록 설정 TabBar.tabAlignment를 TabAlignment.start로 설정 TabBar.padding에 EdgeInsets.only(left: 10)처럼 원하는 offset으로 override Reference Scrollable Tabs have a gap on the left | GitHub Issue Customizing tabs alignment using the new TabBar....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-06-23 07:28:19 +0900 KST'>June 23, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Scrollable TabBar의 왼쪽 여백 제거하기" href="https://cskime.github.io/posts/tabbar-remove-left-padding/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">ListView에 Clip.none 설정 시 item이 사라지는 문제
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>문제 상황 ListView를 Clip.none으로 설정하면 item들이 scroll될 때 ListView의 실제 영역을 벗어나서 화면 밖으로 사라질 때 까지 화면에 유지될 것이라고 예상 하지만 실제로는 item이 화면 밖으로 나가기 전에 먼저 화면에서 사라짐 이 ListView는 Padding 및 다른 widget들의 하위 widget 원인 분석 Flutter GitHub에 이미 같은 문제로 issue가 올라왔었다. 이 repo의 contributor에 따르면, 이것은 의도된 동작이라고 한다. it looks like this is working as intended.. The Padding around the ListView is what is causing this effect....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-06-22 07:27:19 +0900 KST'>June 22, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to ListView에 Clip.none 설정 시 item이 사라지는 문제" href="https://cskime.github.io/posts/listview-clip-item-disappear/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>문제 상황 상위 위젯에서 추가한 InheritedWidget을 하위 widget에서 접근하지 못하는 문제 BuildContext.dependOnInheritedWidgetOfExactType이 null을 반환해서 property 및 method를 호출할 수 없음 예제 코드 문제를 재현하는 간단한 counter app
-HomeScreen 및 DetailScreen은 버튼을 눌러서 count 증가
-HomeScreen과 DetailScreen은 count 값(state) 공유
-Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
-class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&gt; true; static CounterProvider?...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">iOS Hit Testing
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
-‘역방향’으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
-z-order index(depth)가 가장 크다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to iOS Hit Testing" href="https://cskime.github.io/posts/ios-hit-testing/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="https://cskime.github.io/posts/">
-      «&nbsp;Prev&nbsp;
-    </a>
-  </nav>
-</footer>
     </main>
     
 <footer class="footer">
