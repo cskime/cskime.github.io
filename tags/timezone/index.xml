@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Timezone on cskime.io</title>
+    <link>https://cskime.github.io/tags/timezone/</link>
+    <description>Recent content in Timezone on cskime.io</description>
+    <generator>Hugo -- 0.129.0</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 13 Mar 2024 19:55:58 +0900</lastBuildDate>
+    <atom:link href="https://cskime.github.io/tags/timezone/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>All About Date and Time</title>
+      <link>https://cskime.github.io/posts/all-about-date-and-time/</link>
+      <pubDate>Wed, 13 Mar 2024 19:55:58 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/all-about-date-and-time/</guid>
+      <description>위도와 경도 위도(latitude) : 적도를 기준으로 북쪽 또는 남쪽으로 떨어진 위치 (도(°) 단위) 경도(longitude) : 본초 자오선을 기준으로 동쪽 또는 서쪽으로 떨어진 위치 (도(°) 단위) 180°E ~ 180°W (동경 180° ~ 서경 180°) 까지의 범위 안에 위치 경도 15°로 1시간의 시차가 생긴다. 자오선 자오선(Meridian) 또는 경선 북극점과 남극점을 최단 거리로 연결하는 세로선 동경(E, X E, X East) : 자오선의 동쪽 서경(W, Y W, Y West) : 자오선의 서쪽 동경과 서경은 180°까지 있고, 동서경 180°는 일치한다.</description>
+    </item>
+  </channel>
+</rss>

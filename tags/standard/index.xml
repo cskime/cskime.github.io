@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Standard on cskime.io</title>
+    <link>http://localhost:1313/tags/standard/</link>
+    <description>Recent content in Standard on cskime.io</description>
+    <generator>Hugo -- 0.129.0</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 14 Mar 2024 19:55:58 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/standard/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>All About Date and Time</title>
+      <link>http://localhost:1313/posts/all-about-date-and-time/</link>
+      <pubDate>Thu, 14 Mar 2024 19:55:58 +0900</pubDate>
+      <guid>http://localhost:1313/posts/all-about-date-and-time/</guid>
+      <description>ISO8601 날짜와 시간과 관련된 데이터 교환을 다루는 국제 표준
+날짜 표기 규정 그레고리력(Gregorian) 사용 연도 : 최소 4자리 [YYYY] 규정 (0000~9999년) 달 : 2자리 [MM] 규정 (01~12월) 일 : 2자리 [DD] 규정 (01~31일) 날짜 표기법 전체 표기 : YYYY-MM-DD 또는 YYYYMMDD 날짜가 없을 때 : YYYY-MM 연도가 없을 때 : --MM-DD 또는 --MMDD 시간 표기 규정 24시간제 시계 시스템 사용 시 : 2자리 [hh] 규정 (00~24시) 분 : 2자리 [mm] 규정 (00~59분) 초 : 2자리 [ss] 규정 (00~60분, 60은 윤년초를 나타내는 용도로만 사용) 시간 표기법전체 표기 : hh:mm:ss.</description>
+    </item>
+  </channel>
+</rss>

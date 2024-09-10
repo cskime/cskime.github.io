@@ -297,6 +297,41 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://cskime.github.io/posts/all-about-date-and-time/</loc>
+    <lastmod>2024-03-13T19:55:58+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/date/</loc>
+    <lastmod>2024-03-13T19:55:58+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/gmt/</loc>
+    <lastmod>2024-03-13T19:55:58+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/locale/</loc>
+    <lastmod>2024-03-13T19:55:58+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/time/</loc>
+    <lastmod>2024-03-13T19:55:58+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/timezone/</loc>
+    <lastmod>2024-03-13T19:55:58+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/utc/</loc>
+    <lastmod>2024-03-13T19:55:58+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://cskime.github.io/posts/ios-hit-testing/</loc>
     <lastmod>2022-02-06T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
