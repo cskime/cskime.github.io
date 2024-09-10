@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Intl on cskime.io</title>
+    <link>https://cskime.github.io/tags/intl/</link>
+    <description>Recent content in Intl on cskime.io</description>
+    <generator>Hugo -- 0.129.0</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 10 Sep 2024 10:15:36 +0900</lastBuildDate>
+    <atom:link href="https://cskime.github.io/tags/intl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Flutter] NumberFormat을 사용해서 통화(currency) formatting 하기</title>
+      <link>https://cskime.github.io/posts/flutter-number-format-currency/</link>
+      <pubDate>Tue, 10 Sep 2024 10:15:36 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/flutter-number-format-currency/</guid>
+      <description>NumberFormat NumberFormat class는 intl package에서 제공하는 local-specific number formatting class &amp;ldquo;Locale-specific&amp;quot;이란, 문자열을 formatting 할 때 특정 text나 symbol을 locale에 맞게 변환해 주는 것 ICU formatting pattern을 사용해서 number format 지정 0 : a single digit # : a single digit, omitted if the value is zero . : decimal separator ¤(\u00A4) : currency sign Examples NumberFormatter(&amp;#34;###.0#&amp;#34;).format(12.345); // 12.34 Currency formatting NumberFormatter는 currency formatting을 위한 named constructor를 제공함 NumberFormat.currency(locale,name,symbol,decimalDigits,customPattern) locale : ₩, $ 등 화폐 단위를 표기를 위한 locale name : 화폐 단위로 ISO 4217 code 사용 symbol : 화폐 단위로 custom sign 사용 (name을 덮어씀) decimalDigits : 소수점 아래 자릿수 customPattern : custom pattern 사용 Examples (en locale 기준) NumberFormat.</description>
+    </item>
+  </channel>
+</rss>

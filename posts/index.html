@@ -187,6 +187,18 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Flutter] NumberFormat을 사용해서 통화(currency) formatting 하기
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>NumberFormat NumberFormat class는 intl package에서 제공하는 local-specific number formatting class “Locale-specific&#34;이란, 문자열을 formatting 할 때 특정 text나 symbol을 locale에 맞게 변환해 주는 것 ICU formatting pattern을 사용해서 number format 지정 0 : a single digit # : a single digit, omitted if the value is zero . : decimal separator ¤(\u00A4) : currency sign Examples NumberFormatter(&#34;###.0#&#34;).format(12.345); // 12.34 Currency formatting NumberFormatter는 currency formatting을 위한 named constructor를 제공함 NumberFormat.currency(locale,name,symbol,decimalDigits,customPattern) locale : ₩, $ 등 화폐 단위를 표기를 위한 locale name : 화폐 단위로 ISO 4217 code 사용 symbol : 화폐 단위로 custom sign 사용 (name을 덮어씀) decimalDigits : 소수점 아래 자릿수 customPattern : custom pattern 사용 Examples (en locale 기준) NumberFormat....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-09-10 10:15:36 +0900 KST'>September 10, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to [Flutter] NumberFormat을 사용해서 통화(currency) formatting 하기" href="https://cskime.github.io/posts/flutter-number-format-currency/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Flutter Gradient 적용하는 두 가지 방법
     </h2>
   </header>
@@ -310,20 +322,6 @@ $ brew install hugo $ hugo new site MyFreshWebsite --format yaml Theme 설치 (�
   </div>
   <footer class="entry-footer"><span title='2024-07-29 17:11:44 +0900 KST'>July 29, 2024</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to GitHub Pages와 Hugo PaperMod 테마로 블로그 만들기" href="https://cskime.github.io/posts/github-pages-hugo-papermod-blog/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Dart에서 type casting을 안전하게 하는 방법
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
-class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
-class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-07-20 09:10:00 +0900 KST'>July 20, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Dart에서 type casting을 안전하게 하는 방법" href="https://cskime.github.io/posts/dart-safe-type-cast/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

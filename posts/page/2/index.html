@@ -187,6 +187,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Dart에서 type casting을 안전하게 하는 방법
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
+class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
+class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-07-20 09:10:00 +0900 KST'>July 20, 2024</span>&nbsp;·&nbsp;1 min</footer>
+  <a class="entry-link" aria-label="post link to Dart에서 type casting을 안전하게 하는 방법" href="https://cskime.github.io/posts/dart-safe-type-cast/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Flutter Package 개발 기록 - customizable_text
     </h2>
   </header>
