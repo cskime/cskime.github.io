@@ -6,8 +6,16 @@
     <description>Recent content on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 10 Sep 2024 10:15:36 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 10 Sep 2024 15:19:02 +0900</lastBuildDate>
     <atom:link href="https://cskime.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Dart] DI를 위한 interface 만들기</title>
+      <link>https://cskime.github.io/posts/dart-di-interface/</link>
+      <pubDate>Tue, 10 Sep 2024 15:19:02 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/dart-di-interface/</guid>
+      <description>Overview DIP를 준수하는 class 설계를 위해 interface가 필요하다. 이 interface는 일반 class만 사용해도 쉽게 구현할 수 있다. 아래는 clean architecture에서 use case에서 repository 의존성을 분리하여 의존성 흐름이 adapter에서 business logic 계층으로 향하도록 역전시키는 구현 예시이다. Adaptor 계층에서 repository pattern을 사용하여 use case가 repository 의존성을 주입받는다.
+class Repository { String fetchData() { throw Exception(&amp;#34;Not implemented&amp;#34;); }; } class RepositoryImpl extends Repository { @override String fetchData() { return storage.getData(); } } class UseCaseImpl extends UseCase { UseCaseImpl({required this.</description>
+    </item>
     <item>
       <title>[Flutter] NumberFormat을 사용해서 통화(currency) formatting 하기</title>
       <link>https://cskime.github.io/posts/flutter-number-format-currency/</link>
