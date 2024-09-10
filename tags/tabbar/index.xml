@@ -9,7 +9,7 @@
     <lastBuildDate>Sun, 23 Jun 2024 07:28:19 +0900</lastBuildDate>
     <atom:link href="https://cskime.github.io/tags/tabbar/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Scrollable TabBar의 왼쪽 여백 제거하기</title>
+      <title>[Flutter] Scrollable TabBar의 왼쪽 여백 제거하기</title>
       <link>https://cskime.github.io/posts/tabbar-remove-left-padding/</link>
       <pubDate>Sun, 23 Jun 2024 07:28:19 +0900</pubDate>
       <guid>https://cskime.github.io/posts/tabbar-remove-left-padding/</guid>

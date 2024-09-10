@@ -233,7 +233,7 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Flutter Gradient 적용하는 두 가지 방법
+    <h2 class="entry-hint-parent">[Flutter] Gradient를 적용하는 두 가지 방법
     </h2>
   </header>
   <div class="entry-content">
@@ -243,36 +243,36 @@ ShaderMask의 shaderCallback에서 shader 객체를 반환하면 child에 전달
 shaderCallback 함수는 LinearGradient 등 gradient 객체의 createShader(rect) method를 사용해서 shader를 반환할 수 있다....</p>
   </div>
   <footer class="entry-footer"><span title='2024-09-09 16:09:13 +0900 KST'>September 9, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Flutter Gradient 적용하는 두 가지 방법" href="https://cskime.github.io/posts/flutter-gradient/"></a>
+  <a class="entry-link" aria-label="post link to [Flutter] Gradient를 적용하는 두 가지 방법" href="https://cskime.github.io/posts/flutter-gradient/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Modal bottom sheet 상단에 border radius 주기
+    <h2 class="entry-hint-parent">[Flutter] Modal bottom sheet 상단에 border radius 주기
     </h2>
   </header>
   <div class="entry-content">
     <p>Scaffold를 사용하는 경우 Modal bottom sheet 안에서 Scaffold의 AppBar를 활용하는 경우 ModalBottomSheetRoute의 border radius와 Clip.hardEdge를 설정한다. showModalBottomSheet()를 사용하는 경우: showModalBottomSheet( context: context, shape: const RoundedRectangleBorder( borderRadius: BorderRadius.vertical( top: Radius.circular(24), ), ), clipBehavior: Clip.hardEdge, builder: (context) =&gt; Scaffold( appBar: AppBar(...), body: Container(...), ), ) Navigator.push에 ModalBottomSheetRoute를 직접 사용하는 경우: final route = MaterialPageRoute( shape: const RoundedRectangleBorder( borderRadius: BorderRadius.vertical( top: Radius.circular(24), ), ), clipBehavior: Clip.hardEdge, builder: (context) =&gt; Scaffold( appBar: AppBar(...), body: Container(....</p>
   </div>
   <footer class="entry-footer"><span title='2024-09-01 15:32:44 +0900 KST'>September 1, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to Modal bottom sheet 상단에 border radius 주기" href="https://cskime.github.io/posts/modalbottomsheet-border-radius/"></a>
+  <a class="entry-link" aria-label="post link to [Flutter] Modal bottom sheet 상단에 border radius 주기" href="https://cskime.github.io/posts/modalbottomsheet-border-radius/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">화면 빈 곳을 tap해서 가상 키보드 닫기
+    <h2 class="entry-hint-parent">[Flutter] 화면 빈 곳을 tap해서 가상 키보드 닫기
     </h2>
   </header>
   <div class="entry-content">
     <p>Flutter app에서 TextField 등의 widget을 탭하면 해당 widget의 FocusNode가 활성화되면서 가상 키보드가 나타남 가상 키보드를 닫으려면 해당 widget의 FocusNode를 비활성화(unfocus) 시켜야 한다. FocusScope 사용 FocusScope는 FocusNode를 하나의 group으로 묶어서 관리할 때 사용하는 widget으로, Route가 push될 때 자동으로 생성되어 widget tree에 추가됨 FocusScope.of(context) method가 반환하는 FocusScopeNode는 FocusNode의 subclass로, FocusScope group 안에서 focus를 제어하는 객체 FocusScopeNode의 unfocus()를 호출해서 현재 focusing된 widget(e.g. TextField)을 unfocus 시킨다. FocusScope.of(context).unfocus(); 또는, requestFocus()에 새로운 FocusNode를 전달하여 이전 focus를 해제시킨다....</p>
   </div>
   <footer class="entry-footer"><span title='2024-08-29 21:00:33 +0900 KST'>August 29, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to 화면 빈 곳을 tap해서 가상 키보드 닫기" href="https://cskime.github.io/posts/flutter-unfocus/"></a>
+  <a class="entry-link" aria-label="post link to [Flutter] 화면 빈 곳을 tap해서 가상 키보드 닫기" href="https://cskime.github.io/posts/flutter-unfocus/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Iterable collections
+    <h2 class="entry-hint-parent">[Dart] Iterable collections
     </h2>
   </header>
   <div class="entry-content">
@@ -285,12 +285,12 @@ Iterable과 List는 element에 접근하는 방법에 차이가 있음
 List는 [index] operator를 사용하지만, Iterable은 elementAt(index) method를 사용해서 특정 index의 element에 접근...</p>
   </div>
   <footer class="entry-footer"><span title='2024-08-17 13:37:39 +0900 KST'>August 17, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Iterable collections" href="https://cskime.github.io/posts/iterable-collections/"></a>
+  <a class="entry-link" aria-label="post link to [Dart] Iterable collections" href="https://cskime.github.io/posts/iterable-collections/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Bottom fixed footer를 갖는 scrollable widget 만들기
+    <h2 class="entry-hint-parent">[Flutter] Bottom fixed footer를 갖는 scrollable widget 만들기
     </h2>
   </header>
   <div class="entry-content">
@@ -300,12 +300,12 @@ Code Demo Footer widget을 화면 하단에 배치하기 위해 content와 foote
 Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필요하다....</p>
   </div>
   <footer class="entry-footer"><span title='2024-08-16 21:10:26 +0900 KST'>August 16, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to Bottom fixed footer를 갖는 scrollable widget 만들기" href="https://cskime.github.io/posts/fixed-footer-scrollview/"></a>
+  <a class="entry-link" aria-label="post link to [Flutter] Bottom fixed footer를 갖는 scrollable widget 만들기" href="https://cskime.github.io/posts/fixed-footer-scrollview/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">🇰🇷 광복절 기념 태극기 그리기 🇰🇷
+    <h2 class="entry-hint-parent">[Flutter] 🇰🇷 광복절 기념 태극기 그리기 🇰🇷
     </h2>
   </header>
   <div class="entry-content">
@@ -315,19 +315,19 @@ Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필�
 빨간색과 파란색 반으로 나뉜 원을 그린다. 반지름을 지름으로 하는 빨간색, 파란색 원을 왼쪽, 오른쪽에 덮어서 그린다....</p>
   </div>
   <footer class="entry-footer"><span title='2024-08-15 18:15:39 +0900 KST'>August 15, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to 🇰🇷 광복절 기념 태극기 그리기 🇰🇷" href="https://cskime.github.io/posts/flutter-taegeukgi/"></a>
+  <a class="entry-link" aria-label="post link to [Flutter] 🇰🇷 광복절 기념 태극기 그리기 🇰🇷" href="https://cskime.github.io/posts/flutter-taegeukgi/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">List.from, List.of, toList() 비교
+    <h2 class="entry-hint-parent">[Dart] List.from, List.of, toList() 비교
     </h2>
   </header>
   <div class="entry-content">
     <p>Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List....</p>
   </div>
   <footer class="entry-footer"><span title='2024-08-04 10:59:20 +0900 KST'>August 4, 2024</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to List.from, List.of, toList() 비교" href="https://cskime.github.io/posts/list-of-vs-list-from/"></a>
+  <a class="entry-link" aria-label="post link to [Dart] List.from, List.of, toList() 비교" href="https://cskime.github.io/posts/list-of-vs-list-from/"></a>
 </article>
 
 <article class="post-entry"> 

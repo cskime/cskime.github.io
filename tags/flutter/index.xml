@@ -16,7 +16,7 @@
       <description>NumberFormat NumberFormat class는 intl package에서 제공하는 local-specific number formatting class &amp;ldquo;Locale-specific&amp;quot;이란, 문자열을 formatting 할 때 특정 text나 symbol을 locale에 맞게 변환해 주는 것 ICU formatting pattern을 사용해서 number format 지정 0 : a single digit # : a single digit, omitted if the value is zero . : decimal separator ¤(\u00A4) : currency sign Examples NumberFormatter(&amp;#34;###.0#&amp;#34;).format(12.345); // 12.34 Currency formatting NumberFormatter는 currency formatting을 위한 named constructor를 제공함 NumberFormat.currency(locale,name,symbol,decimalDigits,customPattern) locale : ₩, $ 등 화폐 단위를 표기를 위한 locale name : 화폐 단위로 ISO 4217 code 사용 symbol : 화폐 단위로 custom sign 사용 (name을 덮어씀) decimalDigits : 소수점 아래 자릿수 customPattern : custom pattern 사용 Examples (en locale 기준) NumberFormat.</description>
     </item>
     <item>
-      <title>Flutter Gradient 적용하는 두 가지 방법</title>
+      <title>[Flutter] Gradient를 적용하는 두 가지 방법</title>
       <link>https://cskime.github.io/posts/flutter-gradient/</link>
       <pubDate>Mon, 09 Sep 2024 16:09:13 +0900</pubDate>
       <guid>https://cskime.github.io/posts/flutter-gradient/</guid>
@@ -26,21 +26,21 @@ ShaderMask의 shaderCallback에서 shader 객체를 반환하면 child에 전달
 shaderCallback 함수는 LinearGradient 등 gradient 객체의 createShader(rect) method를 사용해서 shader를 반환할 수 있다.</description>
     </item>
     <item>
-      <title>Modal bottom sheet 상단에 border radius 주기</title>
+      <title>[Flutter] Modal bottom sheet 상단에 border radius 주기</title>
       <link>https://cskime.github.io/posts/modalbottomsheet-border-radius/</link>
       <pubDate>Sun, 01 Sep 2024 15:32:44 +0900</pubDate>
       <guid>https://cskime.github.io/posts/modalbottomsheet-border-radius/</guid>
       <description>Scaffold를 사용하는 경우 Modal bottom sheet 안에서 Scaffold의 AppBar를 활용하는 경우 ModalBottomSheetRoute의 border radius와 Clip.hardEdge를 설정한다. showModalBottomSheet()를 사용하는 경우: showModalBottomSheet( context: context, shape: const RoundedRectangleBorder( borderRadius: BorderRadius.vertical( top: Radius.circular(24), ), ), clipBehavior: Clip.hardEdge, builder: (context) =&amp;gt; Scaffold( appBar: AppBar(...), body: Container(...), ), ) Navigator.push에 ModalBottomSheetRoute를 직접 사용하는 경우: final route = MaterialPageRoute( shape: const RoundedRectangleBorder( borderRadius: BorderRadius.vertical( top: Radius.circular(24), ), ), clipBehavior: Clip.hardEdge, builder: (context) =&amp;gt; Scaffold( appBar: AppBar(...), body: Container(.</description>
     </item>
     <item>
-      <title>화면 빈 곳을 tap해서 가상 키보드 닫기</title>
+      <title>[Flutter] 화면 빈 곳을 tap해서 가상 키보드 닫기</title>
       <link>https://cskime.github.io/posts/flutter-unfocus/</link>
       <pubDate>Thu, 29 Aug 2024 21:00:33 +0900</pubDate>
       <guid>https://cskime.github.io/posts/flutter-unfocus/</guid>
       <description>Flutter app에서 TextField 등의 widget을 탭하면 해당 widget의 FocusNode가 활성화되면서 가상 키보드가 나타남 가상 키보드를 닫으려면 해당 widget의 FocusNode를 비활성화(unfocus) 시켜야 한다. FocusScope 사용 FocusScope는 FocusNode를 하나의 group으로 묶어서 관리할 때 사용하는 widget으로, Route가 push될 때 자동으로 생성되어 widget tree에 추가됨 FocusScope.of(context) method가 반환하는 FocusScopeNode는 FocusNode의 subclass로, FocusScope group 안에서 focus를 제어하는 객체 FocusScopeNode의 unfocus()를 호출해서 현재 focusing된 widget(e.g. TextField)을 unfocus 시킨다. FocusScope.of(context).unfocus(); 또는, requestFocus()에 새로운 FocusNode를 전달하여 이전 focus를 해제시킨다.</description>
     </item>
     <item>
-      <title>Bottom fixed footer를 갖는 scrollable widget 만들기</title>
+      <title>[Flutter] Bottom fixed footer를 갖는 scrollable widget 만들기</title>
       <link>https://cskime.github.io/posts/fixed-footer-scrollview/</link>
       <pubDate>Fri, 16 Aug 2024 21:10:26 +0900</pubDate>
       <guid>https://cskime.github.io/posts/fixed-footer-scrollview/</guid>
@@ -50,7 +50,7 @@ Code Demo Footer widget을 화면 하단에 배치하기 위해 content와 foote
 Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필요하다.</description>
     </item>
     <item>
-      <title>🇰🇷 광복절 기념 태극기 그리기 🇰🇷</title>
+      <title>[Flutter] 🇰🇷 광복절 기념 태극기 그리기 🇰🇷</title>
       <link>https://cskime.github.io/posts/flutter-taegeukgi/</link>
       <pubDate>Thu, 15 Aug 2024 18:15:39 +0900</pubDate>
       <guid>https://cskime.github.io/posts/flutter-taegeukgi/</guid>
@@ -60,7 +60,7 @@ Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필�
 빨간색과 파란색 반으로 나뉜 원을 그린다. 반지름을 지름으로 하는 빨간색, 파란색 원을 왼쪽, 오른쪽에 덮어서 그린다.</description>
     </item>
     <item>
-      <title>Flutter Package 개발 기록 - customizable_text</title>
+      <title>[Flutter] &#39;customizable_text&#39; package 개발 기록</title>
       <link>https://cskime.github.io/posts/customizable_text_package_review/</link>
       <pubDate>Wed, 26 Jun 2024 15:11:00 +0900</pubDate>
       <guid>https://cskime.github.io/posts/customizable_text_package_review/</guid>
@@ -70,7 +70,7 @@ Flutter에서 text에 다양한 style을 적용할 때 RichText 또는 Text.rich
 다른 style을 사용할 text를 직접 분류해서 나누어 작성해야 하므로 실수할 가능성이 있다.</description>
     </item>
     <item>
-      <title>Flutter Constraint 이해하기</title>
+      <title>[Flutter] Flutter Constraint 이해하기</title>
       <link>https://cskime.github.io/posts/flutter-constraints/</link>
       <pubDate>Tue, 25 Jun 2024 16:09:00 +0900</pubDate>
       <guid>https://cskime.github.io/posts/flutter-constraints/</guid>
@@ -79,21 +79,21 @@ Constraints go down : Parent widget이 child widget에 constraint를 제안한�
 const BoxConstraints({ this.minWidth = 0.</description>
     </item>
     <item>
-      <title>Scrollable TabBar의 왼쪽 여백 제거하기</title>
+      <title>[Flutter] Scrollable TabBar의 왼쪽 여백 제거하기</title>
       <link>https://cskime.github.io/posts/tabbar-remove-left-padding/</link>
       <pubDate>Sun, 23 Jun 2024 07:28:19 +0900</pubDate>
       <guid>https://cskime.github.io/posts/tabbar-remove-left-padding/</guid>
       <description>TabBar의 isScrollable을 true로 설정하면 왼쪽에 default padding이 잡힘 Flutter 3.16.0 버전부터 Material 3 디자인이 적용되면서, isScrollable이 true일 때 tabAlignment 속성의 기본값이 TabAlignment.startOffset이 됨 Material3 에서 TabBar의 기본 alignment Material2 에서 TabBar의 기본 alignment TabAlignment.startOffset은 왼쪽에 52px offset을 추가하기 때문에 왼쪽에 여백이 생기는 것 따라서, 아래 세 가지 방법으로 left offset을 제거할 수 있다. Material 3를 사용하지 않도록 설정 TabBar.tabAlignment를 TabAlignment.start로 설정 TabBar.padding에 EdgeInsets.only(left: 10)처럼 원하는 offset으로 override Reference Scrollable Tabs have a gap on the left | GitHub Issue Customizing tabs alignment using the new TabBar.</description>
     </item>
     <item>
-      <title>ListView에 Clip.none 설정 시 item이 사라지는 문제</title>
+      <title>[Flutter] ListView에 Clip.none 설정 시 item이 사라지는 문제</title>
       <link>https://cskime.github.io/posts/listview-clip-item-disappear/</link>
       <pubDate>Sat, 22 Jun 2024 07:27:19 +0900</pubDate>
       <guid>https://cskime.github.io/posts/listview-clip-item-disappear/</guid>
       <description>문제 상황 ListView를 Clip.none으로 설정하면 item들이 scroll될 때 ListView의 실제 영역을 벗어나서 화면 밖으로 사라질 때 까지 화면에 유지될 것이라고 예상 하지만 실제로는 item이 화면 밖으로 나가기 전에 먼저 화면에서 사라짐 이 ListView는 Padding 및 다른 widget들의 하위 widget 원인 분석 Flutter GitHub에 이미 같은 문제로 issue가 올라왔었다. 이 repo의 contributor에 따르면, 이것은 의도된 동작이라고 한다. it looks like this is working as intended.. The Padding around the ListView is what is causing this effect.</description>
     </item>
     <item>
-      <title>Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제</title>
+      <title>[Flutter] Navigator.push로 띄운 widget에서 InheritedWidget에 접근할 수 없는 문제</title>
       <link>https://cskime.github.io/posts/inherited-widget-unaccessible/</link>
       <pubDate>Sat, 25 May 2024 17:11:44 +0900</pubDate>
       <guid>https://cskime.github.io/posts/inherited-widget-unaccessible/</guid>

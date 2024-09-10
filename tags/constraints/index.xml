@@ -9,7 +9,7 @@
     <lastBuildDate>Fri, 16 Aug 2024 21:10:26 +0900</lastBuildDate>
     <atom:link href="https://cskime.github.io/tags/constraints/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Bottom fixed footer를 갖는 scrollable widget 만들기</title>
+      <title>[Flutter] Bottom fixed footer를 갖는 scrollable widget 만들기</title>
       <link>https://cskime.github.io/posts/fixed-footer-scrollview/</link>
       <pubDate>Fri, 16 Aug 2024 21:10:26 +0900</pubDate>
       <guid>https://cskime.github.io/posts/fixed-footer-scrollview/</guid>
@@ -19,7 +19,7 @@ Code Demo Footer widget을 화면 하단에 배치하기 위해 content와 foote
 Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필요하다.</description>
     </item>
     <item>
-      <title>Flutter Constraint 이해하기</title>
+      <title>[Flutter] Flutter Constraint 이해하기</title>
       <link>https://cskime.github.io/posts/flutter-constraints/</link>
       <pubDate>Tue, 25 Jun 2024 16:09:00 +0900</pubDate>
       <guid>https://cskime.github.io/posts/flutter-constraints/</guid>

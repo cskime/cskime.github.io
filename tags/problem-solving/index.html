@@ -172,19 +172,19 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">ListView에 Clip.none 설정 시 item이 사라지는 문제
+    <h2 class="entry-hint-parent">[Flutter] ListView에 Clip.none 설정 시 item이 사라지는 문제
     </h2>
   </header>
   <div class="entry-content">
     <p>문제 상황 ListView를 Clip.none으로 설정하면 item들이 scroll될 때 ListView의 실제 영역을 벗어나서 화면 밖으로 사라질 때 까지 화면에 유지될 것이라고 예상 하지만 실제로는 item이 화면 밖으로 나가기 전에 먼저 화면에서 사라짐 이 ListView는 Padding 및 다른 widget들의 하위 widget 원인 분석 Flutter GitHub에 이미 같은 문제로 issue가 올라왔었다. 이 repo의 contributor에 따르면, 이것은 의도된 동작이라고 한다. it looks like this is working as intended.. The Padding around the ListView is what is causing this effect....</p>
   </div>
   <footer class="entry-footer"><span title='2024-06-22 07:27:19 +0900 KST'>June 22, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to ListView에 Clip.none 설정 시 item이 사라지는 문제" href="https://cskime.github.io/posts/listview-clip-item-disappear/"></a>
+  <a class="entry-link" aria-label="post link to [Flutter] ListView에 Clip.none 설정 시 item이 사라지는 문제" href="https://cskime.github.io/posts/listview-clip-item-disappear/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제
+    <h2 class="entry-hint-parent">[Flutter] Navigator.push로 띄운 widget에서 InheritedWidget에 접근할 수 없는 문제
     </h2>
   </header>
   <div class="entry-content">
@@ -195,7 +195,7 @@ Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
 class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&gt; true; static CounterProvider?...</p>
   </div>
   <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Navigator.push로 띄운 route에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
+  <a class="entry-link" aria-label="post link to [Flutter] Navigator.push로 띄운 widget에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
 </article>
     </main>
     

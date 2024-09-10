@@ -172,7 +172,7 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Iterable collections
+    <h2 class="entry-hint-parent">[Dart] Iterable collections
     </h2>
   </header>
   <div class="entry-content">
@@ -185,24 +185,24 @@ Iterable과 List는 element에 접근하는 방법에 차이가 있음
 List는 [index] operator를 사용하지만, Iterable은 elementAt(index) method를 사용해서 특정 index의 element에 접근...</p>
   </div>
   <footer class="entry-footer"><span title='2024-08-17 13:37:39 +0900 KST'>August 17, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to Iterable collections" href="https://cskime.github.io/posts/iterable-collections/"></a>
+  <a class="entry-link" aria-label="post link to [Dart] Iterable collections" href="https://cskime.github.io/posts/iterable-collections/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">List.from, List.of, toList() 비교
+    <h2 class="entry-hint-parent">[Dart] List.from, List.of, toList() 비교
     </h2>
   </header>
   <div class="entry-content">
     <p>Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List....</p>
   </div>
   <footer class="entry-footer"><span title='2024-08-04 10:59:20 +0900 KST'>August 4, 2024</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to List.from, List.of, toList() 비교" href="https://cskime.github.io/posts/list-of-vs-list-from/"></a>
+  <a class="entry-link" aria-label="post link to [Dart] List.from, List.of, toList() 비교" href="https://cskime.github.io/posts/list-of-vs-list-from/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Dart에서 type casting을 안전하게 하는 방법
+    <h2 class="entry-hint-parent">[Dart] Dart에서 type casting을 안전하게 하는 방법
     </h2>
   </header>
   <div class="entry-content">
@@ -211,7 +211,7 @@ class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart�
 class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다....</p>
   </div>
   <footer class="entry-footer"><span title='2024-07-20 09:10:00 +0900 KST'>July 20, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Dart에서 type casting을 안전하게 하는 방법" href="https://cskime.github.io/posts/dart-safe-type-cast/"></a>
+  <a class="entry-link" aria-label="post link to [Dart] Dart에서 type casting을 안전하게 하는 방법" href="https://cskime.github.io/posts/dart-safe-type-cast/"></a>
 </article>
     </main>
     

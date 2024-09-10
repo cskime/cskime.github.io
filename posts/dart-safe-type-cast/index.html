@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Dart에서 type casting을 안전하게 하는 방법 | cskime.io</title>
+<title>[Dart] Dart에서 type casting을 안전하게 하는 방법 | cskime.io</title>
 <meta name="keywords" content="dart, type casting">
 <meta name="description" content="Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
 class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
@@ -95,7 +95,7 @@ class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C 
 
   
 
-<meta property="og:title" content="Dart에서 type casting을 안전하게 하는 방법" />
+<meta property="og:title" content="[Dart] Dart에서 type casting을 안전하게 하는 방법" />
 <meta property="og:description" content="Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
 class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
 class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다." />
@@ -105,7 +105,7 @@ class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C 
 <meta property="article:modified_time" content="2024-07-20T09:10:00+09:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Dart에서 type casting을 안전하게 하는 방법"/>
+<meta name="twitter:title" content="[Dart] Dart에서 type casting을 안전하게 하는 방법"/>
 <meta name="twitter:description" content="Swift에서는 as?로 안전하게 type casting을 할 수 있었다.
 class A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.
 class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다."/>
@@ -125,7 +125,7 @@ class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C 
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "Dart에서 type casting을 안전하게 하는 방법",
+      "name": "[Dart] Dart에서 type casting을 안전하게 하는 방법",
       "item": "https://cskime.github.io/posts/dart-safe-type-cast/"
     }
   ]
@@ -135,8 +135,8 @@ class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C 
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Dart에서 type casting을 안전하게 하는 방법",
-  "name": "Dart에서 type casting을 안전하게 하는 방법",
+  "headline": "[Dart] Dart에서 type casting을 안전하게 하는 방법",
+  "name": "[Dart] Dart에서 type casting을 안전하게 하는 방법",
   "description": "Swift에서는 as?로 안전하게 type casting을 할 수 있었다.\nclass A {} class B: A {} class C {} let a = A() let b = B() b as? C// nil Dart는 as keyword로 type casting을 할 수 있지만, incompatible type으로 casting을 시도하면 type error가 발생한다. Dart에는 optional casting 연산자가 따로 없으므로, error 없이 type casting을 하려면 type check를 먼저 해야 한다.\nclass A {} class B extends A {} class C {} final a = A(); final b = B(); a as C // ❗️ type error if (a is C) { a as C // Never executed } if (a is B) { a as B // ✅ OK } 매번 type check를 하려면 번거로우므로, 아래와 같은 extension을 만들어서 사용하면 편리하다.",
   "keywords": [
     "dart", "type casting"
@@ -226,7 +226,7 @@ class A {} class B extends A {} class C {} final a = A(); final b = B(); a as C 
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      Dart에서 type casting을 안전하게 하는 방법
+      [Dart] Dart에서 type casting을 안전하게 하는 방법
     </h1>
     <div class="post-meta"><span title='2024-07-20 09:10:00 +0900 KST'>July 20, 2024</span>&nbsp;·&nbsp;1 min
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Hit Test on cskime.io</title>
-    <link>https://cskime.github.io/tags/hit-test/</link>
-    <description>Recent content in Hit Test on cskime.io</description>
+    <title>UIResponder on cskime.io</title>
+    <link>https://cskime.github.io/tags/uiresponder/</link>
+    <description>Recent content in UIResponder on cskime.io</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 06 Feb 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://cskime.github.io/tags/hit-test/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://cskime.github.io/tags/uiresponder/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[iOS] iOS Hit Testing</title>
       <link>https://cskime.github.io/posts/ios-hit-testing/</link>
