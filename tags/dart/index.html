@@ -172,6 +172,19 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Retry with Exponential Back-Off and Jitter
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>최근 본 면접에서 새로 알게 된 Exponential Back-Off 라는 개념과 Jitter를 사용한 개선 방법을 공부하고 정리한다. 그리고, Flutter 앱을 개발할 때 이 전략을 활용하기 위해 Dart code로 구현해 본다.
+Retry Strategy 어떤 system에서 다른 system을 call하는 상황에서 failure는 언제든지 발생할 수 있다. 앱을 개발할 때는 server 부하 또는 일시적인 network 오류 등에 의해 http 요청이 오랜 시간 동안 완료되지 않거나 실패하는 상황을 떠올릴 수 있다. 이러한 일시적인 문제 때문에 client에서 server로 보내는 data가 유실될 수 있는데, 이것을 막기 위해 여러 가지 방법으로 retry 전략을 세운다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-09-13 16:24:35 +0900 KST'>September 13, 2024</span>&nbsp;·&nbsp;4 min</footer>
+  <a class="entry-link" aria-label="post link to Retry with Exponential Back-Off and Jitter" href="https://cskime.github.io/posts/dart-retry-exp-backoff-jitter/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Dart] DI를 위한 interface 만들기
     </h2>
   </header>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Jitter on cskime.io</title>
+    <link>https://cskime.github.io/tags/jitter/</link>
+    <description>Recent content in Jitter on cskime.io</description>
+    <generator>Hugo -- 0.129.0</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 13 Sep 2024 16:24:35 +0900</lastBuildDate>
+    <atom:link href="https://cskime.github.io/tags/jitter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Retry with Exponential Back-Off and Jitter</title>
+      <link>https://cskime.github.io/posts/dart-retry-exp-backoff-jitter/</link>
+      <pubDate>Fri, 13 Sep 2024 16:24:35 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/dart-retry-exp-backoff-jitter/</guid>
+      <description>최근 본 면접에서 새로 알게 된 Exponential Back-Off 라는 개념과 Jitter를 사용한 개선 방법을 공부하고 정리한다. 그리고, Flutter 앱을 개발할 때 이 전략을 활용하기 위해 Dart code로 구현해 본다.
+Retry Strategy 어떤 system에서 다른 system을 call하는 상황에서 failure는 언제든지 발생할 수 있다. 앱을 개발할 때는 server 부하 또는 일시적인 network 오류 등에 의해 http 요청이 오랜 시간 동안 완료되지 않거나 실패하는 상황을 떠올릴 수 있다. 이러한 일시적인 문제 때문에 client에서 server로 보내는 data가 유실될 수 있는데, 이것을 막기 위해 여러 가지 방법으로 retry 전략을 세운다.</description>
+    </item>
+  </channel>
+</rss>
