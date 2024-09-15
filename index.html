@@ -221,6 +221,18 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Dart] Understanding null safety
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Overview 이 글은 Understanding null safety 문서의 내용을 바탕으로 Dart에서 null safety가 나온 배경 및 null safety의 동작 방식을 쉽게 이해하기 위해 작성하였다. 기본 문법적인 설명들을 제외하고 null safety의 원리를 이해하는데 필요하다고 생각되는 부분들만 정리했기 때문에 원문의 일부 내용이 누락되어 있고 설명하는 순서도 다르다. 빠르게 Dart null safety의 동작 방식에 대해 이해하는 것이 목적이라면 이 글을 이해하는 것으로 충분하겠지만, 더 자세한 설명이 필요하다면 원문을 정독하는 것을 권한다. Null safety가 나온 이유 Dart에서 null은 Null type으로 표현된다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-09-15 15:25:01 +0900 KST'>September 15, 2024</span>&nbsp;·&nbsp;6 min</footer>
+  <a class="entry-link" aria-label="post link to [Dart] Understanding null safety" href="https://cskime.github.io/posts/dart-understanding-null-safety/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Retry with Exponential Back-Off and Jitter
     </h2>
   </header>
@@ -342,18 +354,6 @@ Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필�
   </div>
   <footer class="entry-footer"><span title='2024-08-15 18:15:39 +0900 KST'>August 15, 2024</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to [Flutter] 🇰🇷 광복절 기념 태극기 그리기 🇰🇷" href="https://cskime.github.io/posts/flutter-taegeukgi/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Dart] List.from, List.of, toList() 비교
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Summary 셋 모두 Iterable object를 동일한 element를 가진 새 List로 copy할 때 사용할 수 있다. toList()는 List.of의 short-hand method로 서로 같다. List.from은 original Iterable의 element들을 runtime에 result type으로 casting하고, casting에 실패하면 runtime error를 발생시킨다. List.of는 original Iterable의 element들이 result type과 같거나 하위 type인지 compile-time에 check하고, type이 호환되지 않으면 compile-time error를 발생시킨다. List.from은 original Iterable을 down casting할 때 사용할 수 있고, List.of는 up casting할 때 사용할 수 있다. Copy 할 때 original type을 지켜야 한다면 toList() 또는 List....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-08-04 10:59:20 +0900 KST'>August 4, 2024</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to [Dart] List.from, List.of, toList() 비교" href="https://cskime.github.io/posts/list-of-vs-list-from/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
