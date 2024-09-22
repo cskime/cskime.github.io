@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[Dart] Isolate 요약 | cskime.io</title>
+<meta name="keywords" content="dart, flutter, concurrency, isolate, SendPort, ReceivePort">
+<meta name="description" content="Dart isolate 관련 문서들을 참고하여 isolate의 개념 및 동작방식을 요약한다. 참고한 문서 Concurrency in Dart | dart.dev Isolates | dart.dev Concurrency and isolates | Flutter docs Isolate 사용 이유 모든 Dart code는 기본적으로 main isolate에서 실행된다. Main isolates의 event loop는 UI paint, I/O, user input 등 UI 관련 event들을 처리한다. Main isolate에서 시간이 오래 걸리는 작업을 실행하면 event loop가 다음 repaint event 처리 시점을 놓치게 되면서 UI freezing이 발생할 수 있다.">
+<meta name="author" content="">
+<link rel="canonical" href="https://cskime.github.io/posts/isolate-summary/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://cskime.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cskime.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cskime.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/isolate-summary/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+  integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"
+  crossorigin="anonymous"
+/>
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"
+  integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY"
+  crossorigin="anonymous"
+></script>
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ],
+    });
+  });
+</script>
+
+
+  
+
+<meta property="og:title" content="[Dart] Isolate 요약" />
+<meta property="og:description" content="Dart isolate 관련 문서들을 참고하여 isolate의 개념 및 동작방식을 요약한다. 참고한 문서 Concurrency in Dart | dart.dev Isolates | dart.dev Concurrency and isolates | Flutter docs Isolate 사용 이유 모든 Dart code는 기본적으로 main isolate에서 실행된다. Main isolates의 event loop는 UI paint, I/O, user input 등 UI 관련 event들을 처리한다. Main isolate에서 시간이 오래 걸리는 작업을 실행하면 event loop가 다음 repaint event 처리 시점을 놓치게 되면서 UI freezing이 발생할 수 있다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cskime.github.io/posts/isolate-summary/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-21T14:13:14+09:00" />
+<meta property="article:modified_time" content="2024-09-21T14:13:14+09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[Dart] Isolate 요약"/>
+<meta name="twitter:description" content="Dart isolate 관련 문서들을 참고하여 isolate의 개념 및 동작방식을 요약한다. 참고한 문서 Concurrency in Dart | dart.dev Isolates | dart.dev Concurrency and isolates | Flutter docs Isolate 사용 이유 모든 Dart code는 기본적으로 main isolate에서 실행된다. Main isolates의 event loop는 UI paint, I/O, user input 등 UI 관련 event들을 처리한다. Main isolate에서 시간이 오래 걸리는 작업을 실행하면 event loop가 다음 repaint event 처리 시점을 놓치게 되면서 UI freezing이 발생할 수 있다."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cskime.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[Dart] Isolate 요약",
+      "item": "https://cskime.github.io/posts/isolate-summary/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[Dart] Isolate 요약",
+  "name": "[Dart] Isolate 요약",
+  "description": "Dart isolate 관련 문서들을 참고하여 isolate의 개념 및 동작방식을 요약한다. 참고한 문서 Concurrency in Dart | dart.dev Isolates | dart.dev Concurrency and isolates | Flutter docs Isolate 사용 이유 모든 Dart code는 기본적으로 main isolate에서 실행된다. Main isolates의 event loop는 UI paint, I/O, user input 등 UI 관련 event들을 처리한다. Main isolate에서 시간이 오래 걸리는 작업을 실행하면 event loop가 다음 repaint event 처리 시점을 놓치게 되면서 UI freezing이 발생할 수 있다.",
+  "keywords": [
+    "dart", "flutter", "concurrency", "isolate", "SendPort", "ReceivePort"
+  ],
+  "articleBody": " Dart isolate 관련 문서들을 참고하여 isolate의 개념 및 동작방식을 요약한다. 참고한 문서 Concurrency in Dart | dart.dev Isolates | dart.dev Concurrency and isolates | Flutter docs Isolate 사용 이유 모든 Dart code는 기본적으로 main isolate에서 실행된다. Main isolates의 event loop는 UI paint, I/O, user input 등 UI 관련 event들을 처리한다. Main isolate에서 시간이 오래 걸리는 작업을 실행하면 event loop가 다음 repaint event 처리 시점을 놓치게 되면서 UI freezing이 발생할 수 있다. 이 문제를 해결하기 위해 시간이 오래 걸리는 작업을 다른 isolate에서 실행시키고, 작업 완료 시 결괏값을 비동기적으로 반환 받아서 사용한다. Isolate들은 memory가 완벽하게 격리되어 있고 자신만의 event loop도 갖고 있으므로, 다른 worker isolate에서 오래된 작업을 실행해도 main isolate에 영향을 주지 않는다. Isolate 특징 Isolate는 일반적인 thread와 비슷한 개념이지만, thread와 달리 isolate들이 shared memory 없이 완벽하게 격리(isolated) 되어 있다는 차이가 있다. Isolate 간에 shared memory가 없으므로, isolate 간의 communication은 반드시 message channel을 통해야 한다. (ReceivePort, SendPort 사용) global mutable variable, static field 등도 isolate 별로 분리되어 있다. shared state가 존재하지 않는다. State를 변경해도 isolate간 동기화가 이루어지지 않으므로 message를 통해 직접 동기화 시켜야 한다. UI 관련 작업들은 main isolate에서만 처리할 수 있으므로, 다른 isolate에서 rootBundle을 통해 asset에 접근하거나 Flutter widget 등 UI와 관련된 코드를 실행시킬 수 없다. 다른 isolate를 만들 때 spawner isolate와 new isolate는 같은 isolate group으로 묶여서 더 빠르고 효율적으로 message를 주고받을 수 있다. Isolate 사용 방법 Isolate.run Isolate.run(computation)을 사용해서 instant worker isolate를 생성하고 computation 함수를 실행시킨다.\nWorker isolate에서 computation을 실행한 결괏값은 Future 반환한다.\n실행이 끝난 worker isolate는 사용 중지된다.\nExample\nconst String filename = 'with_keys.json'; void main() async { // Read some data. final jsonData = await Isolate.run(() async { final fileData = await File(filename).readAsString(); final jsonData = jsonDecode(fileData) as Map\u003cString, dynamic\u003e; return jsonData; }); // Use that data. print('Number of JSON keys: ${jsonData.length}'); } Isolate.spawn Worker isolate와 여러 개의 message들을 지속적으로 주고받고 싶다면 Isolate.spawn(entryPoint,message)을 사용해서 isolate를 생성한다.\nReceivePort와 SendPort class 객체를 생성해서 message channel을 직접 구현해 준다. ReceivePort.listen으로 다른 isolate가 보낸 message를 받는 listener를 등록해 두고, SendPort로 다른 isolate에 message를 보낸다.\nReceivePort와 SendPort의 동작을 Stream에 비유할 수 있다.\nReceivePort : listener of a stream SendPort : StreamController Isolate 사용이 끝나면 ReceivePort.close()로 port를 닫은 뒤 isolate.kill(priority?) 또는 Isolate.exit으로 worker isolate를 제거한다.\nExample: Worker class\nclass Worker { late SendPort _sendPort; final Completer\u003cvoid\u003e _isolateReady = Completer.sync(); Future\u003cvoid\u003e spawn async { // 1. Create a ReceivePort on the main isolate final receivePort = ReceivePort() // 2. Add a listener to handle messages from the worker isolate receivePort.listen(_handleResponsesFromIsolate); // 3. Create a worker isolate // `_startReomteIsolate` is a `entryPoint` function. It executes at the first time. // Pass the SendPort to the worker isolate as an initial message await Isolate.spawn(_startRemoteIsolate, receivePort.sendPort); } void _handleResponsesFromIsolate(dynamic message) { if (message is SendPort) { // 1. First message from the worker isolate should be SendPort _sendPort = message; _isolateReady.complete(); } else if (message is Map\u003cString, dynamic\u003e) { print(message); } } static void _startRemoteIsolate(SendPort port) { // 1. Create ReceivePort on the worker isolate final receivePort = ReceivePort(); // 2. Pass the SendPort to the main isolate as an initial message port.send(receivePort.sendPort); // 3. Add a listener to handle messages from the main isolate receivePort.listen((message) async { if (message is String) { final transformed = jsonDecode(message); port.send(transformed); } }); } Future\u003cvoid\u003e parseJson(String message) async { // 1. Wait until main isolate receives a SendPort from the worker isolate await _isolateReady.future; // 2. Send a message to the worker isolate _sendPort.send(message); } } Example 2: RawReceivePort를 사용해서 connection logic 분리하기\nReceivePort는 내부적으로 broadcast가 아닌 stream을 사용하기 때문에 listen으로 1개의 listener만 등록 가능 그래서, 위 코드에는 worker isolate로부터 message를 받아서 처리하는 logic에 두 가지 작업이 섞여 있다. SendPort를 받아서 message channel을 만드는 작업 실제 message를 받아서 처리하는 작업 이 때, RawReceivePort를 사용해서 port setup logic과 message handling logic을 분리할 수 있다. RawReceivePort의 handler에 worker isolate로부터 SendPort를 받아서 connection을 만들고 Completer를 사용해서 작업을 완료시키는 함수 등록 final initPort = RawReceivePort(); final connection = Completer\u003c(ReceivePort, SendPort)\u003e.sync(); initPort.handler = (initialMessage) { final commandPort = initialMessage as SendPort; connection.complete(( ReceivePort.fromRawReceivePort(initPort), // ReceivePort로 변환 commandPort, )); }; SendPort를 받아 connection이 만들어진 뒤 ReceivePort.listen으로 실제로 사용하는 message들만 처리하는 listener 등록 receivePort.listen((message) { // Listener를 등록하기 전에 `RawReceivePort.handler`에서 이미 SendPort를 받았으므로 // message가 `SendPort`인지 검사하지 않아도 된다. final jsonData = jsonDecode(message as String); sendPort.send(jsonData); }); RawReceivePort.handler와 ReceivePort.listen의 차이 RawReceivePort.handler : message를 받을 때 호출되는 일반적인 callback function ReceivePort.listen : StreamSubscription을 반환하여 Stream 관련 API 활용 가능 ",
+  "wordCount" : "711",
+  "inLanguage": "en",
+  "datePublished": "2024-09-21T14:13:14+09:00",
+  "dateModified": "2024-09-21T14:13:14+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cskime.github.io/posts/isolate-summary/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "cskime.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cskime.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cskime.github.io/" accesskey="h" title="cskime.io (Alt + H)">cskime.io</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://cskime.github.io/archive" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/tags" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      [Dart] Isolate 요약
+    </h1>
+    <div class="post-meta"><span title='2024-09-21 14:13:14 +0900 KST'>September 21, 2024</span>&nbsp;·&nbsp;4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#isolate-%ec%82%ac%ec%9a%a9-%ec%9d%b4%ec%9c%a0" aria-label="Isolate 사용 이유">Isolate 사용 이유</a></li>
+                <li>
+                    <a href="#isolate-%ed%8a%b9%ec%a7%95" aria-label="Isolate 특징">Isolate 특징</a></li>
+                <li>
+                    <a href="#isolate-%ec%82%ac%ec%9a%a9-%eb%b0%a9%eb%b2%95" aria-label="Isolate 사용 방법">Isolate 사용 방법</a><ul>
+                        
+                <li>
+                    <a href="#isolaterun" aria-label="Isolate.run">Isolate.run</a></li>
+                <li>
+                    <a href="#isolatespawn" aria-label="Isolate.spawn">Isolate.spawn</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><ul>
+<li>Dart isolate 관련 문서들을 참고하여 isolate의 개념 및 동작방식을 요약한다.</li>
+<li>참고한 문서
+<ul>
+<li><a href="https://dart.dev/language/concurrency">Concurrency in Dart | dart.dev</a></li>
+<li><a href="https://dart.dev/language/isolates">Isolates | dart.dev</a></li>
+<li><a href="https://docs.flutter.dev/perf/isolates">Concurrency and isolates | Flutter docs</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="isolate-사용-이유">Isolate 사용 이유<a hidden class="anchor" aria-hidden="true" href="#isolate-사용-이유">#</a></h2>
+<ul>
+<li>모든 Dart code는 기본적으로 main isolate에서 실행된다.</li>
+<li>Main isolates의 event loop는 UI paint, I/O, user input 등 UI 관련 event들을 처리한다.</li>
+<li>Main isolate에서 시간이 오래 걸리는 작업을 실행하면 event loop가 다음 repaint event 처리 시점을 놓치게 되면서 UI freezing이 발생할 수 있다.
+<div><img src="./image1.png" width="500"/></div>
+</li>
+<li>이 문제를 해결하기 위해 <strong>시간이 오래 걸리는 작업을 다른 isolate에서 실행</strong>시키고, 작업 완료 시 결괏값을 비동기적으로 반환 받아서 사용한다.
+<div><img src="./image2.png" width="600"/></div>
+</li>
+<li>Isolate들은 memory가 완벽하게 격리되어 있고 자신만의 event loop도 갖고 있으므로, <strong>다른 worker isolate에서 오래된 작업을 실행해도 main isolate에 영향을 주지 않는다</strong>.</li>
+</ul>
+<h2 id="isolate-특징">Isolate 특징<a hidden class="anchor" aria-hidden="true" href="#isolate-특징">#</a></h2>
+<ul>
+<li>Isolate는 일반적인 thread와 비슷한 개념이지만, thread와 달리 isolate들이 <strong>shared memory 없이 완벽하게 격리(isolated)</strong> 되어 있다는 차이가 있다.</li>
+<li>Isolate 간에 shared memory가 없으므로,
+<ul>
+<li>isolate 간의 communication은 반드시 <strong>message channel</strong>을 통해야 한다. (<code>ReceivePort</code>, <code>SendPort</code> 사용)</li>
+<li>global mutable variable, static field 등도 isolate 별로 분리되어 있다.</li>
+<li>shared state가 존재하지 않는다. State를 변경해도 isolate간 동기화가 이루어지지 않으므로 message를 통해 직접 동기화 시켜야 한다.</li>
+</ul>
+</li>
+<li><strong>UI 관련 작업들은 main isolate에서만 처리할 수 있으므로</strong>, 다른 isolate에서 <code>rootBundle</code>을 통해 asset에 접근하거나 Flutter widget 등 UI와 관련된 코드를 실행시킬 수 없다.</li>
+<li>다른 isolate를 만들 때 spawner isolate와 new isolate는 같은 <strong>isolate group</strong>으로 묶여서 더 빠르고 효율적으로 message를 주고받을 수 있다.</li>
+</ul>
+<h2 id="isolate-사용-방법">Isolate 사용 방법<a hidden class="anchor" aria-hidden="true" href="#isolate-사용-방법">#</a></h2>
+<h3 id="isolaterun">Isolate.run<a hidden class="anchor" aria-hidden="true" href="#isolaterun">#</a></h3>
+<ul>
+<li>
+<p><code>Isolate.run(computation)</code>을 사용해서 instant worker isolate를 생성하고 <code>computation</code> 함수를 실행시킨다.</p>
+</li>
+<li>
+<p>Worker isolate에서 <code>computation</code>을 실행한 결괏값은 <code>Future</code> 반환한다.</p>
+</li>
+<li>
+<p>실행이 끝난 worker isolate는 사용 중지된다.</p>
+</li>
+<li>
+<p>Example</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">String</span> filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;with_keys.json&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main() <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Read some data.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> jsonData <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> Isolate.run(() <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> fileData <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> File(filename).readAsString();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> jsonData <span style="color:#f92672">=</span> jsonDecode(fileData) <span style="color:#f92672">as</span> Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">dynamic</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> jsonData;
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Use that data.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  print(<span style="color:#e6db74">&#39;Number of JSON keys: </span><span style="color:#e6db74">${</span>jsonData.length<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="isolatespawn">Isolate.spawn<a hidden class="anchor" aria-hidden="true" href="#isolatespawn">#</a></h3>
+<ul>
+<li>
+<p>Worker isolate와 여러 개의 message들을 지속적으로 주고받고 싶다면 <code>Isolate.spawn(entryPoint,message)</code>을 사용해서 isolate를 생성한다.</p>
+</li>
+<li>
+<p><code>ReceivePort</code>와 <code>SendPort</code> class 객체를 생성해서 message channel을 직접 구현해 준다. <code>ReceivePort.listen</code>으로 다른 isolate가 보낸 message를 받는 listener를 등록해 두고, <code>SendPort</code>로 다른 isolate에 message를 보낸다.</p>
+<div><img src="./image3.png" width="500"/></div>
+</li>
+<li>
+<p><code>ReceivePort</code>와 <code>SendPort</code>의 동작을 Stream에 비유할 수 있다.</p>
+<ul>
+<li><code>ReceivePort</code> : listener of a stream</li>
+<li><code>SendPort</code> : <code>StreamController</code></li>
+</ul>
+</li>
+<li>
+<p>Isolate 사용이 끝나면 <code>ReceivePort.close()</code>로 port를 닫은 뒤 <code>isolate.kill(priority?)</code> 또는 <code>Isolate.exit</code>으로 worker isolate를 제거한다.</p>
+</li>
+<li>
+<p>Example: <code>Worker</code> class</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worker</span> {
+</span></span><span style="display:flex;"><span>  late SendPort _sendPort;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> Completer<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span> _isolateReady <span style="color:#f92672">=</span> Completer.<span style="color:#66d9ef">sync</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span> spawn <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. Create a ReceivePort on the main isolate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">final</span> receivePort <span style="color:#f92672">=</span> ReceivePort()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. Add a listener to handle messages from the worker isolate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    receivePort.listen(_handleResponsesFromIsolate);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. Create a worker isolate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//    `_startReomteIsolate` is a `entryPoint` function. It executes at the first time.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//    Pass the SendPort to the worker isolate as an initial message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">await</span> Isolate.spawn(_startRemoteIsolate, receivePort.sendPort);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> _handleResponsesFromIsolate(<span style="color:#66d9ef">dynamic</span> message) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (message <span style="color:#66d9ef">is</span> SendPort) {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 1. First message from the worker isolate should be SendPort
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      _sendPort <span style="color:#f92672">=</span> message;
+</span></span><span style="display:flex;"><span>      _isolateReady.complete();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (message <span style="color:#66d9ef">is</span> Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">dynamic</span><span style="color:#f92672">&gt;</span>) {
+</span></span><span style="display:flex;"><span>      print(message);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> _startRemoteIsolate(SendPort port) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. Create ReceivePort on the worker isolate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">final</span> receivePort <span style="color:#f92672">=</span> ReceivePort();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. Pass the SendPort to the main isolate as an initial message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    port.send(receivePort.sendPort);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. Add a listener to handle messages from the main isolate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    receivePort.listen((message) <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (message <span style="color:#66d9ef">is</span> <span style="color:#66d9ef">String</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">final</span> transformed <span style="color:#f92672">=</span> jsonDecode(message);
+</span></span><span style="display:flex;"><span>        port.send(transformed);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span> parseJson(<span style="color:#66d9ef">String</span> message) <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. Wait until main isolate receives a SendPort from the worker isolate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">await</span> _isolateReady.future;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. Send a message to the worker isolate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    _sendPort.send(message);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>Example 2: <strong><code>RawReceivePort</code>를 사용해서 connection logic 분리하기</strong></p>
+<ul>
+<li><code>ReceivePort</code>는 내부적으로 broadcast가 아닌 stream을 사용하기 때문에 <code>listen</code>으로 1개의 listener만 등록 가능</li>
+<li>그래서, 위 코드에는 worker isolate로부터 message를 받아서 처리하는 logic에 두 가지 작업이 섞여 있다.
+<ol>
+<li><code>SendPort</code>를 받아서 message channel을 만드는 작업</li>
+<li>실제 message를 받아서 처리하는 작업</li>
+</ol>
+</li>
+<li>이 때, <code>RawReceivePort</code>를 사용해서 <strong>port setup logic과 message handling logic을 분리</strong>할 수 있다.</li>
+<li><code>RawReceivePort</code>의 <code>handler</code>에 worker isolate로부터 <code>SendPort</code>를 받아서 connection을 만들고 <code>Completer</code>를 사용해서 작업을 완료시키는 함수 등록
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> initPort <span style="color:#f92672">=</span> RawReceivePort();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> connection <span style="color:#f92672">=</span> Completer<span style="color:#f92672">&lt;</span>(ReceivePort, SendPort)<span style="color:#f92672">&gt;</span>.<span style="color:#66d9ef">sync</span>();
+</span></span><span style="display:flex;"><span>initPort.handler <span style="color:#f92672">=</span> (initialMessage) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> commandPort <span style="color:#f92672">=</span> initialMessage <span style="color:#f92672">as</span> SendPort;
+</span></span><span style="display:flex;"><span>  connection.complete((
+</span></span><span style="display:flex;"><span>    ReceivePort.fromRawReceivePort(initPort), <span style="color:#75715e">// ReceivePort로 변환
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    commandPort,
+</span></span><span style="display:flex;"><span>  ));
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div></li>
+<li><code>SendPort</code>를 받아 connection이 만들어진 뒤 <code>ReceivePort.listen</code>으로 실제로 사용하는 message들만 처리하는 listener 등록
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>receivePort.listen((message) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Listener를 등록하기 전에 `RawReceivePort.handler`에서 이미 SendPort를 받았으므로
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// message가 `SendPort`인지 검사하지 않아도 된다.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> jsonData <span style="color:#f92672">=</span> jsonDecode(message <span style="color:#f92672">as</span> <span style="color:#66d9ef">String</span>);
+</span></span><span style="display:flex;"><span>  sendPort.send(jsonData);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div></li>
+<li><code>RawReceivePort.handler</code>와 <code>ReceivePort.listen</code>의 차이
+<ul>
+<li><code>RawReceivePort.handler</code> : message를 받을 때 호출되는 일반적인 callback function</li>
+<li><code>ReceivePort.listen</code> : <code>StreamSubscription</code>을 반환하여 Stream 관련 API 활용 가능</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://cskime.github.io/tags/dart/">Dart</a></li>
+      <li><a href="https://cskime.github.io/tags/flutter/">Flutter</a></li>
+      <li><a href="https://cskime.github.io/tags/concurrency/">Concurrency</a></li>
+      <li><a href="https://cskime.github.io/tags/isolate/">Isolate</a></li>
+      <li><a href="https://cskime.github.io/tags/sendport/">SendPort</a></li>
+      <li><a href="https://cskime.github.io/tags/receiveport/">ReceivePort</a></li>
+    </ul>
+  </footer>
+<div id="disqus_thread"></div>
+<script>
+  window.disqus_config = function () {
+  
+  
+  
+  };
+  (function() {
+      if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+          document.getElementById('disqus_thread').innerHTML = 'Disqu s comments not available by default when the website is previewed locally.';
+          return;
+      }
+      var d = document, s = d.createElement('script'); s.async = true;
+      s.src = '//' + "cskime-github-io" + '.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript
+>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a
+>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://cskime.github.io/">cskime.io</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

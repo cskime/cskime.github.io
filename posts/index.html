@@ -187,6 +187,18 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Dart] Isolate 요약
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Dart isolate 관련 문서들을 참고하여 isolate의 개념 및 동작방식을 요약한다. 참고한 문서 Concurrency in Dart | dart.dev Isolates | dart.dev Concurrency and isolates | Flutter docs Isolate 사용 이유 모든 Dart code는 기본적으로 main isolate에서 실행된다. Main isolates의 event loop는 UI paint, I/O, user input 등 UI 관련 event들을 처리한다. Main isolate에서 시간이 오래 걸리는 작업을 실행하면 event loop가 다음 repaint event 처리 시점을 놓치게 되면서 UI freezing이 발생할 수 있다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-09-21 14:13:14 +0900 KST'>September 21, 2024</span>&nbsp;·&nbsp;4 min</footer>
+  <a class="entry-link" aria-label="post link to [Dart] Isolate 요약" href="https://cskime.github.io/posts/isolate-summary/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Dart] Understanding null safety
     </h2>
   </header>
@@ -305,21 +317,6 @@ Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필�
   </div>
   <footer class="entry-footer"><span title='2024-08-16 21:10:26 +0900 KST'>August 16, 2024</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to [Flutter] Bottom fixed footer를 갖는 scrollable widget 만들기" href="https://cskime.github.io/posts/fixed-footer-scrollview/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Flutter] 🇰🇷 광복절 기념 태극기 그리기 🇰🇷
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Overview 광복절을 기념해서 Flutter로 태극기를 그려봤다. (Repository)
-태극기 도면을 참고했고, CustomPaint를 사용했다.
-깃면 그리기 태극기 깃면의 가로:세로 비율은 3:2이므로, AspectRatio로 3:2 비율의 widget을 만든다. DecoratedBox를 사용해서 border를 그려준다. AspectRatio의 child에 LayoutBuilder를 사용해서 CustomPaint의 size를 깃면 size로 설정한다. CustomPaint는 이 수치를 기반으로 태극 문양과 괘의 layout을 계산한다. 태극 문양 그리기 태극 문양은 아래 두 단계에 걸쳐 그릴 수 있다.
-빨간색과 파란색 반으로 나뉜 원을 그린다. 반지름을 지름으로 하는 빨간색, 파란색 원을 왼쪽, 오른쪽에 덮어서 그린다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-08-15 18:15:39 +0900 KST'>August 15, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to [Flutter] 🇰🇷 광복절 기념 태극기 그리기 🇰🇷" href="https://cskime.github.io/posts/flutter-taegeukgi/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
