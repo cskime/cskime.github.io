@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[Dart] fromJson constructor는 왜 factory로 만들까? | cskime.io</title>
+<meta name="keywords" content="dart, fromJson, factory, constructor">
+<meta name="description" content="Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(name: json[&#34;name&#34;], age: json[&#34;age&#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map&lt;String, dynamic&gt; json) : name = json[&#34;name&#34;], age = json[&#34;age&#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다.">
+<meta name="author" content="">
+<link rel="canonical" href="https://cskime.github.io/posts/why-from-json-factory/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://cskime.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cskime.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://cskime.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/why-from-json-factory/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+  integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"
+  crossorigin="anonymous"
+/>
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"
+  integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY"
+  crossorigin="anonymous"
+></script>
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ],
+    });
+  });
+</script>
+
+
+  
+
+<meta property="og:title" content="[Dart] fromJson constructor는 왜 factory로 만들까?" />
+<meta property="og:description" content="Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(name: json[&#34;name&#34;], age: json[&#34;age&#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map&lt;String, dynamic&gt; json) : name = json[&#34;name&#34;], age = json[&#34;age&#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cskime.github.io/posts/why-from-json-factory/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-22T18:35:28+09:00" />
+<meta property="article:modified_time" content="2024-09-22T18:35:28+09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[Dart] fromJson constructor는 왜 factory로 만들까?"/>
+<meta name="twitter:description" content="Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(name: json[&#34;name&#34;], age: json[&#34;age&#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map&lt;String, dynamic&gt; json) : name = json[&#34;name&#34;], age = json[&#34;age&#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://cskime.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[Dart] fromJson constructor는 왜 factory로 만들까?",
+      "item": "https://cskime.github.io/posts/why-from-json-factory/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[Dart] fromJson constructor는 왜 factory로 만들까?",
+  "name": "[Dart] fromJson constructor는 왜 factory로 만들까?",
+  "description": "Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.\nclass Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map\u0026lt;String, dynamic\u0026gt; json) =\u0026gt; Person(name: json[\u0026#34;name\u0026#34;], age: json[\u0026#34;age\u0026#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.\nclass Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map\u0026lt;String, dynamic\u0026gt; json) : name = json[\u0026#34;name\u0026#34;], age = json[\u0026#34;age\u0026#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다.",
+  "keywords": [
+    "dart", "fromJson", "factory", "constructor"
+  ],
+  "articleBody": "Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.\nclass Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map\u003cString, dynamic\u003e json) =\u003e Person(name: json[\"name\"], age: json[\"age\"]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.\nclass Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map\u003cString, dynamic\u003e json) : name = json[\"name\"], age = json[\"age\"]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다.\nclass Logger { // ... factory Logger(String name) { return _cache.putIfAbsent(name, () =\u003e Logger._internal(name)); } // Logger.fromJson factory constructor initializes a final variable from a JSON object. factory Logger.fromJson(Map\u003cString, Object\u003e json) { return Logger(json['name'].toString()); } // ... } 왜 fromJson constructor는 factory로 만들라고 하는 것일까?\nFactory constructor Dart 문서에서 factory constructor는 아래의 경우에 해당되면 사용하라고 설명하고 있다. Constructor가 subtype instance를 생성하거나, cache 등에서 이미 존재하는 instance를 가져와서 반환하는 경우 Argument 검사 또는 initializer list에서 처리되지 않은 작업 등 instance 생성 과정에서 선행되어야 하는 중요한 작업을 수행해야 하는 경우 함께 소개된 예시 코드에서 Logger constructor는 cache에서 객체를 가져와서 반환하므로 factory constructor를 사용하면 좋다. 하지만, Logger.fromJson은 json object로부터 name data를 가져와서 Logger instance를 생성하고 있다. Json을 parsing하는 과정에서 선행되는 작업도 없고, json data를 사용해서 ‘항상’ 새 instance를 만들어서 반환하는데 왜 factory constructor로 만드는 것일까? Defensive design Stack overflow에서 관련된 질문과 답변을 찾을 수 있었다. Factory constructor를 사용하는 것은 기술적으로 특별한 이유가 없더라도 defensive design을 위한 것이라고 한다. 일반적인 generative constructor를 만들면 subclass에서 forwarding이 가능해 진다. 이 constructor에 validation code를 추가하는 등의 변경이 필요하면 factory constructor로 변경해야 하는데, 이 class를 상속받는 subclass들 중 constructor를 forwarding 하고 있던 class에서 예상하지 못한 error가 발생할 가능성이 생긴다. 따라서, fromJson 외에도 constructor는 먼저 factory로 만들고 필요할 때만 public generative constructor를 만드는게 안전하다고 한다. Conclusion Stack overflow의 답변에 따르면, factory constructor를 사용하는 이유는 subclass에서 의도하지 않은 forwarding에 의한 error 가능성을 제거하는 목적이다. 하지만, 이것보다는 json 객체를 parsing하는 constructor의 역할 때문인 것 같다. 간단한 json 객체는 특별히 다른 logic이 필요없어 보이지만, 일반적으로 json 객체를 parsing할 때는 실패할 가능성이 존재하므로 이와 관련된 방어 코드 등의 logic이 필요할 수 있다. 따라서, json 객체로부터 instance를 생성하는 constructor는 factory constructor를 사용해야 하는 두 번째 이유에 해당한다고 생각한다. 이 질문에 대한 답은 정해진 것이 없으므로, fromJson은 일반적인 구현 패턴을 따라 factory constructor로 만드는게 좋을 것 같다. Reference Why use factory when constructing a new instance from a map structure? | Stack Overflow Constructors - Factory constructors | dart.dev ",
+  "wordCount" : "394",
+  "inLanguage": "en",
+  "datePublished": "2024-09-22T18:35:28+09:00",
+  "dateModified": "2024-09-22T18:35:28+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cskime.github.io/posts/why-from-json-factory/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "cskime.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cskime.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://cskime.github.io/" accesskey="h" title="cskime.io (Alt + H)">cskime.io</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://cskime.github.io/archive" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/tags" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://cskime.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      [Dart] fromJson constructor는 왜 factory로 만들까?
+    </h1>
+    <div class="post-meta"><span title='2024-09-22 18:35:28 +0900 KST'>September 22, 2024</span>&nbsp;·&nbsp;2 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#overview" aria-label="Overview">Overview</a></li>
+                <li>
+                    <a href="#factory-constructor" aria-label="Factory constructor">Factory constructor</a></li>
+                <li>
+                    <a href="#defensive-design" aria-label="Defensive design">Defensive design</a></li>
+                <li>
+                    <a href="#conclusion" aria-label="Conclusion">Conclusion</a></li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="overview">Overview<a hidden class="anchor" aria-hidden="true" href="#overview">#</a></h2>
+<ul>
+<li>
+<p>Dart에서 JSON을 parsing하는 class를 만들 때 <code>fromJson</code>이라는 factory named constructor를 만들곤 한다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> name;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> age;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Person({<span style="color:#66d9ef">required</span> <span style="color:#66d9ef">this</span>.name, <span style="color:#66d9ef">required</span> <span style="color:#66d9ef">this</span>.age});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ✅
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">factory</span> Person.fromJson(Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">dynamic</span><span style="color:#f92672">&gt;</span> json) <span style="color:#f92672">=&gt;</span>
+</span></span><span style="display:flex;"><span>      Person(name: json[<span style="color:#e6db74">&#34;name&#34;</span>], age: json[<span style="color:#e6db74">&#34;age&#34;</span>]);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>그런데, <code>fromJson</code> constructor는 factory가 아니어도 아무 문제가 없다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> name;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> age;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Person({<span style="color:#66d9ef">required</span> <span style="color:#66d9ef">this</span>.name, <span style="color:#66d9ef">required</span> <span style="color:#66d9ef">this</span>.age});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ✅
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Person.fromJson1(Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">dynamic</span><span style="color:#f92672">&gt;</span> json)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">:</span> name <span style="color:#f92672">=</span> json[<span style="color:#e6db74">&#34;name&#34;</span>],
+</span></span><span style="display:flex;"><span>        age <span style="color:#f92672">=</span> json[<span style="color:#e6db74">&#34;age&#34;</span>];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><a href="https://dart.dev/language/constructors#factory-constructors">Dart 문서</a>의 예시에서도 <code>fromJson</code>을 factory constructor로 만들고 있다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Logger</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">factory</span> Logger(<span style="color:#66d9ef">String</span> name) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> _cache.putIfAbsent(name, () <span style="color:#f92672">=&gt;</span> Logger._internal(name));
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Logger.fromJson factory constructor initializes a final variable from a JSON object.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">factory</span> Logger.fromJson(Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">Object</span><span style="color:#f92672">&gt;</span> json) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> Logger(json[<span style="color:#e6db74">&#39;name&#39;</span>].toString());
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></li>
+<li>
+<p>왜 <code>fromJson</code> constructor는 factory로 만들라고 하는 것일까?</p>
+</li>
+</ul>
+<h2 id="factory-constructor">Factory constructor<a hidden class="anchor" aria-hidden="true" href="#factory-constructor">#</a></h2>
+<ul>
+<li>Dart 문서에서 factory constructor는 아래의 경우에 해당되면 사용하라고 설명하고 있다.
+<ul>
+<li><em>Constructor가 subtype instance를 생성하거나, cache 등에서 이미 존재하는 instance를 가져와서 반환하는 경우</em></li>
+<li><em>Argument 검사 또는 initializer list에서 처리되지 않은 작업 등 instance 생성 과정에서 선행되어야 하는 중요한 작업을 수행해야 하는 경우</em></li>
+</ul>
+</li>
+<li>함께 소개된 예시 코드에서 <code>Logger</code> constructor는 cache에서 객체를 가져와서 반환하므로 factory constructor를 사용하면 좋다.</li>
+<li>하지만, <code>Logger.fromJson</code>은 json object로부터 <code>name</code> data를 가져와서 <code>Logger</code> instance를 생성하고 있다. Json을 parsing하는 과정에서 선행되는 작업도 없고, json data를 사용해서 &lsquo;항상&rsquo; 새 instance를 만들어서 반환하는데 왜 factory constructor로 만드는 것일까?</li>
+</ul>
+<h2 id="defensive-design">Defensive design<a hidden class="anchor" aria-hidden="true" href="#defensive-design">#</a></h2>
+<ul>
+<li>Stack overflow에서 관련된 질문과 답변을 찾을 수 있었다.</li>
+<li>Factory constructor를 사용하는 것은 기술적으로 특별한 이유가 없더라도 <strong>defensive design</strong>을 위한 것이라고 한다.</li>
+<li>일반적인 generative constructor를 만들면 subclass에서 forwarding이 가능해 진다.</li>
+<li>이 constructor에 validation code를 추가하는 등의 변경이 필요하면 factory constructor로 변경해야 하는데, 이 class를 상속받는 subclass들 중 constructor를 forwarding 하고 있던 class에서 예상하지 못한 error가 발생할 가능성이 생긴다.</li>
+<li>따라서, <code>fromJson</code> 외에도 constructor는 먼저 factory로 만들고 필요할 때만 public generative constructor를 만드는게 안전하다고 한다.</li>
+</ul>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<ul>
+<li>Stack overflow의 답변에 따르면, factory constructor를 사용하는 이유는 subclass에서 의도하지 않은 forwarding에 의한 error 가능성을 제거하는 목적이다.</li>
+<li>하지만, 이것보다는 json 객체를 parsing하는 constructor의 역할 때문인 것 같다.</li>
+<li>간단한 json 객체는 특별히 다른 logic이 필요없어 보이지만, 일반적으로 json 객체를 parsing할 때는 실패할 가능성이 존재하므로 이와 관련된 방어 코드 등의 logic이 필요할 수 있다.</li>
+<li>따라서, json 객체로부터 instance를 생성하는 constructor는 factory constructor를 사용해야 하는 두 번째 이유에 해당한다고 생각한다.</li>
+<li>이 질문에 대한 답은 정해진 것이 없으므로, <code>fromJson</code>은 일반적인 구현 패턴을 따라 factory constructor로 만드는게 좋을 것 같다.</li>
+</ul>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/64838782/why-use-factory-when-constructing-a-new-instance-from-a-map-structure">Why use factory when constructing a new instance from a map structure? | Stack Overflow</a></li>
+<li><a href="https://dart.dev/language/constructors#factory-constructors">Constructors - Factory constructors | dart.dev</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://cskime.github.io/tags/dart/">Dart</a></li>
+      <li><a href="https://cskime.github.io/tags/fromjson/">FromJson</a></li>
+      <li><a href="https://cskime.github.io/tags/factory/">Factory</a></li>
+      <li><a href="https://cskime.github.io/tags/constructor/">Constructor</a></li>
+    </ul>
+  </footer>
+<div id="disqus_thread"></div>
+<script>
+  window.disqus_config = function () {
+  
+  
+  
+  };
+  (function() {
+      if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+          document.getElementById('disqus_thread').innerHTML = 'Disqu s comments not available by default when the website is previewed locally.';
+          return;
+      }
+      var d = document, s = d.createElement('script'); s.async = true;
+      s.src = '//' + "cskime-github-io" + '.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript
+>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a
+>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://cskime.github.io/">cskime.io</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

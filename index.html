@@ -221,6 +221,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Dart] fromJson constructor는 왜 factory로 만들까?
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(name: json[&#34;name&#34;], age: json[&#34;age&#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map&lt;String, dynamic&gt; json) : name = json[&#34;name&#34;], age = json[&#34;age&#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-09-22 18:35:28 +0900 KST'>September 22, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to [Dart] fromJson constructor는 왜 factory로 만들까?" href="https://cskime.github.io/posts/why-from-json-factory/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Dart] Isolate 요약
     </h2>
   </header>
@@ -336,21 +350,6 @@ List는 [index] operator를 사용하지만, Iterable은 elementAt(index) method
   </div>
   <footer class="entry-footer"><span title='2024-08-17 13:37:39 +0900 KST'>August 17, 2024</span>&nbsp;·&nbsp;4 min</footer>
   <a class="entry-link" aria-label="post link to [Dart] Iterable collections" href="https://cskime.github.io/posts/iterable-collections/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[Flutter] Bottom fixed footer를 갖는 scrollable widget 만들기
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>이 글에서는 vertical direction scroll을 가정한다.
-Overview Scrollable widget은 전체 content 높이가 화면 높이보다 작다면 scroll이 활성화되지 않고 content들이 상단 정렬된다. 아래는 SingleChildScrollView에 Column을 사용해서 content widget과 footer widget을 배치하는 예시이다.
-Code Demo Footer widget을 화면 하단에 배치하기 위해 content와 footer widget 사이에 Spacer, Expanded와 같은 flexible widget을 사용하면 unbounded height error가 발생한다. Scrollable widget은 child widget에게 unbounded height constraint를 제안하는데, Spacer나 Expanded도 unbounded size를 갖기 때문이다.
-Fixed Footer 구현 위 error를 해결하려면 아래와 같은 조건이 필요하다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-08-16 21:10:26 +0900 KST'>August 16, 2024</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to [Flutter] Bottom fixed footer를 갖는 scrollable widget 만들기" href="https://cskime.github.io/posts/fixed-footer-scrollview/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

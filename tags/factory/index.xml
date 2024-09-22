@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Factory on cskime.io</title>
+    <link>https://cskime.github.io/tags/factory/</link>
+    <description>Recent content in Factory on cskime.io</description>
+    <generator>Hugo -- 0.129.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 22 Sep 2024 18:35:28 +0900</lastBuildDate>
+    <atom:link href="https://cskime.github.io/tags/factory/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Dart] fromJson constructor는 왜 factory로 만들까?</title>
+      <link>https://cskime.github.io/posts/why-from-json-factory/</link>
+      <pubDate>Sun, 22 Sep 2024 18:35:28 +0900</pubDate>
+      <guid>https://cskime.github.io/posts/why-from-json-factory/</guid>
+      <description>Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map&amp;lt;String, dynamic&amp;gt; json) =&amp;gt; Person(name: json[&amp;#34;name&amp;#34;], age: json[&amp;#34;age&amp;#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map&amp;lt;String, dynamic&amp;gt; json) : name = json[&amp;#34;name&amp;#34;], age = json[&amp;#34;age&amp;#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다.</description>
+    </item>
+  </channel>
+</rss>

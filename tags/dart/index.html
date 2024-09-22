@@ -172,6 +172,20 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">[Dart] fromJson constructor는 왜 factory로 만들까?
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(name: json[&#34;name&#34;], age: json[&#34;age&#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map&lt;String, dynamic&gt; json) : name = json[&#34;name&#34;], age = json[&#34;age&#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다....</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-09-22 18:35:28 +0900 KST'>September 22, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to [Dart] fromJson constructor는 왜 factory로 만들까?" href="https://cskime.github.io/posts/why-from-json-factory/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">[Dart] Isolate 요약
     </h2>
   </header>

@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | cskime.io</title>
+<title>Factory | cskime.io</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - cskime.io">
+<meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://cskime.github.io/posts/">
+<link rel="canonical" href="https://cskime.github.io/tags/factory/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://cskime.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://cskime.github.io/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="https://cskime.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://cskime.github.io/posts/index.xml">
-<link rel="alternate" hreflang="en" href="https://cskime.github.io/posts/">
+<link rel="alternate" type="application/rss+xml" href="https://cskime.github.io/tags/factory/index.xml">
+<link rel="alternate" hreflang="en" href="https://cskime.github.io/tags/factory/">
 <noscript>
     <style>
         #theme-toggle,
@@ -94,30 +94,15 @@
 
   
 
-<meta property="og:title" content="Posts" />
+<meta property="og:title" content="Factory" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://cskime.github.io/posts/" />
+<meta property="og:url" content="https://cskime.github.io/tags/factory/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:title" content="Factory"/>
 <meta name="twitter:description" content=""/>
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://cskime.github.io/posts/"
-    }
-  ]
-}
-</script>
 </head>
 
 <body class="list" id="top">
@@ -181,58 +166,23 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    Posts
+    Factory
   </h1>
 </header>
 
-<article class="post-entry"> 
+<article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">[Flutter] Navigator.push로 띄운 widget에서 InheritedWidget에 접근할 수 없는 문제
+    <h2 class="entry-hint-parent">[Dart] fromJson constructor는 왜 factory로 만들까?
     </h2>
   </header>
   <div class="entry-content">
-    <p>문제 상황 상위 위젯에서 추가한 InheritedWidget을 하위 widget에서 접근하지 못하는 문제 BuildContext.dependOnInheritedWidgetOfExactType이 null을 반환해서 property 및 method를 호출할 수 없음 예제 코드 문제를 재현하는 간단한 counter app
-HomeScreen 및 DetailScreen은 버튼을 눌러서 count 증가
-HomeScreen과 DetailScreen은 count 값(state) 공유
-Count 값을 하위 widget에 공유하기 위한 InheritedWidget 생성
-class CounterProvider extends InheritedWidget { const CounterProvider({ super.key, required super.child, required this.counter, required this.incrementCounter, }); final int counter; // ✅ count 값 공유 final void Function() incrementCounter; // ✅ count action 공유 @override bool updateShouldNotify(covariant InheritedWidget oldWidget) =&gt; true; static CounterProvider?...</p>
+    <p>Overview Dart에서 JSON을 parsing하는 class를 만들 때 fromJson이라는 factory named constructor를 만들곤 한다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(name: json[&#34;name&#34;], age: json[&#34;age&#34;]); } 그런데, fromJson constructor는 factory가 아니어도 아무 문제가 없다.
+class Person { final String name; final int age; Person({required this.name, required this.age}); // ✅ Person.fromJson1(Map&lt;String, dynamic&gt; json) : name = json[&#34;name&#34;], age = json[&#34;age&#34;]; } Dart 문서의 예시에서도 fromJson을 factory constructor로 만들고 있다....</p>
   </div>
-  <footer class="entry-footer"><span title='2024-05-25 17:11:44 +0900 KST'>May 25, 2024</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to [Flutter] Navigator.push로 띄운 widget에서 InheritedWidget에 접근할 수 없는 문제" href="https://cskime.github.io/posts/inherited-widget-unaccessible/"></a>
+  <footer class="entry-footer"><span title='2024-09-22 18:35:28 +0900 KST'>September 22, 2024</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to [Dart] fromJson constructor는 왜 factory로 만들까?" href="https://cskime.github.io/posts/why-from-json-factory/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">All About Date and Time
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>위도와 경도 위도(latitude) : 적도를 기준으로 북쪽 또는 남쪽으로 떨어진 위치 (도(°) 단위) 경도(longitude) : 본초 자오선을 기준으로 동쪽 또는 서쪽으로 떨어진 위치 (도(°) 단위) 180°E ~ 180°W (동경 180° ~ 서경 180°) 까지의 범위 안에 위치 경도 15°로 1시간의 시차가 생긴다. 자오선 자오선(Meridian) 또는 경선 북극점과 남극점을 최단 거리로 연결하는 세로선 동경(E, X E, X East) : 자오선의 동쪽 서경(W, Y W, Y West) : 자오선의 서쪽 동경과 서경은 180°까지 있고, 동서경 180°는 일치한다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-03-13 19:55:58 +0900 KST'>March 13, 2024</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to All About Date and Time" href="https://cskime.github.io/posts/all-about-date-and-time/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">[iOS] iOS Hit Testing
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Hit Testing Hit test는 사용자 event가 발생할 때 view 계층(hierarchy)에서 subview들을 탐색(traverse)하며 event를 처리할 view를 결정하는 과정이다. Root view부터 시작하여 subview들을 역방향으로 탐색하며, event 발생 위치(point)를 포함하는 view가 있다면 그 view의 subview들을 같은 방법으로 탐색해 나간다.
-‘역방향’으로 탐색하는 이유는, 화면의 가장 앞에 위치한 view부터 탐색하기 위함이다. 여러 개의 view가 겹쳐있다면 사용자가 보게 되는 맨 앞의 view가 event를 가져가야 한다. 화면의 가장 앞에 있는 view는 다음과 같은 특징을 가진다.
-z-order index(depth)가 가장 크다....</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-02-06 00:00:00 +0000 UTC'>February 6, 2022</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to [iOS] iOS Hit Testing" href="https://cskime.github.io/posts/ios-hit-testing/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="https://cskime.github.io/posts/page/2/">
-      «&nbsp;Prev&nbsp;
-    </a>
-  </nav>
-</footer>
     </main>
     
 <footer class="footer">

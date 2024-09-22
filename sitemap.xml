@@ -2,22 +2,52 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://cskime.github.io/posts/why-from-json-factory/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/constructor/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/dart/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/factory/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/fromjson/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/posts/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://cskime.github.io/tags/</loc>
+    <lastmod>2024-09-22T18:35:28+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://cskime.github.io/posts/isolate-summary/</loc>
     <lastmod>2024-09-21T14:13:14+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/tags/concurrency/</loc>
-    <lastmod>2024-09-21T14:13:14+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://cskime.github.io/</loc>
-    <lastmod>2024-09-21T14:13:14+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://cskime.github.io/tags/dart/</loc>
     <lastmod>2024-09-21T14:13:14+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -32,22 +62,12 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://cskime.github.io/posts/</loc>
-    <lastmod>2024-09-21T14:13:14+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://cskime.github.io/tags/receiveport/</loc>
     <lastmod>2024-09-21T14:13:14+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://cskime.github.io/tags/sendport/</loc>
-    <lastmod>2024-09-21T14:13:14+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://cskime.github.io/tags/</loc>
     <lastmod>2024-09-21T14:13:14+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
